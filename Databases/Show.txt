@@ -1,0 +1,17 @@
+# Show Details
+ShowID: S1234
+Date: 2024-10-26
+StartTime: 18:00
+EndTime: 
+Screen: 
+
+# Seat List
+# Format: Row Column Type Price Status Color
+Seat: 1 A Standard 10.0 Booked
+Seat: 1 B VIP 20.0 Booked
+Seat: 1 C Standard 10.0 Empty
+
+# Next Show
+
+
+
