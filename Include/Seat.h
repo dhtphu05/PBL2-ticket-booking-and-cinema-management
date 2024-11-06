@@ -1,10 +1,14 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <math.h>
 #include "../Template/DoubleLinkedList.h"
+#include <fstream>
+#include <sstream>
+#include "Screen.h"
 using namespace std;
 
-
+class Screen;
 enum class SeatType{
     VIP,
     Regular,
@@ -23,11 +27,7 @@ class Seat{
         this->seatColumn=0;
         this->type=SeatType::Regular;
     }
-    Seat(string seatRow, int seatColumn,  SeatType type) {
-        this->seatRow=seatRow;
-        this->seatColumn=seatColumn;
-        this->type=type;
-    }
+    Seat(string seatRow, int seatColumn,  SeatType type); 
     string getSeatRow();
     int getSeatColumn();
     SeatType getType();
@@ -36,7 +36,7 @@ class Seat{
     void setSeatColumn(int seatColumn);
     void setType(SeatType type);
 
-    virtual void displaySeat() const;
+    virtual void displaySeat() ;
     void loadSeatFromFile();
 
 };
@@ -71,6 +71,6 @@ class ShowSeat: public Seat{
     //method
     void bookSeat(const string time="");
     void cancelSeat();
-    void displaySeat() const override;
+    void displaySeat()  override;
 
 };
