@@ -17,7 +17,7 @@ class Admin:public Staff{
     void saveAgainFile(DoubleLinkedList<Staff>&);
     
 
-    friend void logIn();
+    friend int logIn();
     // template <class T>
     // friend void getInf(DoubleLinkedList<T> &list, ifstream &in););
 };

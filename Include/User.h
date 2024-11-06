@@ -9,7 +9,6 @@ using namespace std;
 class User
 {
 protected:
-    static int count;
     int ID;
     string fullName;
     string dateOfBirth;
@@ -25,8 +24,9 @@ public:
     void setFullName(string &);
     int &getAge() const;
     void setDOB(string &);
-    void setID(int id){
-        this->ID=id;
+    void setID(int id)
+    {
+        this->ID = id;
     }
     void setGender(string &);
     void setEmail(string &);

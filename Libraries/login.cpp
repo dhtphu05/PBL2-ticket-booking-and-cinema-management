@@ -142,75 +142,13 @@ bool checkUser(DoubleLinkedList<T> &list, string userName, string password)
     }
     return false;
 }
-bool logIn()
+int logIn()
 {
     menuLogin();
     int choice;
     cout << "Nhap lua chon: ";
     cin >> choice;
     system("cls");
-    // cout << "-----------Login---------------" << endl;
-    // string userName;
-    // string password;
-    // cout << "Ten dang nhap: ";
-    // cin >> userName;
-    // getPassword(password);
-
-    // DoubleLinkedList<Admin> adminList;
-    // DoubleLinkedList<Staff> staffList;
-    // DoubleLinkedList<Customer> customerList;
-
-    // // Đọc danh sách người dùng
-
-    // bool loggedIn = false;
-
-    // // Kiểm tra thông tin đăng nhập
-    // if (choice == 1)
-    // {
-    //     readFileManagement(1, adminList, staffList, customerList);
-    //     for (int i = 0; i < adminList.getSize(); i++)
-    //     {
-    //         if (adminList[i].username == userName && adminList[i].password == password)
-    //         {
-    //             cout << "Chao " << adminList[i].getFullName() << "!" << endl;
-    //             loggedIn = true;
-    //             break;
-    //         }
-    //     }
-    // }
-    // else if (choice == 2)
-    // {
-    //     readFileManagement(2, adminList, staffList, customerList);
-    //     for (int i = 0; i < staffList.getSize(); i++)
-    //     {
-    //         if (staffList[i].getUserName() == userName && staffList[i].getPassword() == password)
-    //         {
-    //             cout << "Chao " << staffList[i].getFullName() << "!" << endl;
-    //             loggedIn = true;
-    //             break;
-    //         }
-    //     }
-    // }
-    // else if (choice == 3)
-    // {
-    //     readFileManagement(3, adminList, staffList, customerList);
-    //     for (int i = 0; i < customerList.getSize(); i++)
-    //     {
-
-    //         if (customerList[i].getUserName() == userName && customerList[i].getPassword() == password)
-    //         {
-    //             cout << "Chao " << customerList[i].getFullName() << "!" << endl;
-    //             loggedIn = true;
-    //             break;
-    //         }
-    //     }
-    // }
-
-    // if (!loggedIn)
-    // {
-    //     cout << "Ten dang nhap hoac mat khau khong chinh xac." << endl;
-    // }
-    // return loggedIn;
     switch (choice)
     {
     case 1:
@@ -230,53 +168,49 @@ bool logIn()
         {
             cout << "Chao " << adminList[0].getFullName() << "!" << endl;
             cout << "Ban dang dang nhap tu cach Admin" << endl;
+            return 1;
             
         }
         else if (checkUser(staffList, userName, password))
         {
             cout << "Chao " << staffList[0].getFullName() << "!" << endl;
             cout << "Ban dang dang nhap tu cach nhan vien" << endl;
+            return 2;
             
         }
         else if (checkUser(customerList, userName, password))
         {
             cout << "Chao " << customerList[0].getFullName() << "!" << endl;
             cout << "Ban dang dang nhap tu cach khach hang" << endl;
-            
+            return 3;
         }
         else
         {
             cout << "Ten dang nhap hoac mat khau khong chinh xac." << endl;
+            return 0;
             
         }
+        
         break;
     }
-        // readFileManagement(1, adminList, adminList, adminList);
-        // for (int i = 0; i < adminList.getSize(); i++)
-        // {
-        //     if (adminList[i].getUserName() == userName && adminList[i].getPassword() == password)
-        //     {
-        //         cout << "Chao " << adminList[i].getFullName() << "!" << endl;
-        //         return true;
-        //     }
-        // }
-        // cout << "Ten dang nhap hoac mat khau khong chinh xac." << endl;
         
     case 2:
     {
         Customer customer;
+        cout << "Tao khach hang moi" << endl;
         cin>>customer;
         customer.savetoFile();
+        return 4;
         break;
-
-
-
-
-
-
     }
-
-
-    
+    case 3:
+    {
+        return 5;
+        break;
+    }    
+    default:
+    cout<<"Lua chon khong hop le"<<endl;
+    return 0;
     }
+    return 0;
 }
