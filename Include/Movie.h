@@ -24,6 +24,7 @@ class Movie{
     void addMovie();
     void editMovie();
     void removeMovie();
+    void readID(DoubleLinkedList<Movie> &);
     void viewMovie();
     void searchMovie();
     void saveToFile(int i);
