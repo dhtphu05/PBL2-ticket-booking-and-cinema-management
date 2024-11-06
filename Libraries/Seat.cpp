@@ -40,13 +40,13 @@ void Seat::setSeatColumn(int seatColumn){
 void Seat::setType(SeatType type){
     this->type = type;
 }
-void Seat::displaySeat() const {
-    cout << "Seat Row: " << this->seatRow << endl;
-    cout << "Seat Column: " << this->seatColumn << endl;
+void Seat::displaySeat()  {
+    cout<< "Seat: "<<this->seatRow<<this->seatColumn<<endl;
     cout << "Seat Type: " << this->type<< endl;
 }
 void Seat::loadSeatFromFile(){
     //load seat from file
+    
 }
 
 
@@ -97,7 +97,7 @@ void ShowSeat::cancelSeat(){
     //update booking list
     //update seat status
 }
-void ShowSeat::displaySeat() const {
+void ShowSeat::displaySeat()  {
     Seat::displaySeat();
     cout << "Seat Status: " << (isBooked ? "Booked" : "Available") << endl;
 }
