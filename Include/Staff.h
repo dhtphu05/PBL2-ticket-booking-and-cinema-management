@@ -8,6 +8,7 @@ using namespace std;
 class Staff : public User
 {
 public:
+    static int countStaff;
     Staff();
     Staff(string &userName, string &password, string &fullName, string &phoneNumber, string &DOB, string &gender);
     void addCustomer();
@@ -15,8 +16,12 @@ public:
     void removeCustomer();
     void showCustomer();
     void savetoFile();
-    void readfromFile();
-    void saveAgainFile(DoubleLinkedList<Customer> &);
-    bool isIDExists(DoubleLinkedList<Customer> &,int );
+    void Display();
+    void readID(DoubleLinkedList<Staff> &);
+    void readfromFile(DoubleLinkedList<Staff> &);
+    void saveAgainFile(DoubleLinkedList<Staff> &);
+    bool isIDExists(DoubleLinkedList<Customer> &, int);
+    friend ostream &operator<<(ostream &out, Staff &staff);
+    friend istream &operator>>(istream &in, Staff &staff);
 };
 #endif

@@ -1,62 +1,20 @@
-#include <iostream>
-#include <string>
-#include"../Template/DoubleLinkedList.h"
-using namespace std;
-#ifndef MOVIE_H
-#define MOVIE_H
-class Movie{
-    private:
-    static int countMovie;
-    int ID_Movie;
-    string title;
-    string genre;
-    string duration;
-    string releaseDate;
-    string director;
-    string actor;
-    string country;
-    string description;
-    string rating;
-
-    public:
-    Movie();
-    Movie(const string& title, const string& genre, string &duration, const string& releaseDate, const string& Rating, string &director, string &actor, string &language, string &decription);
-    void addMovie();
-    void editMovie();
-    void removeMovie();
-    void viewMovie();
-    void searchMovie();
-    void saveToFile(int i);
-    void readFile(DoubleLinkedList<Movie>&);
-    void selectMovie();
-    void getMovie();
-    void setID_Movie(){
-        this->ID_Movie = countMovie;
-        
-    };
-    void setTitle();
-    void setGenre();
-    void setReleaseDate();
-    void setDirector();
-    void setRating();
-    void setDuration();
-    void setActor();
-    void setLanguage();
-    void setDescription();
+#include "User.h"
+#ifndef CUSTOMER_H
+#define CUSTOMER_H
+class Customer : public User
+{
+public:
+static int count;
+    Customer(string username = "user", string password = "12345678");
+    Customer(string &ID, string &, string &, string &, string &, string &);
+    void makePayment();
+    void bookTicket();
+    void savetoFile();
+    void readfromFile(DoubleLinkedList<Customer> &);
+    void saveAgainFile(DoubleLinkedList<Customer> &);
     void Display();
-    void show();
-    string getID_Movie();
-    string getTitle();
-    string getGenre();
-    string getDuration();
-    string getReleaseDate();
-    string getDirector();
-    string getActor();
-    string getCountry();
-    string getDescription();
-    string getRating();
-    friend ostream &operator<<(ostream& out, const Movie& m);
-    friend istream &operator>>(istream& in, Movie& m);
-    friend void subSaveAgainFile(DoubleLinkedList<Movie> &movieList);
+    void readID(DoubleLinkedList<Customer> &); 
+    friend istream &operator>>(istream &in, Customer &customer);
+    friend ostream &operator<<(ostream &out, Customer &customer);
 };
 #endif
