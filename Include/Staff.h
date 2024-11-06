@@ -20,6 +20,8 @@ public:
     void readID(DoubleLinkedList<Staff> &);
     void readfromFile(DoubleLinkedList<Staff> &);
     void saveAgainFile(DoubleLinkedList<Staff> &);
-    bool isIDExists(DoubleLinkedList<Customer> &,int );
+    bool isIDExists(DoubleLinkedList<Customer> &, int);
+    friend ostream &operator<<(ostream &out, Staff &staff);
+    friend istream &operator>>(istream &in, Staff &staff);
 };
 #endif

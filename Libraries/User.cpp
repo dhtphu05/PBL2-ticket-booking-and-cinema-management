@@ -1,6 +1,5 @@
 #include "../Include/User.h"
 #include <fstream>
-int User::count = 1000;
 User::User()
 {
     

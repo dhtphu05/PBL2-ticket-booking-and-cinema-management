@@ -5,21 +5,21 @@
 #include <cctype>
 
 int Movie::countMovie = 2000;
-void menuStaff()
-{
-    cout << "1. Them phim" << endl;
-    cout << "2. Sua phim" << endl;
-    cout << "3. Xoa phim" << endl;
-    cout << "4. Xem danh sach phim" << endl;
-    cout << "5. Tim kiem phim" << endl;
-    cout << "6. Them khach hang" << endl;
-    cout << "7. Xem danh sach khach hang" << endl;
-    cout << "8. Sua khach hang" << endl;
-    cout << "9. Them nhan vien" << endl;
-    cout << "10. Xem nhan vien" << endl;
-    cout << "11. Sua nhan vien" << endl;
-    cout << "12. Xoa nhan vien " << endl;
-}
+// void menuStaff()
+// {
+//     cout << "1. Them phim" << endl;
+//     cout << "2. Sua phim" << endl;
+//     cout << "3. Xoa phim" << endl;
+//     cout << "4. Xem danh sach phim" << endl;
+//     cout << "5. Tim kiem phim" << endl;
+//     cout << "6. Them khach hang" << endl;
+//     cout << "7. Xem danh sach khach hang" << endl;
+//     cout << "8. Sua khach hang" << endl;
+//     cout << "9. Them nhan vien" << endl;
+//     cout << "10. Xem nhan vien" << endl;
+//     cout << "11. Sua nhan vien" << endl;
+//     cout << "12. Xoa nhan vien " << endl;
+// }
 void menuEditFilm()
 {
     cout << "1. ID" << endl;
@@ -209,9 +209,8 @@ void Movie::removeMovie()
     }
     subSaveAgainFile(movieList);
 }
-bool Movie::readFile(DoubleLinkedList<Movie> &movieList)
+void Movie::readFile(DoubleLinkedList<Movie> &movieList)
 {
-    int is_read = false;
     ifstream in;
     in.open("../Databases/MovieList.txt");
     if (!in.is_open())
@@ -222,7 +221,6 @@ bool Movie::readFile(DoubleLinkedList<Movie> &movieList)
     // int maxID = countMovie;
     while (getline(in, line))
     {
-        is_read = true;
         Movie m;
         stringstream ss(line);
         string idtemp;
@@ -245,7 +243,6 @@ bool Movie::readFile(DoubleLinkedList<Movie> &movieList)
     }
     in.close();
     // countMovie = ++maxID;
-    return is_read;
 }
 void Movie::readID(DoubleLinkedList<Movie> &movieList)
 {
@@ -329,43 +326,7 @@ void Movie::searchMovie()
         cout << "Khong tim thay phim" << endl;
     }
 }
-int Movie::getCountMovie()
-{
-    //     ifstream in;
-    //     in.open("../Databases/StaffList.txt");
-    //     if (!in.is_open())
-    //     {
-    //         cerr << "Khong the mo file MovieList.txt. Kiem tra duong dan va quyen truy cap." << endl;
-    //         throw runtime_error("Error opening file");
-    //     }
-    //     DoubleLinkedList<Movie> movieList;
-    //     string line;
-    //     int maxID = countMovie;
-    //     while (getline(in, line))
-    //     {
-    //         Movie m;
-    //         stringstream ss(line);
-    //         string idtemp;
-    //         getline(ss, idtemp, ';');
-    //         m.ID_Movie = stoi(idtemp);
-    //         if (m.ID_Movie > maxID)
-    //         {
-    //             maxID = m.ID_Movie;
-    //         }
-    //         getline(ss, m.title, ';');
-    //         getline(ss, m.genre, ';');
-    //         getline(ss, m.duration, ';');
-    //         getline(ss, m.releaseDate, ';');
-    //         getline(ss, m.director, ';');
-    //         getline(ss, m.actor, ';');
-    //         getline(ss, m.country, ';');
-    //         getline(ss, m.description, ';');
-    //         getline(ss, m.rating);
-    //     }
-    //     in.close();
-    //     countMovie = maxID;
-    return 200;
-}
+
 string Movie::getID_Movie()
 {
     return to_string(this->ID_Movie);

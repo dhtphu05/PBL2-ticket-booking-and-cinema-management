@@ -15,16 +15,24 @@ void menuLogin()
 }
 void menuStaff()
 {
-    cout << "1. Them phim" << endl;
-    cout << "2. Sua phim" << endl;
-    cout << "3. Xoa phim" << endl;
-    cout << "4. Xem danh sach phim" << endl;
-    cout << "5. Tim kiem phim" << endl;
-    cout << "6. Them khach hang" << endl;
-    cout << "7. Xem danh sach khach hang" << endl;
-    cout << "8. Sua khach hang" << endl;
-    cout << "9. Login" << endl;
-    cout << "10. Dang xuat" << endl;
+    cout <<"Ban muon lam gi?" << endl;
+    cout << "1.PHIM" << endl;
+    cout << "2.KHACH HANG" << endl;
+    cout << "3.DANG XUAT" << endl;
+}
+void menuAdmin_s(){
+    cout << "1. Them nhan vien" << endl;
+    cout << "2. Xem danh sach nhan vien" << endl;
+    cout << "3. Sua nhan vien" << endl;
+    cout << "4. Xoa nhan vien" << endl;
+    cout << "5. Thoat" << endl;
+}
+void menuAdmin_c(){
+    cout << "1. Them khach hang" << endl;
+    cout << "2. Xem danh sach khach hang" << endl;
+    cout << "3. Sua khach hang" << endl;
+    cout << "4. Xoa khach hang" << endl;
+    cout << "5. Thoat" << endl;
 }
 void menuAdmin()
 {
