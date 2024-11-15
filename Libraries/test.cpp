@@ -101,29 +101,32 @@ using namespace std;
     // }
 void menuLogin()
 {
-    cout << "------------------------------------------" << endl;
-    cout << "|  1. Dang nhap                          |" << endl;
-    cout << "|----------------------------------------|" << endl;
-    cout << "|  2. Dang ky                            |" << endl;
-    cout << "|----------------------------------------|" << endl;
-    cout << "|  3. Tiep tuc voi trang thai dang xuat  |" << endl;
-    cout << "|----------------------------------------|" << endl;
-    cout << "|  4. Thoat                              |" << endl;
-    cout << "------------------------------------------" << endl;
+    cout << "==========================================\n";
+    cout << "|              MENU LOGIN               |\n";
+    cout << "==========================================\n";
+    cout << "|  1. Dang nhap                          |\n";
+    cout << "------------------------------------------\n";
+    cout << "|  2. Dang ky                            |\n";
+    cout << "------------------------------------------\n";
+    cout << "|  3. Tiep tuc voi trang thai dang xuat  |\n";
+    cout << "------------------------------------------\n";
+    cout << "|  4. Thoat                              |\n";
+    cout << "==========================================\n";
 }
-void menuStaff()
-{
-    cout << "1. Them phim" << endl;
-    cout << "2. Sua phim" << endl;
-    cout << "3. Xoa phim" << endl;
-    cout << "4. Xem danh sach phim" << endl;
-    cout << "5. Tim kiem phim" << endl;
-    cout << "6. Them khach hang" << endl;
-    cout << "7. Xem danh sach khach hang" << endl;
-    cout << "8. Sua khach hang" << endl;
-    cout << "9. Login" << endl;
-    cout << "10. Dang xuat" << endl;
-}
+
+//// void menuStaff()
+// {
+//     cout << "1. Them phim" << endl;
+//     cout << "2. Sua phim" << endl;
+//     cout << "3. Xoa phim" << endl;
+//     cout << "4. Xem danh sach phim" << endl;
+//     cout << "5. Tim kiem phim" << endl;
+//     cout << "6. Them khach hang" << endl;
+//     cout << "7. Xem danh sach khach hang" << endl;
+//     cout << "8. Sua khach hang" << endl;
+//     cout << "9. Login" << endl;
+//     cout << "10. Dang xuat" << endl;
+// }
 void menuAdmin()
 {
     cout << "Ban muon lam gi?" << endl;
@@ -161,9 +164,6 @@ void menuEditCustomer()
     cout << "4.Ngay sinh" << endl;
     cout << "5.Gioi tinh" << endl;
 }
-int main()
-{
-    menuLogin();
-
-    return 0;
+int main(){
+    cout<<"hí mọi người"<<endl;
 }

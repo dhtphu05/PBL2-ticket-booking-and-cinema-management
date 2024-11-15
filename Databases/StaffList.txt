@@ -1,2 +1,80 @@
-3001;nv123;12345678;Bui Thi Nhung;0934124832;Nu
-3002;nv124;12345678;Nguyen Thanh Ha;0783423842;Nam
+#3001
+Username: nv301
+Password: 12345678
+Fullname: Nguyen Van Dat
+Phone: 093412832
+Date of birth: 05/04/1990
+Gender: Nu
+
+#3002
+Username: nv302
+Password: 12345678
+Fullname: Nguyen Thanh Ha
+Phone: 0783423842
+Date of birth: 12/09/1988
+Gender: Nam
+
+#3004
+Username: nv304
+Password: 12345678
+Fullname: Tran Thi Hoa
+Phone: 0909876543
+Date of birth: 15/08/1985
+Gender: Nu
+
+#3005
+Username: nv305
+Password: 12345678
+Fullname: Pham Van Khoa
+Phone: 0943234567
+Date of birth: 03/11/1995
+Gender: Nam
+
+#3006
+Username: nv306
+Password: 12345678
+Fullname: Vu Thi Lan
+Phone: 0967654321
+Date of birth: 10/07/1993
+Gender: Nu
+
+#3007
+Username: nv307
+Password: 12345678
+Fullname: Doan Van Phuc
+Phone: 0978123456
+Date of birth: 25/01/1987
+Gender: Nam
+
+#3008
+Username: nv308
+Password: 12345678
+Fullname: Hoang Thi Bich
+Phone: 0934567890
+Date of birth: 30/06/1989
+Gender: Nu
+
+#3009
+Username: nv309
+Password: 12345678
+Fullname: Tran Van Duc
+Phone: 0987345678
+Date of birth: 02/05/1991
+Gender: Nam
+
+#3010
+Username: nv310
+Password: 12345678
+Fullname: Nguyen Thi Mai
+Phone: 0912765432
+Date of birth: 14/10/1986
+Gender: Nu
+
+#3011
+Username: nv1223
+Password: 12345678
+Fullname: Nguyen Thi My Nuong
+Phone: 0334892782
+Date of birth: 4/10/2004
+Gender: Nu
+
