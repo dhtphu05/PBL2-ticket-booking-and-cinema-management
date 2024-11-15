@@ -1,1 +1,7 @@
-2001;thuyht;291205;Nguyen Thi Thuy;0334105228;29/01/2005;Nu
+#2001
+Username: thuyht
+Password: 291205
+Fullname: Nguyen Thi Thuy
+Phone: 0334105228
+Date of birth: 29/01/2005
+Gender: Nu

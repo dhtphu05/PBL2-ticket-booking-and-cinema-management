@@ -13,7 +13,7 @@ class Admin:public Staff{
     void removeStaff();
     void showStaff();
     void savetoFile();
-    void readfromFile();
+    void readfromFile(DoubleLinkedList<Admin>&);
     void saveAgainFile(DoubleLinkedList<Staff>&);
     
 

@@ -1,7 +1,48 @@
-1001;username1001;12345678;Nguyen Thi Thuy;0334105228;29/12/2004;Nu 
-1002;username1002;12345678;Nguyen Thi Lan;0324679344;26/9/2005;Nu
-1003;username1003;12345678;Nguyen Van Dac;0968234538;2/3/2005;Nam
-1004;username1004;12345678;Pham Thi Hoai;0963563421;26/12/2004;Nu
-1005;username1005;12345678;Nguyen Thi My Nuong;0342789322;4/10/2004;Nu
-1006;username1006;12345678;Tran Thi Huyen Trang;090345892;3/2/2005;Nu
-1007;username1007;12345678;Le Thi Thuy Duong;0377612052;3/2/2005;Nu
+#1002
+Username: username1002
+Password: 12345678
+Fullname: Nguyen Thi Lan
+Phone: 032467893
+Date of birth: 26/9/2005
+Gender: Nu
+
+#1003
+Username: username1003
+Password: 12345678
+Fullname: Pham Thi Hoai
+Phone: 0954567832
+Date of birth: 2/3/2005
+Gender: Nu
+
+#1004
+Username: username1004
+Password: 12345678
+Fullname: Nguyen Van Dac
+Phone: 0345346325
+Date of birth: 3/4/2005
+Gender: Nam
+
+#1005
+Username: user1005
+Password: 12345678
+Fullname: Nguyen Van A
+Phone: 0334105228
+Date of birth: 29/12/2005
+Gender: Nu
+
+#1006
+Username: user1006
+Password: 12345678
+Fullname: Nguyen Yen Nhi
+Phone: 033849924
+Date of birth: 29/12/3242
+Gender: Nu
+
+#1007
+Username: user1007
+Password: 12345678
+Fullname: Nguyen Van Nam
+Phone: 059839593
+Date of birth: 2/2/2003
+Gender: Nam
+

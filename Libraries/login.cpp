@@ -12,7 +12,7 @@ using namespace std;
 void getPassword(string &password)
 {
     char ch;
-    cout << "Mat khau: ";
+    cout << "Password: ";
     while (true)
     {
         ch = _getch();
@@ -43,93 +43,47 @@ void getPassword(string &password)
 void readFileManagement(int i, DoubleLinkedList<Admin> &adminList, DoubleLinkedList<Staff> &staffList, DoubleLinkedList<Customer> &customerList)
 {
     ifstream in;
-
+    string line;
     if (i == 1)
     {
         in.open("../Databases/AdminList.txt");
-        if (!in.is_open())
-        {
-            throw runtime_error("Error opening file");
-        }
-        string line;
-        while (getline(in, line))
-        {
-            stringstream ss(line);
-            Admin m;
-            string id;
-            getline(ss, id, ';');
-            m.setID(stoi(id));
-            getline(ss, m.getUserName(), ';');
-            getline(ss, m.getPassword(), ';');
-            getline(ss, m.getFullName(), ';');
-            getline(ss, m.getPhoneNumber(), ';');
-            getline(ss, m.getDOB(), ';');
-            getline(ss, m.getGender());
-            adminList.push_back(m);
-        }
+        Admin admin;
+        admin.readfromFile(adminList);
     }
     else if (i == 2)
     {
         in.open("../Databases/StaffList.txt");
-        if (!in.is_open())
-        {
-            throw runtime_error("Error opening file");
-        }
-        string line;
-        while (getline(in, line))
-        {
-            stringstream ss(line);
-            Staff m;
-            string id;
-            getline(ss, id, ';');
-            m.setID(stoi(id));
-            getline(ss, m.getUserName(), ';');
-            getline(ss, m.getPassword(), ';');
-            getline(ss, m.getFullName(), ';');
-            getline(ss, m.getPhoneNumber(), ';');
-            getline(ss, m.getDOB(), ';');
-            getline(ss, m.getGender());
-            staffList.push_back(m);
-        }
+        Staff staff;
+        staff.readfromFile(staffList);
     }
     else if (i == 3)
     {
         in.open("../Databases/CustomerList.txt");
-        if (!in.is_open())
-        {
-            throw runtime_error("Error opening file");
-        }
-        string line;
-        while (getline(in, line))
-        {
-            stringstream ss(line);
-            Customer m;
-            string id;
-            getline(ss, id, ';');
-            m.setID(stoi(id));
-            getline(ss, m.getUserName(), ';');
-            getline(ss, m.getPassword(), ';');
-            getline(ss, m.getFullName(), ';');
-            getline(ss, m.getPhoneNumber(), ';');
-            getline(ss, m.getDOB(), ';');
-            getline(ss, m.getGender());
-            customerList.push_back(m);
-        }
+        Customer customer;
+        customer.readfromFile(customerList);
     }
-    in.close();
+
+    if (!in.is_open())
+    {
+        throw runtime_error("Error opening file");
+    }
+
+    // Đọc dữ liệu từ file
 }
+
 void menuLogin()
 {
-    cout << "------------------------------------------" << endl;
-    cout << "|  1. Dang nhap                          |" << endl;
-    cout << "|----------------------------------------|" << endl;
-    cout << "|  2. Dang ky                            |" << endl;
-    cout << "|----------------------------------------|" << endl;
-    cout << "|  3. Tiep tuc voi trang thai dang xuat  |" << endl;
-    cout << "|----------------------------------------|" << endl;
-    cout << "|  4. Thoat                              |" << endl;
-    cout << "------------------------------------------" << endl;
+    cout << "+============================================+" << endl;
+    cout << "|  1. Login                                  |" << endl;
+    cout << "+--------------------------------------------+" << endl;
+    cout << "|  2. Register                               |" << endl;
+    cout << "+--------------------------------------------+" << endl;
+    cout << "|  3. Continue with logged-out status        |" << endl;
+    cout << "+--------------------------------------------+" << endl;
+    cout << "|  4. Exit                                   |" << endl;
+    cout << "+============================================+" << endl;
 }
+
 template <class T>
 bool checkUser(DoubleLinkedList<T> &list, string userName, string password)
 {
@@ -146,7 +100,7 @@ int logIn()
 {
     menuLogin();
     int choice;
-    cout << "Nhap lua chon: ";
+    cout << "Please enter your choice: ";
     cin >> choice;
     system("cls");
     switch (choice)
@@ -155,50 +109,53 @@ int logIn()
     {
         string userName;
         string password;
-        cout << "Ten dang nhap: ";
+        cout << "Username: ";
         cin >> userName;
         getPassword(password);
         DoubleLinkedList<Admin> adminList;
         DoubleLinkedList<Staff> staffList;
         DoubleLinkedList<Customer> customerList;
         readFileManagement(1, adminList, staffList, customerList);
+        // cout << "1 oke" << endl;
         readFileManagement(2, adminList, staffList, customerList);
+        // cout << "2 ooke" << endl;
         readFileManagement(3, adminList, staffList, customerList);
         if (checkUser(adminList, userName, password))
         {
-            cout << "Chao " << adminList[0].getFullName() << "!" << endl;
-            cout << "Ban dang dang nhap tu cach Admin" << endl;
+            cout << "Hello " << adminList[0].getFullName() << "!" << endl;
+            cout << "You are logged in as Admin" << endl;
+            cout << " Press Enter to continue" << endl;
+            cin.ignore();
+            cin.get();
+            system("cls");
             return 1;
-            
         }
         else if (checkUser(staffList, userName, password))
         {
-            cout << "Chao " << staffList[0].getFullName() << "!" << endl;
-            cout << "Ban dang dang nhap tu cach nhan vien" << endl;
+            cout << "Hello " << staffList[0].getFullName() << "!" << endl;
+            cout << "You are logged in as Staff" << endl;
             return 2;
-            
         }
         else if (checkUser(customerList, userName, password))
         {
-            cout << "Chao " << customerList[0].getFullName() << "!" << endl;
-            cout << "Ban dang dang nhap tu cach khach hang" << endl;
+            cout << "Hello " << customerList[0].getFullName() << "!" << endl;
+            cout << "You are logged in as Customer" << endl;
             return 3;
         }
         else
         {
-            cout << "Ten dang nhap hoac mat khau khong chinh xac." << endl;
+            cout << "Username or password is incorrect." << endl;
             return 0;
-            
         }
-        
+
         break;
     }
-        
+
     case 2:
     {
         Customer customer;
-        cout << "Tao khach hang moi" << endl;
-        cin>>customer;
+        cout << "Add new customer" << endl;
+        cin >> customer;
         customer.savetoFile();
         return 4;
         break;
@@ -207,10 +164,10 @@ int logIn()
     {
         return 5;
         break;
-    }    
+    }
     default:
-    cout<<"Lua chon khong hop le"<<endl;
-    return 0;
+        cout << "Invalid choice" << endl;
+        return 0;
     }
     return 0;
 }

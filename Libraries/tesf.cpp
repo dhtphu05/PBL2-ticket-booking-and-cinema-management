@@ -1,17 +1,21 @@
 #pragma once
 #include "Screen.cpp"
+
 #include<iostream>
 using namespace std;
 int main(){
     DoubleLinkedList<Screen> screens;
     Screen screen;
     screen.loadScreenFromFile(screens);
-    for(Node<Screen>* node = screens.begin(); node != nullptr; node = node->next){
-        node->data.displayScreen();
-        cout<<"# NextScreen"<<endl;
-    }
-    
-    cout<<"helo";
-  
+    screen.displayAllScreenSimpleLayout(screens);
+    screen.addScreen(screens);
+    screen.saveScreenToFile(screens);
+    screen.displayAllScreenSimpleLayout(screens);
+   
+    // DoubleLinkedList<Show> shows;
+    // Show show;
+    // show.loadShowFromFile(shows);
+    // show.displayAllShow(shows);
+ 
 }
-///viet ham convert nguowc tuw casi seatlayout sang so do quy dinh
+
