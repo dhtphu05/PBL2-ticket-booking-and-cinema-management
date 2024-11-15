@@ -9,53 +9,102 @@
 #include "login.cpp"
 #include "User.cpp"
 using namespace std;
+void gotoXY(int x, int y)
+{
+    // Lấy handle đến console
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    // Tạo biến COORD để chứa tọa độ
+    COORD CursorPosition;
+    CursorPosition.X = x;
+    CursorPosition.Y = y;
+
+    // Thiết lập vị trí con trỏ
+    SetConsoleCursorPosition(console, CursorPosition);
+}
 
 void menuStaff()
 {
-    cout << "---Quan ly---" << endl;
-    cout << "1.PHIM" << endl;
-    cout << "2.KHACH HANG" << endl;
-    cout << "3.DANG XUAT" << endl;
+    cout << "+==========================================+" << endl;
+    cout << "|            SYSTEM MANAGEMENT             |" << endl;
+    cout << "+==========================================+" << endl;
+    cout << "|  1. Manage MOVIES                       |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  2. Manage CUSTOMERS                    |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  3. LOG OUT                             |" << endl;
+    cout << "+==========================================+" << endl;
 }
+
 void menuAdmin()
 {
-    cout << "---Quan ly---" << endl;
-    cout << "1.NHAN VIEN" << endl;
-    cout << "2.KHACH HANG" << endl;
-    cout << "3.PHIM" << endl;
-    cout << "4.DANG XUAT" << endl;
+    cout << "+==========================================+" << endl;
+    cout << "|              SYSTEM MANAGEMENT            |" << endl;
+    cout << "+==========================================+" << endl;
+    cout << "|  1. Manage EMPLOYEES                    |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  2. Manage CUSTOMERS                    |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  3. Manage MOVIES                       |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  4. LOG OUT                             |" << endl;
+    cout << "+==========================================+" << endl;
 }
+
 void menuAdmin_s()
 {
-    cout << "1. Them nhan vien" << endl;
-    cout << "2. Xem danh sach nhan vien" << endl;
-    cout << "3. Sua nhan vien" << endl;
-    cout << "4. Xoa nhan vien" << endl;
-    cout << "5. Thoat" << endl;
+    cout << "+==========================================+" << endl;
+    cout << "|  1. Add Staff                            |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  2. View Staff List                      |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  3. Edit Staff                           |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  4. Delete Staff                         |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  5. Exit                                |" << endl;
+    cout << "+==========================================+" << endl;
 }
+
 void menuAdmin_c()
 {
-    cout << "1. Them khach hang" << endl;
-    cout << "2. Xem danh sach khach hang" << endl;
-    cout << "3. Sua khach hang" << endl;
-    cout << "4. Xoa khach hang" << endl;
-    cout << "5. Thoat" << endl;
+    cout << "+==========================================+" << endl;
+    cout << "|  1. Add Customer                         |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  2. View Customer List                   |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  3. Edit Customer                        |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  4. Delete Customer                      |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  5. Exit                                |" << endl;
+    cout << "+==========================================+" << endl;
 }
+
 void menuAdmin_f()
 {
-    cout << "1. Them phim" << endl;
-    cout << "2. Sua phim" << endl;
-    cout << "3. Xoa phim" << endl;
-    cout << "4. Xem danh sach phim" << endl;
-    cout << "5. Tim kiem phim" << endl;
-    cout << "6. Thoat" << endl;
+    cout << "+==========================================+" << endl;
+    cout << "|  1. Add Movie                           |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  2. Edit Movie                          |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  3. Delete Movie                        |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  4. View Movie List                     |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  5. Search Movie                        |" << endl;
+    cout << "+------------------------------------------+" << endl;
+    cout << "|  6. Exit                                |" << endl;
+    cout << "+==========================================+" << endl;
 }
+
 int main()
 {
 
     bool loggedIn = false;
     int log = logIn();
-    if (log == 1)
+    // int log =1;
+    if (log==1)
     {
         loggedIn = true;
         Admin admin;
@@ -67,7 +116,7 @@ int main()
             {
                 menuAdmin();
                 int choice;
-                cout << "Nhap lua chon: ";
+                cout << "Please enter your choice: ";
                 cin >> choice;
                 switch (choice)
                 {
@@ -76,14 +125,13 @@ int main()
                     system("cls");
                     menuAdmin_s();
                     int choice;
-                    cout << "Nhap lua chon: ";
+                    cout << "Please enter your choice: ";
                     cin >> choice;
                     switch (choice)
                     {
                     case 1:
                         system("cls");
                         admin.addStaff();
-                        cout << "Them nhan vien thanh cong!" << endl;
                         break;
                     case 2:
                         system("cls");
@@ -100,7 +148,7 @@ int main()
                     case 5:
                         break;
                     default:
-                        cout << "Lua chon khong hop le!" << endl;
+                        cout << "Invalid choice!" << endl;
                         break;
                     }
                     break;
@@ -110,14 +158,13 @@ int main()
                     system("cls");
                     int choice;
                     menuAdmin_c();
-                    cout << "Nhap lua chon: ";
+                    cout << "Please enter your choice: ";
                     cin >> choice;
                     switch (choice)
                     {
                     case 1:
                         system("cls");
                         admin.addCustomer();
-                        cout << "Them khach hang thanh cong" << endl;
                         break;
                     case 2:
                         system("cls");
@@ -134,7 +181,7 @@ int main()
                     case 5:
                         break;
                     default:
-                        cout << "Lua chon khong hop le!" << endl;
+                        cout << "Invalid choice!" << endl;
                         break;
                     }
                     break;
@@ -151,17 +198,14 @@ int main()
                     case 1:
                         system("cls");
                         movie.addMovie();
-                        cout << "Them phim thanh cong!";
                         break;
                     case 2:
                         system("cls");
                         movie.editMovie();
-                        cout << "Sua phim thanh cong!";
                         break;
                     case 3:
                         system("cls");
                         movie.removeMovie();
-                        cout << "Xoa phim thanh cong!";
                         break;
                     case 4:
                         system("cls");
@@ -174,7 +218,7 @@ int main()
                     case 6:
                         break;
                     default:
-                        cout << "Lua chon khong hop le!" << endl;
+                        cout << "Invalid choice!" << endl;
                         break;
                     }
                     break;
@@ -204,7 +248,7 @@ int main()
             {
                 menuStaff();
                 int choice;
-                cout << "Nhap lua chon: ";
+                cout << "Please enter your choice: ";
                 cin >> choice;
                 switch (choice)
                 {
@@ -220,17 +264,14 @@ int main()
                     case 1:
                         system("cls");
                         movie.addMovie();
-                        cout << "Them phim thanh cong!";
                         break;
                     case 2:
                         system("cls");
                         movie.editMovie();
-                        cout << "Sua phim thanh cong!";
                         break;
                     case 3:
                         system("cls");
                         movie.removeMovie();
-                        cout << "Xoa phim thanh cong!";
                         break;
                     case 4:
                         system("cls");
@@ -243,7 +284,7 @@ int main()
                     case 6:
                         break;
                     default:
-                        cout << "Lua chon khong hop le!" << endl;
+                        cout << "Invalid choice!" << endl;
                         break;
                     }
                     break;
@@ -254,19 +295,18 @@ int main()
                     system("cls");
                     int choice;
                     menuAdmin_c();
-                    cout << "Nhap lua chon: ";
+                    cout << "Please enter your choice: ";
                     cin >> choice;
                     switch (choice)
                     {
                     case 1:
                         system("cls");
                         staff.addCustomer();
-                        cout << "Them khach hang thanh cong" << endl;
                         break;
                     case 2:
                         system("cls");
                         staff.showCustomer();
-                        cout << "Nhan Enter de tiep tuc" << endl;
+                        cout << "Press Enter to continue..." << endl;
                         cin.ignore();
                         cin.get();
                         break;
@@ -282,7 +322,7 @@ int main()
                     case 5:
                         break;
                     default:
-                        cout << "Lua chon khong hop le!" << endl;
+                        cout << "Invalid choice!" << endl;
                         break;
                     }
                     break;
@@ -295,7 +335,7 @@ int main()
                     break;
                 }
                 default:
-                    cout << "Lua chon khong hop le!" << endl;
+                    cout << "Invalid choice!" << endl;
                     break;
                 }
             }
@@ -307,7 +347,12 @@ int main()
     }
     else if (log == 4)
     {
-        cout << "Chao mung khach hang moi den voi he thong cua chung toi" << endl;
+        cout << "WELCOME TO OUR PROGRAM" << endl;
         main();
     }
+    else
+    {
+        cout << "Invalid choice!" << endl;
+    }
+    return 0;
 }
