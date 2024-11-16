@@ -29,7 +29,7 @@ public:
         this->ID = id;
     }
     void setGender(string &);
-    void setEmail(string &);
+    void setPassword(string &);
     void setPhoneNumber(string &);
     void setUserName(string &);
     void resetPassword(string &);

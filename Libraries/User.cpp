@@ -100,3 +100,6 @@ void User::readfromFile()
 void User::saveAgainFile()
 {
 }
+void User::setPassword(string&password){
+    this->password=password;
+}
