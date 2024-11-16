@@ -10,7 +10,7 @@ Description: A girl falls into the spirit world and must overcome challenges to 
 Rating: 8.6/10
 
 #2003
-Title: Toy Story
+Title: CONAN
 Genre: Adventure, Comedy
 Duration: 81 minutes
 Release Date: 1995
@@ -21,7 +21,7 @@ Description: A group of toys comes to life and learns to coexist while facing ne
 Rating: 8.3/10
 
 #2004
-Title: Than dieu dai hiep
+Title: TOYSTORY
 Genre: Adventure
 Duration: 88 minutes
 Release Date: 1994

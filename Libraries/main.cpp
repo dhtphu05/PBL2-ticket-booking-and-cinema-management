@@ -9,19 +9,6 @@
 #include "login.cpp"
 #include "User.cpp"
 using namespace std;
-void gotoXY(int x, int y)
-{
-    // Lấy handle đến console
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    // Tạo biến COORD để chứa tọa độ
-    COORD CursorPosition;
-    CursorPosition.X = x;
-    CursorPosition.Y = y;
-
-    // Thiết lập vị trí con trỏ
-    SetConsoleCursorPosition(console, CursorPosition);
-}
 
 void menuStaff()
 {
@@ -104,7 +91,7 @@ int main()
     bool loggedIn = false;
     int log = logIn();
     // int log =1;
-    if (log==1)
+    if (log == 1)
     {
         loggedIn = true;
         Admin admin;
