@@ -41,8 +41,8 @@ void Seat::setType(SeatType type){
     this->type = type;
 }
 void Seat::displaySeat()  {
-    cout<< "Seat: "<<this->seatRow<<this->seatColumn<<endl;
-    cout << "Seat Type: " << this->type<< endl;
+    cout<< "Seat: "<<this->seatRow<<" "<<this->seatColumn<<" "<<this->type<<" ";
+   // cout << "Seat Type: " << this->type<< endl;
 }
 void Seat::loadSeatFromFile(){
     //load seat from file
@@ -99,7 +99,7 @@ void ShowSeat::cancelSeat(){
 }
 void ShowSeat::displaySeat()  {
     Seat::displaySeat();
-    cout << "Seat Status: " << (isBooked ? "Booked" : "Available") << endl;
+    cout<<price<<" "<<(isBooked ? "Booked" : "Available") << endl;
 }
 string ShowSeat::convertSeatTypeToString(){
     switch (ShowSeat::getType()) {
@@ -112,4 +112,7 @@ string ShowSeat::convertSeatTypeToString(){
         default:
             return "Unknown";
     }
+}
+string ShowSeat::getTimeBooked(){
+    return this->timeBooked;
 }

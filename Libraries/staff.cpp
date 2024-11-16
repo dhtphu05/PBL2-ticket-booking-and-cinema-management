@@ -245,6 +245,7 @@ ostream &operator<<(ostream &out, Staff &staff)
     cout << "So dien thoai: " << staff.phoneNumber << endl;
     cout << "Ngay sinh: " << staff.dateOfBirth << endl;
     cout << "Gioi tinh: " << staff.gender << endl;
+    return out;
 }
 istream &operator>>(istream &in, Staff &staff)
 {
@@ -262,4 +263,5 @@ istream &operator>>(istream &in, Staff &staff)
     getline(in, staff.dateOfBirth);
     cout << "Gioi tinh: ";
     getline(in, staff.gender);
+    return in;
 }
