@@ -25,11 +25,7 @@ void menuEditFilm()
     cout << "|                  0. Exit                        |" << endl;
     cout << "+-------------------------------------------------+" << endl;
 }
-Movie::Movie()
-{
-    // countMovie++;
-    // this->ID_Movie = this->getCountMovie();
-}
+
 Movie::Movie(const string &title, const string &genre, string &duration, const string &releaseDate, const string &Rating, string &director, string &actor, string &country, string &decription)
     : title(title), genre(genre), duration(duration), releaseDate(releaseDate), rating(Rating), director(director), actor(actor), country(country), description(description)
 {
