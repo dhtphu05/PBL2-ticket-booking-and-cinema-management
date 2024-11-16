@@ -73,17 +73,132 @@ void readFileManagement(int i, DoubleLinkedList<Admin> &adminList, DoubleLinkedL
 
 void menuLogin()
 {
-    cout << "+============================================+" << endl;
-    cout << "|  1. Login                                  |" << endl;
-    cout << "+--------------------------------------------+" << endl;
-    cout << "|  2. Register                               |" << endl;
-    cout << "+--------------------------------------------+" << endl;
-    cout << "|  3. Continue with logged-out status        |" << endl;
-    cout << "+--------------------------------------------+" << endl;
-    cout << "|  4. Exit                                   |" << endl;
-    cout << "+============================================+" << endl;
-}
+    DoubleLinkedList<Movie> movie;
+    importMovie(movie);
+    ifstream inputFile("../Databases/CONAN.txt"); // File chứa ASCII Art đã chuyển đổi
+    if (!inputFile)
+    {
+        cerr << "Không thể mở file ASCII!" << endl;
+    }
 
+    int startX = 3, startY = 10; // Tọa độ ban đầu
+    int currentY = startY;
+
+    string line;
+    gotoXY(3, 8);
+    // cout << "+------------------------------------------+" << endl;
+    cout << "============================================" << endl;
+    gotoXY(3, 9);
+    cout << "|                   " << movie[1].getTitle() << "                  |" << endl;
+    while (getline(inputFile, line))
+    {
+        gotoXY(startX, currentY);
+        cout << "| " << line << " |" << endl;
+        currentY++;
+    }
+    gotoXY(3, currentY);
+    // cout << "+------------------------------------------+" << endl;
+    cout << "============================================" << endl;
+
+    inputFile.close();
+    inputFile.open("../Databases/toystory.txt");
+    if (!inputFile)
+    {
+        cerr << "Không thể mở file ASCII!" << endl;
+    }
+    gotoXY(50, 8);
+    // cout << "+--------------------------------+" << endl;
+    cout << "=================================" << endl;
+    gotoXY(50, 9);
+    cout << "|             " << movie[2].getTitle() << "          |" << endl;
+    currentY = 10;
+    while (getline(inputFile, line))
+    {
+        gotoXY(50, currentY);
+        cout << "| " << line << " |" << endl;
+        currentY++;
+    }
+    gotoXY(50, currentY);
+    // cout << "+--------------------------------+" << endl;
+    cout << "=================================" << endl;
+
+    gotoXY(115, 1);
+    cout << "+---------------+" << endl;
+    gotoXY(115, 2);
+    cout << "|   1.Log in    |" << endl;
+    gotoXY(115, 3);
+    cout << "+---------------+" << endl;
+    gotoXY(135, 1);
+    cout << "+----------------+" << endl;
+    gotoXY(135, 2);
+    cout << "|    2.Register  |" << endl;
+    gotoXY(135, 3);
+    cout << "+----------------+" << endl;
+    // gotoXY(45, 13);
+    // cout << "+----------------+" << endl;
+    // gotoXY(45, 14);
+    // cout << "|    MOVIES      |" << endl;
+    // gotoXY(45, 15);
+    // cout << "+----------------+" << endl;
+    gotoXY(110, 14);
+    cout << "+----------------+" << endl;
+    gotoXY(110, 15);
+    cout << "|    3.BUY NOW!! |" << endl;
+    gotoXY(110, 16);
+    cout << "+----------------+" << endl;
+    // gotoXY(20, 1);
+    // cout << "+---------------------------------------------+" << endl;
+    // gotoXY(20, 2);
+    // cout << "| Search                                      |" << endl;
+    // gotoXY(20, 3);
+    // cout << "+---------------------------------------------+" << endl;
+    gotoXY(8, 1.5);
+    cout << "**************" << endl;
+    gotoXY(8, 2.5);
+    cout << "* BUY TICKET *" << endl;
+    gotoXY(8, 3.5);
+    cout << "**************" << endl;
+    gotoXY(30, 2.5);
+    cout << "3.Movies <>" << endl;
+    gotoXY(45, 2.5);
+    cout << "4.Events <>" << endl;
+    gotoXY(60, 2.5);
+    cout << "5.Search <>" << endl;
+    gotoXY(0.5, 30);
+    cout << "___________________________________________________________________________________________________________________________________________________________" << endl;
+    gotoXY(1.5, 32);
+    cout << "INTRODUCTION " << endl;
+    gotoXY(1.5, 34);
+    cout << "About us" << endl;
+    gotoXY(1.5, 36);
+    cout << "Privacy Policy" << endl;
+    gotoXY(1.5, 38);
+    cout << "FAQ" << endl;
+    gotoXY(60, 40);
+    cout << "MOVIE TICKET SALES MANAGEMENT" << endl;
+    gotoXY(50, 32);
+    cout << "BUY TICKET" << endl;
+    gotoXY(50, 34);
+    cout << "Movie Showtimes" << endl;
+    gotoXY(50, 36);
+    cout << "Top Movies" << endl;
+    gotoXY(50, 38);
+    cout << "Movie Blog" << endl;
+    gotoXY(95, 32);
+    cout << "SUPPORT" << endl;
+    gotoXY(95, 34);
+    cout << "Feedback" << endl;
+    gotoXY(95, 36);
+    cout << "Sales & Services" << endl;
+    gotoXY(130, 32);
+    cout << "FOLLOW US" << endl;
+    gotoXY(130, 34);
+    cout << "Facebook" << endl;
+    gotoXY(130, 36);
+    cout << "Instagram" << endl;
+    gotoXY(130, 38);
+    cout << "Hotline: 0334105228" << endl;
+}
 template <class T>
 bool checkUser(DoubleLinkedList<T> &list, string userName, string password)
 {
