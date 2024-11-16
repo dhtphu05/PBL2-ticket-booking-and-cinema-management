@@ -3,37 +3,33 @@
 #include <fstream>
 #include <sstream>
 #include <cctype>
+#include <iomanip>
 
 int Movie::countMovie = 2000;
-// void menuStaff()
-// {
-//     cout << "1. Them phim" << endl;
-//     cout << "2. Sua phim" << endl;
-//     cout << "3. Xoa phim" << endl;
-//     cout << "4. Xem danh sach phim" << endl;
-//     cout << "5. Tim kiem phim" << endl;
-//     cout << "6. Them khach hang" << endl;
-//     cout << "7. Xem danh sach khach hang" << endl;
-//     cout << "8. Sua khach hang" << endl;
-//     cout << "9. Them nhan vien" << endl;
-//     cout << "10. Xem nhan vien" << endl;
-//     cout << "11. Sua nhan vien" << endl;
-//     cout << "12. Xoa nhan vien " << endl;
-// }
+
 void menuEditFilm()
 {
-    cout << "1. ID" << endl;
-    cout << "2. Ten phim" << endl;
-    cout << "3. The loai" << endl;
-    cout << "4. Thoi luong" << endl;
-    cout << "5. Ngay phat hanh" << endl;
-    cout << "6. Dao dien" << endl;
-    cout << "7. Dien vien" << endl;
-    cout << "8. Nuoc san xuat" << endl;
-    cout << "9. Mo ta" << endl;
-    cout << "10. Rating" << endl;
+    cout << "+-------------------------------------------------+" << endl;
+    cout << "|             EDIT MOVIE INFORMATION              |" << endl;
+    cout << "+-------------------------------------------------+" << endl;
+    cout << "|                1. Movie Title                   |" << endl;
+    cout << "|                2. Genre                         |" << endl;
+    cout << "|               3. Duration                       |" << endl;
+    cout << "|             4. Release Date                     |" << endl;
+    cout << "|                5. Director                      |" << endl;
+    cout << "|               6. Actors                         |" << endl;
+    cout << "|             7. Country of Origin                |" << endl;
+    cout << "|                  8. Description                 |" << endl;
+    cout << "|               9. Rating                         |" << endl;
+    cout << "+-------------------------------------------------+" << endl;
+    cout << "|                  0. Exit                        |" << endl;
+    cout << "+-------------------------------------------------+" << endl;
 }
-
+Movie::Movie()
+{
+    // countMovie++;
+    // this->ID_Movie = this->getCountMovie();
+}
 Movie::Movie(const string &title, const string &genre, string &duration, const string &releaseDate, const string &Rating, string &director, string &actor, string &country, string &decription)
     : title(title), genre(genre), duration(duration), releaseDate(releaseDate), rating(Rating), director(director), actor(actor), country(country), description(description)
 {
@@ -63,30 +59,44 @@ void Movie::addMovie()
 }
 void subEditMovie(Movie &movie, string &line, string message)
 {
-    cout << message << " moi: " << endl;
+    cout << message << " new: " << endl;
     cin.ignore();
     getline(cin, line);
 }
 void subSaveAgainFile(DoubleLinkedList<Movie> &movieList)
 {
     ofstream out;
-    out.open("../Databases/MovieList.txt");
+    out.open("../Databases/MovieList.txt"); // Mở file để ghi đè lên toàn bộ dữ liệu trong file
     if (!out.is_open())
     {
         throw runtime_error("Error opening file");
     }
+
     for (int i = 0; i < movieList.getSize(); i++)
     {
-        out << movieList[i].ID_Movie << ";" << movieList[i].title << ";" << movieList[i].genre << ";" << movieList[i].duration << ";" << movieList[i].releaseDate << ";" << movieList[i].director << ";" << movieList[i].actor << ";" << movieList[i].country << ";" << movieList[i].description << ";" << movieList[i].rating << endl;
+        // Ghi thông tin của mỗi bộ phim vào file theo định dạng mới
+        out << "#" << movieList[i].ID_Movie << endl;
+        out << "Title: " << movieList[i].title << endl;
+        out << "Genre: " << movieList[i].genre << endl;
+        out << "Duration: " << movieList[i].duration << endl;
+        out << "Release Date: " << movieList[i].releaseDate << endl;
+        out << "Director: " << movieList[i].director << endl;
+        out << "Actors: " << movieList[i].actor << endl;
+        out << "Country of Origin: " << movieList[i].country << endl;
+        out << "Description: " << movieList[i].description << endl;
+        out << "Rating: " << movieList[i].rating << endl;
+        out << endl;
     }
-    out.close();
+
+    out.close(); // Đóng file sau khi ghi
 }
+
 void Movie::editMovie()
 {
     DoubleLinkedList<Movie> movieList;
     this->readFile(movieList);
     system("cls");
-    cout << "Nhap ID phim can sua: ";
+    cout << "Enter ID's movie that you want to edit: ";
     int ID;
     cin >> ID;
     int count = false;
@@ -96,46 +106,48 @@ void Movie::editMovie()
         {
             count = true;
             menuEditFilm();
-            cout << "Chon thong tin sua  " << endl;
+            cout << "Please enter your choice  " << endl;
             int choice;
             cin >> choice;
             switch (choice)
             {
 
             case 1:
-                subEditMovie(movieList[i], movieList[i].title, "Ten phim");
+                subEditMovie(movieList[i], movieList[i].title, "Title");
                 break;
             case 2:
-                subEditMovie(movieList[i], movieList[i].genre, "The Loai");
+                subEditMovie(movieList[i], movieList[i].genre, "Genre");
                 break;
             case 3:
-                subEditMovie(movieList[i], movieList[i].duration, "Thoi luong");
+                subEditMovie(movieList[i], movieList[i].duration, "Duration");
                 break;
             case 4:
-                subEditMovie(movieList[i], movieList[i].releaseDate, "Ngay san xuat");
+                subEditMovie(movieList[i], movieList[i].releaseDate, "Release Date");
                 break;
             case 5:
-                subEditMovie(movieList[i], movieList[i].director, "Dao dien");
+                subEditMovie(movieList[i], movieList[i].director, "Director");
                 break;
             case 6:
-                subEditMovie(movieList[i], movieList[i].actor, "Dien vien");
+                subEditMovie(movieList[i], movieList[i].actor, "Actors");
                 break;
             case 7:
-                subEditMovie(movieList[i], movieList[i].country, "Nuoc san xuat");
+                subEditMovie(movieList[i], movieList[i].country, "Country of Origin");
                 break;
             case 8:
-                subEditMovie(movieList[i], movieList[i].description, "Mo ta");
+                subEditMovie(movieList[i], movieList[i].description, "Description");
                 break;
             case 9:
                 subEditMovie(movieList[i], movieList[i].rating, "Rating");
                 break;
-                break;
+            default:
+                cout << "Invalid choice!" << endl;
             }
+            break;
         }
     }
     if (count == false)
     {
-        cout << "Khong tim thay phim" << endl;
+        cout << "No result!" << endl;
     }
     else
     {
@@ -145,64 +157,73 @@ void Movie::editMovie()
 void Movie::saveToFile(int i)
 {
     DoubleLinkedList<Movie> movies;
-    readID(movies);
-    this->ID_Movie = countMovie;
+    readID(movies);              // Đọc ID của các bộ phim hiện tại để cập nhật ID mới
+    this->ID_Movie = countMovie; // Gán ID mới cho bộ phim
+
     ofstream out;
     if (i)
     {
-        out.open("../Databases/MovieList.txt");
+        out.open("../Databases/MovieList.txt"); // Mở file để ghi (ghi đè)
     }
     else
     {
-        out.open("../Databases/MovieList.txt", std::ios::app);
+        out.open("../Databases/MovieList.txt", std::ios::app); // Mở file để ghi thêm (append)
     }
+
     if (!out.is_open())
     {
-        throw runtime_error("Khong the mo file");
+        throw runtime_error("Error opening file");
     }
-    out << this->ID_Movie << ";" << this->title << ";"
-        << this->genre << ";" << this->duration << ";"
-        << this->releaseDate << ";" << this->director << ";"
-        << this->actor << ";" << this->country << ";"
-        << this->description << ";" << this->rating << endl;
+
+    // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
+    out << "#" << this->ID_Movie << endl;
+    out << "Title: " << this->title << endl;
+    out << "Genre: " << this->genre << endl;
+    out << "Duration: " << this->duration << endl;
+    out << "Release Date: " << this->releaseDate << endl;
+    out << "Director: " << this->director << endl;
+    out << "Actors: " << this->actor << endl;
+    out << "Country: " << this->country << endl;
+    out << "Description: " << this->description << endl;
+    out << "Rating: " << this->rating << endl;
     out.close();
 }
+
 istream &operator>>(istream &in, Movie &m)
 {
-    cout << "Ten phim: ";
+    cout << "Title: ";
     in.ignore();
     getline(in, m.title);
-    cout << "The loai: ";
+    cout << "Genre: ";
     getline(in, m.genre);
-    cout << "Thoi luong: ";
+    cout << "Duration: ";
     getline(in, m.duration);
-    cout << "Ngay phat hanh: ";
+    cout << "Release Date: ";
     getline(in, m.releaseDate);
-    cout << "Dao dien: ";
+    cout << "Director: ";
     getline(in, m.director);
-    cout << "Dien vien: ";
+    cout << "Actors: ";
     getline(in, m.actor);
-    cout << "Nuoc san xuat:";
+    cout << "Country of Origin:";
     getline(in, m.country);
-    cout << "Mo ta: ";
+    cout << "Description: ";
     getline(in, m.description);
     cout << "Rating: ";
     getline(in, m.rating);
     return in;
 }
 ostream &operator<<(ostream &out, const Movie &m)
-{   
-    out<< "ID: " << m.ID_Movie << endl;
-    out << "Ten phim: " << m.title << endl;
-    out << "The loai: " << m.genre << endl;
-    out << "Thoi luong: " << m.duration << endl;
-    out << "Ngay phat hanh: " << m.releaseDate << endl;
-    out << "Dao dien: " << m.director << endl;
-    out << "Dien vien: " << m.actor << endl;
-    out << "Nuoc san xuat: " << m.country << endl;
-    out << "Mo ta: " << m.description << endl;
+{
+    out << "ID: " << m.ID_Movie << endl;
+    out << "Title: " << m.title << endl;
+    out << "Genre: " << m.genre << endl;
+    out << "Duration: " << m.duration << endl;
+    out << "Release Date: " << m.releaseDate << endl;
+    out << "Director: " << m.director << endl;
+    out << "Actors: " << m.actor << endl;
+    out << "Country of Origin: " << m.country << endl;
+    out << "Description: " << m.description << endl;
     out << "Rating: " << m.rating << endl;
-    out << "-----------------------------------" << endl;
     return out;
 }
 void Movie::removeMovie()
@@ -210,7 +231,7 @@ void Movie::removeMovie()
     DoubleLinkedList<Movie> movieList;
     this->readFile(movieList);
     int ID;
-    cout << "Nhap ID phim can xoa: ";
+    cout << "Enter ID's movie that you want to remove: ";
     cin >> ID;
     for (int i = 0; i < movieList.getSize(); i++)
     {
@@ -221,41 +242,71 @@ void Movie::removeMovie()
     }
     subSaveAgainFile(movieList);
 }
+std::string trim(const std::string &str)
+{
+    size_t start = str.find_first_not_of(" \t\n\r"); // Tìm vị trí ký tự không phải khoảng trắng
+    size_t end = str.find_last_not_of(" \t\n\r");    // Tìm vị trí ký tự không phải khoảng trắng ở cuối
+    return (start == std::string::npos || end == std::string::npos) ? "" : str.substr(start, end - start + 1);
+}
 void Movie::readFile(DoubleLinkedList<Movie> &movieList)
 {
-    ifstream in;
-    in.open("../Databases/MovieList.txt");
+    ifstream in("../Databases/MovieList.txt");
     if (!in.is_open())
     {
         throw runtime_error("Error opening file");
     }
     string line;
-    // int maxID = countMovie;
+    Movie m;
+
     while (getline(in, line))
     {
-        Movie m;
-        stringstream ss(line);
-        string idtemp;
-        getline(ss, idtemp, ';');
-        m.ID_Movie = stoi(idtemp);
-        // if (m.ID_Movie > maxID)
-        // {
-        //     maxID = m.ID_Movie;
-        // }
-        getline(ss, m.title, ';');
-        getline(ss, m.genre, ';');
-        getline(ss, m.duration, ';');
-        getline(ss, m.releaseDate, ';');
-        getline(ss, m.director, ';');
-        getline(ss, m.actor, ';');
-        getline(ss, m.country, ';');
-        getline(ss, m.description, ';');
-        getline(ss, m.rating);
-        movieList.push_back(m);
+        // Xử lý ID (dòng bắt đầu bằng '#')
+        if (!line.empty() && line[0] == '#')
+        {
+            m.ID_Movie = stoi(line.substr(1)); // Loại bỏ ký tự '#' và chuyển thành int
+        }
+        else if (line.find("Title:") == 0)
+        {
+            m.title = trim(line.substr(6)); // Loại bỏ khoảng trắng thừa ở đầu, cuối
+        }
+        else if (line.find("Genre:") == 0)
+        {
+            m.genre = trim(line.substr(6)); // Loại bỏ khoảng trắng thừa ở đầu, cuối
+        }
+        else if (line.find("Duration:") == 0)
+        {
+            m.duration = trim(line.substr(9));
+        }
+        else if (line.find("Release Date:") == 0)
+        {
+            m.releaseDate = trim(line.substr(13));
+        }
+        else if (line.find("Director:") == 0)
+        {
+            m.director = trim(line.substr(9));
+        }
+        else if (line.find("Actors:") == 0)
+        {
+            m.actor = trim(line.substr(7));
+        }
+        else if (line.find("Country of Origin:") == 0)
+        {
+            m.country = trim(line.substr(18));
+        }
+        else if (line.find("Description:") == 0)
+        {
+            m.description = trim(line.substr(12));
+        }
+        else if (line.find("Rating:") == 0)
+        {
+            m.rating = trim(line.substr(7));
+            movieList.push_back(m);
+            m = Movie();
+        }
     }
     in.close();
-    // countMovie = ++maxID;
 }
+
 void Movie::readID(DoubleLinkedList<Movie> &movieList)
 {
     int is_read = false;
@@ -265,38 +316,42 @@ void Movie::readID(DoubleLinkedList<Movie> &movieList)
     {
         throw runtime_error("Error opening file");
     }
+
     string line;
-    int maxID = countMovie;
+    int maxID = countMovie; // Khởi tạo maxID bằng countMovie hiện tại
+
     while (getline(in, line))
     {
-        is_read = true;
-        Movie m;
-        stringstream ss(line);
-        string idtemp;
-        getline(ss, idtemp, ';');
-        m.ID_Movie = stoi(idtemp);
-        if (m.ID_Movie > maxID)
+        // Kiểm tra xem dòng có bắt đầu với "#" (ID phim) không
+        if (line.substr(0, 1) == "#")
         {
-            maxID = m.ID_Movie;
+            is_read = true;
+            Movie m;
+            stringstream ss;
+            ss.str(line);
+            string idtemp;
+            getline(ss, idtemp, ' ');            // Lấy phần ID sau dấu "#"
+            m.ID_Movie = stoi(idtemp.substr(1)); // Chuyển đổi ID (cắt bỏ dấu '#')
+
+            // Cập nhật maxID nếu cần
+            if (m.ID_Movie > maxID)
+            {
+                maxID = m.ID_Movie;
+            }
         }
-        getline(ss, m.title, ';');
-        getline(ss, m.genre, ';');
-        getline(ss, m.duration, ';');
-        getline(ss, m.releaseDate, ';');
-        getline(ss, m.director, ';');
-        getline(ss, m.actor, ';');
-        getline(ss, m.country, ';');
-        getline(ss, m.description, ';');
-        getline(ss, m.rating);
-        movieList.push_back(m);
     }
+
     in.close();
-    countMovie = ++maxID;
-    // return is_read;
+
+    // Cập nhật countMovie bằng ID lớn nhất tìm được
+    countMovie = ++maxID; // Tạo ID mới cho bộ phim tiếp theo
 }
+
 void Movie::Display()
 {
+
     cout << *this;
+    cout << "---------------------------------" << endl;
 }
 void Movie::show()
 {
@@ -319,7 +374,7 @@ void Movie::searchMovie()
     DoubleLinkedList<Movie> movieList;
     this->readFile(movieList);
     string title;
-    cout << "Nhap ten phim can tim: ";
+    cout << "Enter the title of the movie you want to search: ";
     cin.ignore();
     getline(cin, title);
     title = toLowerCase(title);
@@ -335,7 +390,7 @@ void Movie::searchMovie()
     }
     if (count == false)
     {
-        cout << "Khong tim thay phim" << endl;
+        cout << "No result!" << endl;
     }
 }
 

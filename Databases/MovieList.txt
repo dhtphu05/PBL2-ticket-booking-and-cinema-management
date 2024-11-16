@@ -1,4 +1,33 @@
-2001;Spirited Away (Vung Dat Linh Hon);Phieu luu, Ky ao;125 phut;3-5-2001;Hayao Miyazaki;Rumi Hiiragi, Miyu Irino;Nhat Ban;Mot co be lac vao the gioi linh hon va phai vuot qua thu thach de cuu bo me minh.;8.6/10
-2002;Coco;Phieu Luu;105 phut;2017;Lee Unkrich, Adrian Molina;Anthony Gonzalez, Gael Garcia Bernal;My;Cau be dam me am nhac vo tinh buoc vao the gioi nguoi chet va kham pha bi mat gia dinh.;8.4/10
-2003;Toy Story (Cau Chuyen Do Choi);Phieu Luu, Hai;81 phut;1995;John Lasseter;Tom Hanks, Tim Allen;My;Nhung mon do choi song dong hoc cach chung song va doi pho voi thu thach moi.;8.3/10
-2004;The Lion King (Vua Su Tu);Phieu Luu;88 phut;1994;Roger Allers;Matthew Broderick, Jeremy Irons;My;Matthew Broderick, Jeremy Irons;8.5/10
+#2001
+Title: hihi
+Genre: Adventure, Fantasy
+Duration: 125 minutes
+Release Date: 3-5-2001
+Director: Hayao Miyazaki
+Actors: Rumi Hiiragi, Miyu Irino
+Country of Origin: Japan
+Description: A girl falls into the spirit world and must overcome challenges to save her parents.
+Rating: 8.6/10
+
+#2003
+Title: Toy Story
+Genre: Adventure, Comedy
+Duration: 81 minutes
+Release Date: 1995
+Director: John Lasseter
+Actors: Tom Hanks, Tim Allen
+Country of Origin: USA
+Description: A group of toys comes to life and learns to coexist while facing new challenges.
+Rating: 8.3/10
+
+#2004
+Title: Than dieu dai hiep
+Genre: Adventure
+Duration: 88 minutes
+Release Date: 1994
+Director: Roger Allers
+Actors: Matthew Broderick, Jeremy Irons
+Country of Origin: USA
+Description: A young lion prince overcomes adversity to reclaim his throne.
+Rating: 8.5/10
+

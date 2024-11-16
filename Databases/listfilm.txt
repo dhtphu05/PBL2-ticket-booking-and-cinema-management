@@ -2,3 +2,13 @@
 002;Coco;Phieu Luu;105 phut;2017;Lee Unkrich, Adrian Molina;Anthony Gonzalez, Gael Garcia Bernal;My;Cau be dam me am nhac vo tinh buoc vao the gioi nguoi chet va kham pha bi mat gia dinh.;8.4/10
 003;Toy Story (Cau Chuyen Do Choi);Phieu Luu, Hai;81 phut;1995;John Lasseter;Tom Hanks, Tim Allen;My;Nhung mon do choi song dong hoc cach chung song va doi pho voi thu thach moi.;8.3/10
 004;The Lion King (Vua Su Tu);Phieu Luu;88 phut;1994;Roger Allers;Matthew Broderick, Jeremy Irons;My;Matthew Broderick, Jeremy Irons;8.5/10
+#2001
+Ten phim: hihi
+The loai: Hai
+Thoi luong: 120phut
+Ngay phat hanh: 3-5-2021
+Dao dien: andu
+Dien vien: hfeies
+Nuoc san xuat: vien
+Mo ta: hdidshiif
+rating: 9.4

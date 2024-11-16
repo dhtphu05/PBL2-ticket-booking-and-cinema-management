@@ -14,14 +14,14 @@ Customer::Customer(string username, string password)
 }
 istream &operator>>(istream &in, Customer &customer)
 {
-    cout << "Nhap ten khach hang: ";
+    cout << "Fullname: ";
     in.ignore();
     getline(in, customer.fullName);
-    cout << "Nhap so dien thoai khach hang: ";
+    cout << "Phone number: ";
     getline(in, customer.phoneNumber);
-    cout << "Nhap ngay sinh: ";
+    cout << "Date of birth: ";
     getline(in, customer.dateOfBirth);
-    cout << "Nhap gioi tinh khach hang: ";
+    cout << "Gender: ";
     getline(in, customer.gender);
     return in;
 }
@@ -29,10 +29,10 @@ ostream &operator<<(ostream &out, Customer &customer)
 {
     out << "-------------------" << endl;
     out << "ID: " << customer.ID << endl;
-    out << "Ten: " << customer.fullName << endl;
-    out << "So dien thoai: " << customer.phoneNumber << endl;
-    out << "Ngay sinh: " << customer.dateOfBirth << endl;
-    out << "Gioi tinh: " << customer.gender << endl;
+    out << "Fullname: " << customer.fullName << endl;
+    out << "Phone number: " << customer.phoneNumber << endl;
+    out << "Date of birth: " << customer.dateOfBirth << endl;
+    out << "Geder: " << customer.gender << endl;
     return out;
 }
 void Customer::savetoFile()
@@ -40,58 +40,84 @@ void Customer::savetoFile()
     DoubleLinkedList<Customer> customers;
     readID(customers);
     this->ID = count;
-    this->username = "username" + to_string(count);
+    this->username = "user" + to_string(count);
     ofstream out;
-    out.open("../Databases/CustomerList.txt", std::ios::app);
+    if (0)
+    {
+        out.open("../Databases/CustomerList.txtList.txt"); // Mở file để ghi (ghi đè)
+    }
+    else
+    {
+        out.open("../Databases/CustomerList.txt", std::ios::app); // Mở file để ghi thêm (append)
+    }
 
     if (!out.is_open())
     {
-        throw runtime_error("Khong the mo file");
+        throw runtime_error("Error opening file");
     }
-    out << this->ID << ";" << this->username << ";"
-        << this->password << ";" << this->fullName << ";"
-        << this->phoneNumber << ";"
-        << this->dateOfBirth << ";" << this->gender << endl;
+
+    // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
+    out << "#" << this->ID << endl;
+    out << "Username: " << this->username << endl;
+    out << "Password: " << this->password << endl;
+    out << "Fullname: " << this->fullName << endl;
+    out << "Phone: " << this->phoneNumber << endl;
+    out << "Date of birth: " << this->dateOfBirth << endl;
+    out << "Gender: " << this->gender << endl;
+    out << endl;
     out.close();
+}
+std::string c_trim(const std::string &str)
+{
+    size_t start = str.find_first_not_of(" \t\n\r"); // Tìm vị trí ký tự không phải khoảng trắng
+    size_t end = str.find_last_not_of(" \t\n\r");    // Tìm vị trí ký tự không phải khoảng trắng ở cuối
+    return (start == std::string::npos || end == std::string::npos) ? "" : str.substr(start, end - start + 1);
 }
 
 void Customer::readfromFile(DoubleLinkedList<Customer> &listCustomer)
 {
+
     ifstream in;
     in.open("../Databases/CustomerList.txt");
     if (!in.is_open())
     {
         throw runtime_error("Error opening file");
     }
-
     string line;
-    // int maxID = 0;
+    Customer customer;
     while (getline(in, line))
     {
-        Customer m;
-        stringstream ss(line);
-        string idStr;
-        getline(ss, idStr, ';');
-        m.ID = std::stoi(idStr);
-        // if (m.ID > maxID)
-        // {
-        //     maxID = m.ID;
-        // }
-
-        getline(ss, m.username, ';');
-        getline(ss, m.password, ';');
-        getline(ss, m.fullName, ';');
-        getline(ss, m.phoneNumber, ';');
-        getline(ss, m.dateOfBirth, ';');
-        getline(ss, m.gender);
-
-        listCustomer.push_back(m);
+        if (!line.empty() && line[0] == '#')
+        {
+            customer.ID = stoi(line.substr(1));
+        }
+        else if (line.find("Username: ") == 0)
+        {
+            customer.username = c_trim(line.substr(10));
+        }
+        else if (line.find("Password: ") == 0)
+        {
+            customer.password = c_trim(line.substr(10));
+        }
+        else if (line.find("Fullname: ") == 0)
+        {
+            customer.fullName = c_trim(line.substr(10));
+        }
+        else if (line.find("Phone: ") == 0)
+        {
+            customer.phoneNumber = c_trim(line.substr(7));
+        }
+        else if (line.find("Date of birth: ") == 0)
+        {
+            customer.dateOfBirth = c_trim(line.substr(15));
+        }
+        else if (line.find("Gender:") == 0)
+        {
+            customer.gender = c_trim(line.substr(7));
+            listCustomer.push_back(customer);
+        }
     }
-
     in.close();
-
-    // Cập nhật count để đảm bảo ID mới không bị trùng
-    // count = ++maxID;
 }
 void Customer::readID(DoubleLinkedList<Customer> &listCustomer)
 {
@@ -106,29 +132,27 @@ void Customer::readID(DoubleLinkedList<Customer> &listCustomer)
     int maxID = count;
     while (getline(in, line))
     {
-        Customer m;
-        stringstream ss(line);
-        string idStr;
-        getline(ss, idStr, ';');
-        m.ID = std::stoi(idStr);
-        if (m.ID > maxID)
+        // Kiểm tra xem dòng có bắt đầu với "#" (ID phim) không
+        if (line.substr(0, 1) == "#")
         {
-            maxID = m.ID;
+            Customer customer;
+            stringstream ss;
+            ss.str(line);
+            string idtemp;
+            getline(ss, idtemp, ' ');             // Lấy phần ID sau dấu "#"
+            customer.ID = stoi(idtemp.substr(1)); // Chuyển đổi ID (cắt bỏ dấu '#')
+
+            // Cập nhật maxID nếu cần
+            if (customer.ID > maxID)
+            {
+                maxID = customer.ID;
+            }
         }
-
-        getline(ss, m.username, ';');
-        getline(ss, m.password, ';');
-        getline(ss, m.fullName, ';');
-        getline(ss, m.phoneNumber, ';');
-        getline(ss, m.dateOfBirth, ';');
-        getline(ss, m.gender);
-
-        listCustomer.push_back(m);
     }
 
     in.close();
 
-    // Cập nhật count để đảm bảo ID mới không bị trùng
+    // Cập nhật countMovie bằng ID lớn nhất tìm được
     count = ++maxID;
 }
 void Customer::Display()
@@ -138,16 +162,23 @@ void Customer::Display()
 void Customer::saveAgainFile(DoubleLinkedList<Customer> &listCustomer)
 {
     ofstream out;
-    out.open("../Databases/CustomerList.txt");
+
+    out.open("../Databases/CustomerList.txt"); // Mở file để ghi (ghi đè)
     if (!out.is_open())
     {
-        throw runtime_error("Khong the mo file");
+        throw runtime_error("Error opening file");
     }
     for (int i = 0; i < listCustomer.getSize(); i++)
     {
-        out << listCustomer[i].ID << ";" << listCustomer[i].username << ";" << listCustomer[i].password << ";" << listCustomer[i].fullName << ";"
-            << listCustomer[i].phoneNumber << ";"
-            << listCustomer[i].dateOfBirth << ";" << listCustomer[i].gender << endl;
+        // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
+        out << "#" << listCustomer[i].ID << endl;
+        out << "Username: " << listCustomer[i].username << endl;
+        out << "Password: " << listCustomer[i].password << endl;
+        out << "Fullname: " << listCustomer[i].fullName << endl;
+        out << "Phone: " << listCustomer[i].phoneNumber << endl;
+        out << "Date of birth: " << listCustomer[i].dateOfBirth << endl;
+        out << "Gender: " << listCustomer[i].gender << endl;
+        out << endl;
     }
     out.close();
 }

@@ -4,6 +4,7 @@
 #include "Show.h"
 #include "Seat.h"
 
+
 class Seat;
 class ShowSeat;
 class Show;
@@ -11,6 +12,7 @@ class Screen{
     public:
     int ID_Screen;
     DoubleLinkedList<Seat> seatLayout;
+
 
     Screen();
     Screen(int ID_Screen, DoubleLinkedList<Seat> seatLayout);
@@ -34,3 +36,4 @@ class Screen{
 
 };
 #endif
+
