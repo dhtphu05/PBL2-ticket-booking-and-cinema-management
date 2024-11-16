@@ -103,7 +103,7 @@ void menuLogin()
     // cout << "+------------------------------------------+" << endl;
     cout << "============================================" << endl;
     gotoXY(3, 9);
-    cout << "|                   " << movie[1].getTitle() << "                  |" << endl;
+    cout << "|                   " << movie[1].getTitle() << "                   |" << endl;
     while (getline(inputFile, line))
     {
         gotoXY(startX, currentY);
@@ -124,7 +124,7 @@ void menuLogin()
     // cout << "+--------------------------------+" << endl;
     cout << "=================================" << endl;
     gotoXY(50, 9);
-    cout << "|             " << movie[2].getTitle() << "          |" << endl;
+    cout << "|        " << movie[2].getTitle() << "                |" << endl;
     currentY = 10;
     while (getline(inputFile, line))
     {
