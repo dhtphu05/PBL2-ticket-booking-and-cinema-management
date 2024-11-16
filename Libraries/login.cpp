@@ -3,12 +3,22 @@
 #include <fstream>
 #include <sstream>
 #include <thread>
+#include <windows.h>
 #include <stdexcept>
 #include "../Template/DoubleLinkedList.h"
 #include "../Include/Admin.h"
 #include "../Include/Staff.h"
 #include "../Include/Customer.h"
 using namespace std;
+void gotoXY(int x, int y)
+{
+    COORD CursorPosition;
+    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    CursorPosition.X = x;
+    CursorPosition.Y = y;
+    SetConsoleCursorPosition(console, CursorPosition);
+}
+
 void getPassword(string &password)
 {
     char ch;
@@ -70,12 +80,16 @@ void readFileManagement(int i, DoubleLinkedList<Admin> &adminList, DoubleLinkedL
 
     // Đọc dữ liệu từ file
 }
-
+void importMovie(DoubleLinkedList<Movie> &movie)
+{
+    Movie m;
+    m.readFile(movie);
+}
 void menuLogin()
 {
     DoubleLinkedList<Movie> movie;
     importMovie(movie);
-    ifstream inputFile("../Databases/CONAN.txt"); // File chứa ASCII Art đã chuyển đổi
+    ifstream inputFile("../Databases/conan.txt"); // File chứa ASCII Art đã chuyển đổi
     if (!inputFile)
     {
         cerr << "Không thể mở file ASCII!" << endl;
