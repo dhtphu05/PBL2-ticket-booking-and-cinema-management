@@ -21,6 +21,7 @@
       "externalConsole": true,
       "cwd": "f:/PBL2-ticket-booking-and-cinema-management/Libraries",
       "program": "f:/PBL2-ticket-booking-and-cinema-management/Libraries/build/Debug/outDebug",
+      // "program": "f:/PBL2-ticket-booking-and-cinema-management/Libraries",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

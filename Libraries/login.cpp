@@ -246,7 +246,7 @@ int logIn()
     {
         string userName;
         string password;
-        goto(50,50);
+        // goto(50,50);
         cout << "Username: ";
         cin >> userName;
         getPassword(password);
@@ -288,7 +288,7 @@ int logIn()
 
         break;
 
-        gi
+        // gi
     }
 
     case 2:
