@@ -9,19 +9,6 @@
 #include "login.cpp"
 #include "User.cpp"
 using namespace std;
-void gotoXY(int x, int y)
-{
-    // Lấy handle đến console
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-
-    // Tạo biến COORD để chứa tọa độ
-    COORD CursorPosition;
-    CursorPosition.X = x;
-    CursorPosition.Y = y;
-
-    // Thiết lập vị trí con trỏ
-    SetConsoleCursorPosition(console, CursorPosition);
-}
 
 void menuStaff()
 {
@@ -39,7 +26,7 @@ void menuStaff()
 void menuAdmin()
 {
     cout << "+==========================================+" << endl;
-    cout << "|              SYSTEM MANAGEMENT            |" << endl;
+    cout << "|              SYSTEM MANAGEMENT           |" << endl;
     cout << "+==========================================+" << endl;
     cout << "|  1. Manage EMPLOYEES                    |" << endl;
     cout << "+------------------------------------------+" << endl;
@@ -62,7 +49,7 @@ void menuAdmin_s()
     cout << "+------------------------------------------+" << endl;
     cout << "|  4. Delete Staff                         |" << endl;
     cout << "+------------------------------------------+" << endl;
-    cout << "|  5. Exit                                |" << endl;
+    cout << "|  5. Exit                                 |" << endl;
     cout << "+==========================================+" << endl;
 }
 
@@ -98,13 +85,14 @@ void menuAdmin_f()
     cout << "+==========================================+" << endl;
 }
 
+
 int main()
 {
 
     bool loggedIn = false;
     int log = logIn();
     // int log =1;
-    if (log==1)
+    if (log == 1)
     {
         loggedIn = true;
         Admin admin;
@@ -158,7 +146,7 @@ int main()
                     system("cls");
                     int choice;
                     menuAdmin_c();
-                    cout << "Please enter your choice: ";
+                    // cout << "Please enter your choice: ";
                     cin >> choice;
                     switch (choice)
                     {
