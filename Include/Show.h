@@ -32,9 +32,11 @@ class Show{
     string getStartTime();
     Movie* getMovie();
     DoubleLinkedList<ShowSeat> getSeats();
+    ShowSeat& getSeat(int index);
     Screen* getScreen();
     string getEndTime();
     string getDate();
+
     //setter
     void setID_Show(string ID_Show);
     void setStartTime(string startTime);
@@ -43,6 +45,7 @@ class Show{
     void setScreen(Screen* screen);
     void setEndTime(string endTime);
     void setDate(string date);
+    void setShow(Show show);
     //method
     void loadShowFromFile(DoubleLinkedList<Show> &shows);
     void calculateEndTime();
@@ -56,6 +59,12 @@ class Show{
     string getShow();
     bool saveShowToFile(DoubleLinkedList<Show> shows);
     static bool overwriteFile(DoubleLinkedList<Show> shows);
+    void selectShow(Movie* movie);
+    void displayAllSimpleShow(DoubleLinkedList<Show> &shows);
+    Show getShowByID(string ID);
+    Show& operator=(Show &show);
+    ShowSeat& getSeatByRowColumn(string row, int column);
+    
     // Destructor
     ~Show();
 

@@ -1,39 +1,55 @@
-#include <iostream>
-#include <string>
-#include <math.h>
-#include "../Template/DoubleLinkedList.h"
-// #include "User.h"
-#include "Ticket.h"
-using namespace std;
+#pragma once
+#include "Show.h"
+#include "Customer.h"
+#include "Seat.h"
 
+
+
+#ifndef BOOKING_H
+#define BOOKING_H
+
+class Seat;
+class Show;
+class Customer;
+class Movie;
+class ShowSeat;
 class Booking{
-    int ID_Booking;
-    DoubleLinkedList<Ticket> Tickets;
-    // DoubleLinkedList<Voucher> Vouchers;
-    // DoubleLinkedList<Product> Products;
-    //User user;
-    int numberofSeats;
-    double totalPayment;
-    string createdOn;
+    private:
+    string bookingNumber;
+    int numberOfSeats;
+    string bookingTime;
+    Customer* customer;
+    Show* show;
+    DoubleLinkedList<ShowSeat> seats;
+    double totalPrice;
+    //Payment* payment;
+    //Coupon* appliedCoupon;
+    //BookingStatus status;
     public:
-    Booking(int ID_Booking, DoubleLinkedList<Ticket> Tickets,   int numberofSeats, double totalPayment, string createdOn) : ID_Booking(ID_Booking), Tickets(Tickets), numberofSeats(numberofSeats), totalPayment(totalPayment), createdOn(createdOn) {}
-    ~Booking(){}
-    int getID_Booking() const;
-    DoubleLinkedList<Ticket> getTickets() const;
-    //DoubleLinkedList<Voucher> getVouchers() const;
-    //DoubleLinkedList<Product> getProducts() const;
-    // User getUser() const;
-    int getNumberofSeats() const;
-    double getTotalPayment() const;
-    string getCreatedOn() const;
-    void setID_Booking(int ID_Booking);
-    void setTickets(DoubleLinkedList<Ticket> Tickets);
-    // void setVouchers(DoubleLinkedList<Voucher> Vouchers);
-    // void setProducts(DoubleLinkedList<Product> Products);
-    // void setUser(User user);
-    void setNumberofSeats(int numberofSeats);
-    void setTotalPayment(double totalPayment);
-    void setCreatedOn(string createdOn);
-    void getShow();
-    
+    Booking();
+    Booking(string bookingNumber, int numberOfSeats, string bookingTime, Customer* customer, Show* show, DoubleLinkedList<ShowSeat> seats, double totalPrice);
+    //getter
+    string getBookingNumber();
+    int getNumberOfSeats();
+    string getBookingTime();
+    Customer* getCustomer();
+    Show* getShow();
+    DoubleLinkedList<ShowSeat> getSeats();
+    double getTotalPrice();
+    //setter
+    void setBookingNumber(string bookingNumber);
+    void setNumberOfSeats(int numberOfSeats);
+    void setBookingTime(string bookingTime);
+    void setCustomer(Customer* customer);
+    void setShow(Show* show);
+    void setSeats(DoubleLinkedList<ShowSeat> seats);
+    void setTotalPrice(double totalPrice);
+    //method
+    void loadBookingFromFile(DoubleLinkedList<Booking> &bookings);
+    void displayBooking();
+    void displayAllBooking(DoubleLinkedList<Booking> &bookings);
+    void sellTicket();
+
 };
+
+#endif

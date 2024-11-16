@@ -33,16 +33,27 @@ void menuEditFilm()
     cout << "9. Mo ta" << endl;
     cout << "10. Rating" << endl;
 }
-Movie::Movie()
-{
-    // countMovie++;
-    // this->ID_Movie = this->getCountMovie();
-}
+
 Movie::Movie(const string &title, const string &genre, string &duration, const string &releaseDate, const string &Rating, string &director, string &actor, string &country, string &decription)
     : title(title), genre(genre), duration(duration), releaseDate(releaseDate), rating(Rating), director(director), actor(actor), country(country), description(description)
 {
     // countMovie++;
     // this->ID_Movie = this->getCountMovie();
+}
+Movie::Movie()
+{   
+    this->ID_Movie = countMovie;
+    countMovie++;
+    this->title = "";
+    this->genre = "";
+    this->duration = "";
+    this->releaseDate = "";
+    this->rating = "";
+    this->director = "";
+    this->actor = "";
+    this->country = "";
+    this->description = "";
+    this->rating = "";
 }
 void Movie::addMovie()
 {
@@ -180,7 +191,8 @@ istream &operator>>(istream &in, Movie &m)
     return in;
 }
 ostream &operator<<(ostream &out, const Movie &m)
-{
+{   
+    out<< "ID: " << m.ID_Movie << endl;
     out << "Ten phim: " << m.title << endl;
     out << "The loai: " << m.genre << endl;
     out << "Thoi luong: " << m.duration << endl;
@@ -335,11 +347,15 @@ string Movie::getTitle()
 {
     return this->title;
 }
+string* Movie::getTitlePointer()
+{
+    return &this->title;
+}
 string Movie::getGenre()
 {
     return this->genre;
 }
-string Movie::getDuration()
+string Movie::getDuration() 
 {
     return this->duration;
 }
@@ -366,4 +382,39 @@ string Movie::getDescription()
 string Movie::getRating()
 {
     return this->rating;
+}
+Movie* Movie::selectMovie(int ID)
+{
+    DoubleLinkedList<Movie> movieList;
+    this->readFile(movieList);
+    for (int i = 0; i < movieList.getSize(); i++)
+    {
+        if (movieList[i].ID_Movie == ID)
+        {
+            // Tạo một đối tượng Movie mới trên heap và sao chép dữ liệu
+            return new Movie(movieList[i]);
+        }
+    }
+    return nullptr;
+}
+void printMovie(Movie *m)
+{
+    cout<<m->getTitle()<<endl;
+}
+void Movie::selectMovieToBooking(){
+    DoubleLinkedList<Movie> movieList;
+    this->readFile(movieList);
+    for(int i=0;i<movieList.getSize();i++){
+        cout<<movieList[i].ID_Movie<<". "<<movieList[i].title<<endl;
+    }
+    cout<<"Enter the ID of the movie you want to select: ";
+    int ID;
+    cin>>ID;
+    for(int i=0;i<movieList.getSize();i++){
+        if(movieList[i].ID_Movie==ID){
+            *this = movieList[i];
+            return;
+        }
+    }
+    cout<<"Movie not found."<<endl;
 }

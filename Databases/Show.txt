@@ -1,17 +1,220 @@
 # Show Details
-ShowID: S1234
+ShowID: S1
 Date: 2024-10-26
 StartTime: 18:00
-EndTime: 
-Screen: 
-
+EndTime: 19:30
+Screen: 1
+Movie: 2001
 # Seat List
-# Format: Row Column Type Price Status Color
-Seat: 1 A Standard 10.0 Booked
-Seat: 1 B VIP 20.0 Booked
-Seat: 1 C Standard 10.0 Empty
+Seat: A 0 Regular 10.0 Booked
+Seat: A 1 Regular 10.0 Available
+Seat: A 2 Regular 10.0 Booked
+Seat: A 3 VIP 10.0 Available
+Seat: A 4 VIP 10.0 Booked
+Seat: A 5 VIP 10.0 Available
+Seat: A 6 Regular 10.0 Booked
+Seat: A 7 Regular 10.0 Available
+Seat: A 8 Regular 10.0 Booked
+Seat: A 9 VIP 10.0 Available
+Seat: B 0 Regular 10.0 Available
+Seat: B 1 Regular 10.0 Booked
+Seat: B 2 Regular 10.0 Available
+Seat: B 3 VIP 10.0 Booked
+Seat: B 4 VIP 10.0 Available
+Seat: B 5 VIP 10.0 Booked
+Seat: B 6 Regular 10.0 Available
+Seat: B 7 Regular 10.0 Booked
+Seat: B 8 Regular 10.0 Available
+Seat: B 9 VIP 10.0 Booked
+Seat: C 0 Disable 10.0 Booked
+Seat: C 1 Disable 10.0 Available
+Seat: C 2 Regular 10.0 Booked
+Seat: C 3 Regular 10.0 Available
+Seat: C 4 Regular 10.0 Booked
+Seat: C 5 Regular 10.0 Available
+Seat: C 6 Disable 10.0 Booked
+Seat: C 7 Disable 10.0 Available
+Seat: C 8 Regular 10.0 Booked
+Seat: C 9 Regular 10.0 Available
+Seat: D 0 Regular 10.0 Available
+Seat: D 1 Regular 10.0 Booked
+Seat: D 2 Regular 10.0 Available
+Seat: D 3 VIP 10.0 Booked
+Seat: D 4 VIP 10.0 Available
+Seat: D 5 VIP 10.0 Booked
+Seat: D 6 Disable 10.0 Available
+Seat: D 7 Disable 10.0 Booked
+Seat: D 8 Regular 10.0 Available
+Seat: D 9 Regular 10.0 Booked
+Seat: E 0 Regular 10.0 Booked
+Seat: E 1 Regular 10.0 Available
+Seat: E 2 Regular 10.0 Booked
+Seat: E 3 VIP 10.0 Available
+Seat: E 4 VIP 10.0 Booked
+Seat: E 5 VIP 10.0 Available
+Seat: E 6 Disable 10.0 Booked
+Seat: E 7 Disable 10.0 Available
+Seat: E 8 Regular 10.0 Booked
+Seat: E 9 Regular 10.0 Available
+Seat: F 0 Disable 10.0 Available
+Seat: F 1 Disable 10.0 Booked
+Seat: F 2 Regular 10.0 Available
+Seat: F 3 Regular 10.0 Booked
+Seat: F 4 Regular 10.0 Available
+Seat: F 5 Regular 10.0 Booked
+Seat: F 6 Disable 10.0 Available
+Seat: F 7 Disable 10.0 Booked
+Seat: F 8 Regular 10.0 Available
+Seat: F 9 Regular 10.0 Booked
+Seat: G 0 Regular 10.0 Booked
+Seat: G 1 Regular 10.0 Available
+Seat: G 2 Regular 10.0 Booked
+Seat: G 3 VIP 10.0 Available
+Seat: G 4 VIP 10.0 Booked
+Seat: G 5 VIP 10.0 Available
+Seat: G 6 Disable 10.0 Booked
+Seat: G 7 Disable 10.0 Available
+Seat: G 8 Regular 10.0 Booked
+Seat: G 9 Regular 10.0 Available
+Seat: H 0 Regular 10.0 Available
+Seat: H 1 Regular 10.0 Booked
+Seat: H 2 Regular 10.0 Available
+Seat: H 3 VIP 10.0 Booked
+Seat: H 4 VIP 10.0 Available
+Seat: H 5 VIP 10.0 Booked
+Seat: H 6 Disable 10.0 Available
+Seat: H 7 Disable 10.0 Booked
+Seat: H 8 Regular 10.0 Available
+Seat: H 9 Regular 10.0 Booked
+Seat: I 0 Disable 10.0 Booked
+Seat: I 1 Disable 10.0 Available
+Seat: I 2 Regular 10.0 Booked
+Seat: I 3 Regular 10.0 Available
+Seat: I 4 Regular 10.0 Booked
+Seat: I 5 Regular 10.0 Available
+Seat: I 6 Disable 10.0 Booked
+Seat: I 7 Disable 10.0 Available
+Seat: I 8 Regular 10.0 Booked
+Seat: I 9 Regular 10.0 Available
+Seat: J 0 Regular 10.0 Available
+Seat: J 1 Regular 10.0 Booked
+Seat: J 2 Regular 10.0 Available
+Seat: J 3 VIP 10.0 Booked
+Seat: J 4 VIP 10.0 Available
+Seat: J 5 VIP 10.0 Booked
+Seat: J 6 Disable 10.0 Available
+Seat: J 7 Disable 10.0 Booked
+Seat: J 8 Regular 10.0 Available
+Seat: J 9 Regular 10.0 Booked
 
 # Next Show
-
+#ShowDetails
+ShowID:S2 
+Date: 2024-10-26
+StartTime: 20:00
+EndTime: 21:30
+Screen: 2
+Movie: 2002
+# Seat List
+Seat: A 0 VIP 10.0 Booked
+Seat: A 1 VIP 10.0 Available
+Seat: A 2 VIP 10.0 Booked
+Seat: A 3 VIP 10.0 Available
+Seat: A 4 VIP 10.0 Booked
+Seat: A 5 VIP 10.0 Available
+Seat: A 6 Disable 10.0 Booked
+Seat: A 7 Disable 10.0 Available
+Seat: A 8 Disable 10.0 Booked
+Seat: A 9 Regular 10.0 Available
+Seat: B 0 Regular 10.0 Available
+Seat: B 1 Regular 10.0 Booked
+Seat: B 2 Regular 10.0 Available
+Seat: B 3 Regular 10.0 Booked
+Seat: B 4 Regular 10.0 Available
+Seat: B 5 Regular 10.0 Booked
+Seat: B 6 Disable 10.0 Available
+Seat: B 7 Disable 10.0 Booked
+Seat: B 8 Disable 10.0 Available
+Seat: B 9 Regular 10.0 Booked
+Seat: C 0 Disable 10.0 Booked
+Seat: C 1 Disable 10.0 Available
+Seat: C 2 Disable 10.0 Booked
+Seat: C 3 Regular 10.0 Available
+Seat: C 4 Regular 10.0 Booked
+Seat: C 5 Regular 10.0 Available
+Seat: C 6 Disable 10.0 Booked
+Seat: C 7 Disable 10.0 Available
+Seat: C 8 Disable 10.0 Booked
+Seat: C 9 Regular 10.0 Available
+Seat: D 0 VIP 10.0 Available
+Seat: D 1 VIP 10.0 Booked
+Seat: D 2 VIP 10.0 Available
+Seat: D 3 VIP 10.0 Booked
+Seat: D 4 VIP 10.0 Available
+Seat: D 5 VIP 10.0 Booked
+Seat: D 6 Disable 10.0 Available
+Seat: D 7 Disable 10.0 Booked
+Seat: D 8 Disable 10.0 Available
+Seat: D 9 Regular 10.0 Booked
+Seat: E 0 Regular 10.0 Booked
+Seat: E 1 Regular 10.0 Available
+Seat: E 2 Regular 10.0 Booked
+Seat: E 3 Regular 10.0 Available
+Seat: E 4 Regular 10.0 Booked
+Seat: E 5 Regular 10.0 Available
+Seat: E 6 Disable 10.0 Booked
+Seat: E 7 Disable 10.0 Available
+Seat: E 8 Disable 10.0 Booked
+Seat: E 9 Regular 10.0 Available
+Seat: F 0 Disable 10.0 Available
+Seat: F 1 Disable 10.0 Booked
+Seat: F 2 Disable 10.0 Available
+Seat: F 3 Regular 10.0 Booked
+Seat: F 4 Regular 10.0 Available
+Seat: F 5 Regular 10.0 Booked
+Seat: F 6 Disable 10.0 Available
+Seat: F 7 Disable 10.0 Booked
+Seat: F 8 Disable 10.0 Available
+Seat: F 9 Regular 10.0 Booked
+Seat: G 0 VIP 10.0 Booked
+Seat: G 1 VIP 10.0 Available
+Seat: G 2 VIP 10.0 Booked
+Seat: G 3 VIP 10.0 Available
+Seat: G 4 VIP 10.0 Booked
+Seat: G 5 VIP 10.0 Available
+Seat: G 6 Disable 10.0 Booked
+Seat: G 7 Disable 10.0 Available
+Seat: G 8 Disable 10.0 Booked
+Seat: G 9 Regular 10.0 Available
+Seat: H 0 Regular 10.0 Available
+Seat: H 1 Regular 10.0 Booked
+Seat: H 2 Regular 10.0 Available
+Seat: H 3 Regular 10.0 Booked
+Seat: H 4 Regular 10.0 Available
+Seat: H 5 Regular 10.0 Booked
+Seat: H 6 Disable 10.0 Available
+Seat: H 7 Disable 10.0 Booked
+Seat: H 8 Disable 10.0 Available
+Seat: H 9 Regular 10.0 Booked
+Seat: I 0 Disable 10.0 Booked
+Seat: I 1 Disable 10.0 Available
+Seat: I 2 Disable 10.0 Booked
+Seat: I 3 Regular 10.0 Available
+Seat: I 4 Regular 10.0 Booked
+Seat: I 5 Regular 10.0 Available
+Seat: I 6 Disable 10.0 Booked
+Seat: I 7 Disable 10.0 Available
+Seat: I 8 Disable 10.0 Booked
+Seat: I 9 Regular 10.0 Available
+Seat: J 0 Disable 10.0 Available
+Seat: J 1 Disable 10.0 Booked
+Seat: J 2 Disable 10.0 Available
+Seat: J 3 Regular 10.0 Booked
+Seat: J 4 Regular 10.0 Available
+Seat: J 5 Regular 10.0 Booked
+Seat: J 6 Disable 10.0 Available
+Seat: J 7 Disable 10.0 Booked
+Seat: J 8 Disable 10.0 Available
+Seat: J 9 Regular 10.0 Booked
 
 

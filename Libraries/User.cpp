@@ -11,11 +11,12 @@ User::User(string &username, string &password, string &fullName, string &phoneNu
     // this->ID = count;
     // count++;
 }
-string &User::getID()
-{
-    string line = to_string(this->ID);
-    return line;
-}
+//??????????????????????????????? moi comment lai de test cai warining
+// string &User::getID()
+// {
+//     string line = to_string(this->ID);
+//     return line;
+// }
 int User::returnID()
 {
     return this->ID;
@@ -32,26 +33,27 @@ void User::setDOB(string &dateOfBirth)
 {
     this->dateOfBirth = dateOfBirth;
 }
-int &User::getAge() const
-{
-    // Chuyển chuỗi ngày sinh thành các giá trị ngày, tháng, năm
-    int day, month, year;
-    sscanf(dateOfBirth.c_str(), "%d/%d/%d", &day, &month, &year);
+//?? comment thu de tesst warning
+// int &User::getAge() const
+// {
+//     // Chuyển chuỗi ngày sinh thành các giá trị ngày, tháng, năm
+//     int day, month, year;
+//     sscanf(dateOfBirth.c_str(), "%d/%d/%d", &day, &month, &year);
 
-    // Lấy ngày hiện tại
-    time_t t = time(0);
-    tm *now = localtime(&t);
+//     // Lấy ngày hiện tại
+//     time_t t = time(0);
+//     tm *now = localtime(&t);
 
-    // Tính tuổi
-    int age = (now->tm_year + 1900) - year;
-    if ((now->tm_mon + 1 < month) ||
-        (now->tm_mon + 1 == month && now->tm_mday < day))
-    {
-        age--; // Giảm 1 tuổi nếu chưa đến sinh nhật trong năm nay
-    }
+//     // Tính tuổi
+//     int age = (now->tm_year + 1900) - year;
+//     if ((now->tm_mon + 1 < month) ||
+//         (now->tm_mon + 1 == month && now->tm_mday < day))
+//     {
+//         age--; // Giảm 1 tuổi nếu chưa đến sinh nhật trong năm nay
+//     }
 
-    return age;
-}
+//     return age;
+// }
 void User::setPhoneNumber(string &phoneNumber)
 {
     this->phoneNumber = phoneNumber;
