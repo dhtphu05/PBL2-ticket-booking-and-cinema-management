@@ -4,6 +4,7 @@
 #include "Show.h"
 #include "Seat.h"
 
+
 class Seat;
 class ShowSeat;
 class Show;
@@ -12,9 +13,10 @@ class Screen{
     int ID_Screen;
     DoubleLinkedList<Seat> seatLayout;
 
+
     Screen();
     Screen(int ID_Screen, DoubleLinkedList<Seat> seatLayout);
-    int* getID_screen();
+    int getID_screen();
     DoubleLinkedList<Seat> getSeatLayout();
     void setID_Screen(int ID_screen);
     void updateSeatLayout(DoubleLinkedList<Seat> seatLayout);
@@ -26,5 +28,12 @@ class Screen{
     void deleteScreen(DoubleLinkedList<Screen> &screens);
     bool saveScreenToFile(DoubleLinkedList<Screen> screens);
     Screen selectScreen();
+    void displayScreenSimpleLayout();
+    void displayAllScreenSimpleLayout(DoubleLinkedList<Screen> &screens);
+    Screen* selectScreen(int ID_screen);
+    friend void printScreen(Screen* screen);
+    
+
 };
 #endif
+

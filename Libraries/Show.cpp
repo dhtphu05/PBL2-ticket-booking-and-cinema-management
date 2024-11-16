@@ -1,5 +1,6 @@
 #include "../Include/Screen.h"
 #include "../Include/Show.h"
+#include "../Libraries/Movie.cpp"
 
 using namespace std;
 Show::Show(std::string ID_Show, std::string date, std::string startTime, std::string endTime, Movie* movie, DoubleLinkedList<ShowSeat> seatLayout, Screen* screen)
@@ -20,6 +21,10 @@ Show::Show(){
     this->screen = nullptr;
     
 }
+Show::~Show(){
+    //delete movie;
+    //delete screen;
+}
 string Show::getID_Show(){
     return this->ID_Show;
 }
@@ -33,18 +38,26 @@ string Show::getEndTime(){
 string Show::getStartTime(){
     return this->startTime;
 }
-// Movie* Show::getMovie(){
-//     return this->movie;
-// }
-// string Show::getEndTime(){
-//     return this->endTime;
-// }
+Movie* Show::getMovie(){
+    return this->movie;
+}
 DoubleLinkedList<ShowSeat> Show::getSeats(){
     return this->seats;
 }
-// Screen Show::getScreen(){
-//     return this->screen;
+// string Show::getEndTime(){
+//     return this->endTime;
 // }
+
+ShowSeat& Show::getSeat(int index){
+    Node<ShowSeat> *current = this->seats.begin();
+    for(int i=0;i<index;i++){
+        current = current->next;
+    }
+    return current->data;
+}
+Screen* Show::getScreen(){
+    return this->screen;
+}
 void Show::setID_Show(string ID_Show){
     this->ID_Show = ID_Show;
 }
@@ -60,12 +73,17 @@ void Show::setStartTime(string startTime){
 void Show::setMovie(Movie* movie){
     this->movie = movie;
 }
-void Show::setSeats(DoubleLinkedList<ShowSeat> seats){
-    this->seats = seats;
+void Show::setScreen(Screen* screen){
+    this->screen = screen;
 }
-// void Show::setScreen(Screen screen){
-//     this->screen = screen;
-// }
+void Show::setSeats(DoubleLinkedList<ShowSeat> seats){
+    Node<ShowSeat> *current = seats.begin();
+    while(current!=nullptr){
+        this->seats.push_back(current->data);
+        current = current->next;
+    }   
+}
+//?!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 void Show::calculateEndTime(){
     //convert string to int
     int duration = stoi(this->movie->getDuration());
@@ -97,6 +115,19 @@ void Show::calculateEndTime(){
 //     // cout << "Enter Screen: ";
 //     // cin >> this->screen;
 // }
+// void Show::addShow(){
+//     Movie movieInstance;
+//     movie = new Movie(movieInstance.selectMovie());
+//     cout<<"Enter start time: ";
+//     cin>>startTime;
+//     cout<<"Enter date: ";
+//     cin>>date;
+//     Screen screenInstance;
+//     screen = new Screen(screenInstance.selectScreen());
+//     cout<<"Enter the layout of the screen: "<<endl;
+    
+
+// }
 // void displayAllShow(){
 //     Node<Show> *current = this->shows.begin();
 //     while(current!=nullptr){
@@ -106,20 +137,32 @@ void Show::calculateEndTime(){
 // }
 void Show::displaySeatStatus(){
     Node<ShowSeat> *current = this->seats.begin();
+    cout<<"huhuhuhuh"<<endl;
     while(current!=nullptr){
         current->data.displaySeat();
         current = current->next;
     }
 }
 void Show::displayShow(){
+    cout<<"#Show Details"<<endl;
     cout << "ID Show: " << this->ID_Show << endl;
     cout << "Date: " << this->date << endl;
     cout << "Start Time: " << this->startTime << endl;
     cout << "End Time: " << this->endTime << endl;
-    cout << "Movie: " << this->movie->getTitle() << endl;
-    if(this->screen!=nullptr)
-        cout << "Screen: " << this->screen->getID_screen() << endl;
+    cout << "Movie: ";
+    printMovie(this->movie);
+    cout<<endl;
+    if(this->screen!=nullptr){
+        cout << "Screen: ";
+        printScreen(this->screen);
+    }
     else cout << "Screen: " << "NULL" << endl;
+    cout<<"# Seat List"<<endl;
+    displaySeatStatus();
+    cout<<endl;
+    cout<<"-----------------------------------"<<endl;
+
+
 }
 void Show::displayAllShow(const DoubleLinkedList<Show> &shows){
     Node<Show> *current = shows.begin();
@@ -149,27 +192,45 @@ void Show::loadShowFromFile(DoubleLinkedList<Show> &shows){
         } else if (line.rfind("EndTime:", 0) == 0) {
             currentShow->setEndTime(line.substr(9));
         } else if (line.rfind("Screen:", 0) == 0) {
-            // currentShow->Screen.getID_Screen = line.substr(12);
-        } else if (line.rfind("Seat:", 0) == 0) {
+            int screenID = stoi(line.substr(8));
+            Screen* screenInstance = new Screen();
+            *screenInstance = *screenInstance->selectScreen(screenID);
+            currentShow->setScreen(screenInstance);
+
+        }else if(line.rfind("Movie:", 0) == 0){
+            int movieID = stoi(line.substr(7));
+            Movie* movieInstance = new Movie();
+            *movieInstance = *movieInstance->selectMovie(movieID);
+            currentShow->setMovie(movieInstance);
+        }
+         else if (line.rfind("Seat:", 0) == 0) {
+            string line, key;
             ShowSeat seat;
-            std::string status;
-            seat.setIsBooked(false);
-            std::string seatRow, seatType;
-            int seatColumn;
-            double seatPrice;
-            bool isBooked;
-            ss >> key >> seatRow >> seatColumn >> seatType >> seatPrice >> isBooked;
-            seat.setSeatRow(seatRow);
-            seat.setSeatColumn(seatColumn);
-            if (seatType == "VIP") {
-                seat.setType(SeatType::VIP);
-            } else if (seatType == "Regular") {
-                seat.setType(SeatType::Regular);
-            } 
-            seat.setPrice(seatPrice);
-            seat.setIsBooked(isBooked);
-            seat.setIsBooked(seat.getIsBooked() == true);
-            currentShow->getSeats().push_back(seat);
+            int rowIdx=0;
+                //Seat: B 2 Regular 10.0 Available
+                while(getline(file,line) && !line.empty() && rowIdx<100){
+                    istringstream layoutStream(line);
+                    string seatRow;
+                    int seatColumn;
+                    string seatTypeStr;
+                    float price;
+                    bool isBooked;
+                    layoutStream >> key >> seatRow >> seatColumn >> seatTypeStr >> price >> isBooked;
+                    seat.setSeatRow(seatRow);
+                    seat.setSeatColumn(seatColumn);
+                    if(seatTypeStr=="Regular"){
+                        seat.setType(SeatType::Regular);
+                    } else if(seatTypeStr=="VIP"){
+                        seat.setType(SeatType::VIP);
+                    } else if(seatTypeStr=="Disable"){
+                        seat.setType(SeatType::Disable);
+                    }
+                    seat.setPrice(price);
+                    seat.setIsBooked(isBooked);
+                    currentShow->seats.push_back(seat);
+                }
+
+            
         }
     }
     // Add the last show if there's one pending
@@ -179,29 +240,26 @@ void Show::loadShowFromFile(DoubleLinkedList<Show> &shows){
 }
 bool Show::saveShowToFile(DoubleLinkedList<Show> shows){
     ofstream file("../Databases/Show.txt");
-    Node<Show> *current=shows.begin();
-    int count=0;
+    Node<Show> *current = shows.begin();
     while(current!=nullptr){
-        if(count!=0){
-            file<< "#NextShow" << endl;
-        }
         file << "ShowID: " << current->data.getID_Show() << endl;
         file << "Date: " << current->data.getDate() << endl;
         file << "StartTime: " << current->data.getStartTime() << endl;
         file << "EndTime: " << current->data.getEndTime() << endl;
-        //file << "Screen: " << current->data.getScreen().getID_Screen() << endl;
-
+        if(current->data.getScreen()!=nullptr){
+            file << "Screen: " << current->data.getScreen()<< endl;
+        }
+        else file << "Screen: " << "NULL" << endl;
+        file << "Movie: " << current->data.getMovie()->getID_Movie() << endl;
         Node<ShowSeat> *currentSeat = current->data.getSeats().begin();
-        file<< "#Seats" << endl;
         while(currentSeat!=nullptr){
             file << "Seat: " << currentSeat->data.getSeatRow() << " " << currentSeat->data.getSeatColumn() << " " << currentSeat->data.convertSeatTypeToString()<< " " << currentSeat->data.getPrice() << " " << currentSeat->data.getIsBooked() << endl;
             currentSeat = currentSeat->next;
         }
         current = current->next;
     }
-    return true;
-
 }
+
 
 
 // void saveShowToFile(DoubleLinkedList<Show> shows, string fileName){
@@ -221,3 +279,81 @@ bool Show::saveShowToFile(DoubleLinkedList<Show> shows){
 //         current = current->next;
 //     }
 // }
+//* bỏ thêm cái & ở show để test
+void Show::displayAllSimpleShow(DoubleLinkedList<Show> &shows){
+    Node<Show> *current = shows.begin();
+    while(current!=nullptr){
+        cout << "ID Show: " << current->data.getID_Show() << endl;
+        cout << "Date: " << current->data.getDate() << endl;
+        cout << "Start Time: " << current->data.getStartTime() << endl;
+        cout << "End Time: " << current->data.getEndTime() << endl;
+        cout << "Movie: ";
+        printMovie(current->data.getMovie());
+        if(current->data.getScreen()!=nullptr){
+            cout << "Screen: ";
+            printScreen(current->data.getScreen());
+        }
+        else cout << "Screen: " << "NULL" << endl;
+        cout<<"-----------------------------------"<<endl;
+        current = current->next;
+    }
+}
+void Show::selectShow(Movie* movie){
+    DoubleLinkedList <Show> showList;
+    this->loadShowFromFile(showList);
+    this->displayAllSimpleShow(showList);
+    cout<<"Enter the ID of the show you want to select: ";
+    string ID;
+    cin>>ID;
+    for(int i=0;i<showList.getSize();i++){
+        if(showList[i].getID_Show()==ID ){
+            *this = showList[i];
+            this->displaySeatStatus();
+            return;
+        }
+    }
+    cout<<"Show not found."<<endl;
+}
+
+Show Show::getShowByID(string ID){
+    DoubleLinkedList<Show> showList;
+    this->loadShowFromFile(showList);
+    for(int i=0;i<showList.getSize();i++){
+        if(showList[i].getID_Show()==ID){
+            return showList[i];
+        }
+    }
+    return Show();
+}
+void Show::setShow(Show show){
+    *this = show;
+    cout<<"hehehhehehheheee";
+}
+Show& Show::operator=(Show &show){
+    if (this != &show) {
+        this->setID_Show(show.getID_Show());
+        this->setDate(show.getDate());
+        this->setStartTime(show.getStartTime());
+        this->setEndTime(show.getEndTime());
+        this->setMovie(show.getMovie());
+        this->setScreen(show.getScreen());
+        Node<ShowSeat>* current = show.seats.begin();  // Lặp qua danh sách ghế của đối tượng `other`
+        while (current != nullptr) {
+            this->seats.push_back(current->data);  // Giả sử có phương thức `append` trong DoubleLinkedList
+            current = current->next;
+        }
+    }
+    return *this;
+}
+ShowSeat& Show::getSeatByRowColumn(string row, int column){
+    Node<ShowSeat> *current = this->seats.begin();
+    cout<<"checkpoint"<<endl;
+    while(current!=nullptr){
+        cout<<"checkpoint huhuhu"<<endl;
+        if(current->data.getSeatRow()==row && current->data.getSeatColumn()==column){
+            return current->data;
+        }
+        current = current->next;
+    }
+    throw runtime_error("Seat not found.");
+}

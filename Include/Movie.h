@@ -16,6 +16,7 @@ class Movie{
     string actor;
     string country;
     string description;
+    string language;
     string rating;
 
     public:
@@ -29,7 +30,7 @@ class Movie{
     void searchMovie();
     void saveToFile(int i);
     void readFile(DoubleLinkedList<Movie>&);
-    void selectMovie();
+    Movie* selectMovie(int ID);
     void getMovie();
     void setID_Movie(){
         this->ID_Movie = countMovie;
@@ -40,7 +41,7 @@ class Movie{
     void setReleaseDate();
     void setDirector();
     void setRating();
-    void setDuration();
+    void setDuration() ;
     void setActor();
     void setLanguage();
     void setDescription();
@@ -48,6 +49,7 @@ class Movie{
     void show();
     string getID_Movie();
     string getTitle();
+    string* getTitlePointer();
     string getGenre();
     string getDuration();
     string getReleaseDate();
@@ -59,5 +61,7 @@ class Movie{
     friend ostream &operator<<(ostream& out, const Movie& m);
     friend istream &operator>>(istream& in, Movie& m);
     friend void subSaveAgainFile(DoubleLinkedList<Movie> &movieList);
+    friend void printMovie(Movie* m);
+    void selectMovieToBooking();
 };
 #endif
