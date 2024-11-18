@@ -1,5 +1,6 @@
 #include "../Include/Customer.h"
 #include <fstream>
+#include "../Include/gotoXY.h"
 #include <sstream>
 int Customer::count = 1000;
 Customer::Customer(string &username, string &password, string &fullName, string &phoneNumber, string &DOB, string &gender)
@@ -12,16 +13,59 @@ Customer::Customer(string username, string password)
     // this->ID = count;
     // count++;
 }
+void forchar(int n, int x, int y, char ch)
+{
+    gotoXY(x, y);
+    if (ch != ' ');
+    cout << "+";
+    for (int i = 0; i < n; i++)
+    {
+        if (ch != ' ')
+        {
+            gotoXY(x + 1, y);
+        }
+        else
+            gotoXY(x, y);
+        cout << ch;
+        x++;
+    }
+    if (ch != ' ')
+    {
+        gotoXY(x, y);
+        cout << "+";
+    }
+    else
+        cout << "|";
+}
 istream &operator>>(istream &in, Customer &customer)
 {
-    cout << "Fullname: ";
+    gotoXY(40, 7);
+    forchar(80, 40, 7, '-');
+    gotoXY(40, 8);
+    cout << "| Fullname:";
+    forchar(68, 52, 8, ' ');
+    forchar(80, 40, 9, '-');
+    gotoXY(40, 10);
+    cout << "| Phone number: ";
+    forchar(63, 57, 10, ' ');
+    forchar(80, 40, 11, '-');
+    gotoXY(40, 12);
+    cout << "| Date of birth: ";
+    forchar(62, 58, 12, ' ');
+    forchar(80, 40, 13, '-');
+    gotoXY(40, 14);
+    cout << "| Gender: ";
+    forchar(69, 51, 14, ' ');
+    forchar(80, 40, 15, '-');
     in.ignore();
+    gotoXY(52, 8);
     getline(in, customer.fullName);
-    cout << "Phone number: ";
+    gotoXY(57, 10);
+
     getline(in, customer.phoneNumber);
-    cout << "Date of birth: ";
+    gotoXY(58, 12);
     getline(in, customer.dateOfBirth);
-    cout << "Gender: ";
+    gotoXY(52, 14);
     getline(in, customer.gender);
     return in;
 }

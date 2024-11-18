@@ -9,20 +9,21 @@
 #include "../Include/Admin.h"
 #include "../Include/Staff.h"
 #include "../Include/Customer.h"
+#include "../Include/gotoXY.h"
+
 using namespace std;
-void gotoXY(int x, int y)
-{
-    COORD CursorPosition;
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
-    CursorPosition.X = x;
-    CursorPosition.Y = y;
-    SetConsoleCursorPosition(console, CursorPosition);
-}
+// void gotoXY(int x, int y)
+// {
+//     COORD CursorPosition;
+//     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+//     CursorPosition.X = x;
+//     CursorPosition.Y = y;
+//     SetConsoleCursorPosition(console, CursorPosition);
+// }
 
 void getPassword(string &password)
 {
     char ch;
-    cout << "Password: ";
     while (true)
     {
         ch = _getch();
@@ -214,22 +215,27 @@ void menuLogin()
     cout << "Hotline: 0334105228" << endl;
 }
 template <class T>
-bool checkUser(DoubleLinkedList<T> &list, string userName, string password)
+bool checkUser(DoubleLinkedList<T> &list, string userName, string password, int &k)
 {
     for (int i = 0; i < list.getSize(); i++)
     {
         if (list[i].getUserName() == userName && list[i].getPassword() == password)
         {
+            k = i;
             return true;
         }
     }
     return false;
 }
+string showName(string &s)
+{
+    return s;
+}
 int logIn()
 {
     menuLogin();
     int choice;
-    cout << "Please enter your choice: ";
+    // cout << "Please enter your choice: ";
     cin >> choice;
     system("cls");
     switch (choice)
@@ -237,9 +243,27 @@ int logIn()
     case 1:
     {
         string userName;
+        int k;
         string password;
-        cout << "Username: ";
+        gotoXY(50, 10);
+        cout << "+-------------------------------+" << endl;
+        gotoXY(50, 11);
+        cout << "|           LOGIN               |" << endl;
+        gotoXY(50, 12);
+        cout << "+-------------------------------+" << endl;
+        gotoXY(50, 13);
+        cout << "| Username:                     | " << endl;
+        gotoXY(50, 14);
+        cout << "+-------------------------------+" << endl;
+        gotoXY(50, 15);
+        cout << "| Password:                     | " << endl;
+        gotoXY(50, 16);
+        cout << "+-------------------------------+" << endl;
+        gotoXY(62, 13);
+        gotoXY(62, 13);
         cin >> userName;
+        gotoXY(62, 15);
+
         getPassword(password);
         DoubleLinkedList<Admin> adminList;
         DoubleLinkedList<Staff> staffList;
@@ -249,26 +273,24 @@ int logIn()
         readFileManagement(2, adminList, staffList, customerList);
         // cout << "2 ooke" << endl;
         readFileManagement(3, adminList, staffList, customerList);
-        if (checkUser(adminList, userName, password))
+        if (checkUser(adminList, userName, password, k))
         {
-            cout << "Hello " << adminList[0].getFullName() << "!" << endl;
-            cout << "You are logged in as Admin" << endl;
-            cout << " Press Enter to continue" << endl;
-            cin.ignore();
-            cin.get();
             system("cls");
+            // cin.ignore();
+            // cin.get();
+            // system("cls");
             return 1;
         }
-        else if (checkUser(staffList, userName, password))
+        else if (checkUser(staffList, userName, password, k))
         {
-            cout << "Hello " << staffList[0].getFullName() << "!" << endl;
-            cout << "You are logged in as Staff" << endl;
+            gotoXY(130, 1);
+            cout << staffList[k].getFullName() << "<>" << endl;
             return 2;
         }
-        else if (checkUser(customerList, userName, password))
+        else if (checkUser(customerList, userName, password, k))
         {
-            cout << "Hello " << customerList[0].getFullName() << "!" << endl;
-            cout << "You are logged in as Customer" << endl;
+            gotoXY(130, 1);
+            cout << customerList[k].getFullName() << "<>" << endl;
             return 3;
         }
         else
