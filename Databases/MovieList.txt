@@ -21,7 +21,7 @@ Description: A group of toys comes to life and learns to coexist while facing ne
 Rating: 8.3/10
 
 #2004
-Title: TOYSTORY
+Title: hi
 Genre: Adventure
 Duration: 88 minutes
 Release Date: 1994
@@ -30,4 +30,15 @@ Actors: Matthew Broderick, Jeremy Irons
 Country of Origin: USA
 Description: A young lion prince overcomes adversity to reclaim his throne.
 Rating: 8.5/10
+
+#2008
+Title: Hai doc thoai
+Genre: Hai
+Duration: 120phut
+Release Date: 20/12/2022;
+Director: Nguyen Thanh Nhan
+Actors: Vinh dau troc
+Country of Origin: 
+Description: Phim hai doc thoai xuat phat tu cuoc song thuc tien
+Rating: 9.8
 
