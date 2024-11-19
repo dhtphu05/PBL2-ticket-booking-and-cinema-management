@@ -247,10 +247,14 @@ void Staff::editCustomer()
     cout << "+-----------+" << endl;
     gotoXY(51, 7);
     cin >> ID;
+    Customer customerTemp;
+    int k;
     for (int i = 0; i < listCustomer.getSize(); i++)
     {
         if (listCustomer[i].returnID() == ID)
         {
+            k = i;
+            customerTemp = listCustomer[i];
             count = true;
             menuEditCustomer(listCustomer[i]);
             bool run = true;
@@ -310,8 +314,25 @@ void Staff::editCustomer()
     }
     else
     {
-        gotoXY(130, 4);
-        cout << "DONE";
+        gotoXY(120, 20);
+        cout << "+------------------------------------+";
+        gotoXY(120, 21);
+        cout << "|    1. SAVE    |    2.CANCLE         |";
+        gotoXY(120, 22);
+        cout << "+------------------------------------+";
+        gotoXY(120, 23);
+        cout << "Your choice: ";
+        int choice;
+        cin >> choice;
+        if (choice == 1)
+        {
+            gotoXY(130, 4);
+            cout << "DONE";
+        }
+        else
+        {
+            listCustomer[k] = customerTemp;
+        }
         m.saveAgainFile(listCustomer); //
     }
 }
@@ -389,10 +410,10 @@ void Staff::removeCustomer()
 
     m.saveAgainFile(listCustomer);
 }
-ostream &operator<<(ostream &out, Staff &staff)
-{
-    gotoXY(30, 3);
-}
+// ostream &operator<<(ostream &out, Staff &staff)
+// {
+//     gotoXY(30, 3);
+// }
 istream &operator>>(istream &in, Staff &staff)
 {
     gotoXY(40, 6);

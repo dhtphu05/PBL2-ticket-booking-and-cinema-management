@@ -25,7 +25,7 @@ Gender: Nu
 #1006
 Username: user1006
 Password: 12345678
-Fullname: Nguyen Thi Tra My
+Fullname: Nguyen Thi My
 Phone: 044829842
 Date of birth: 29/12/3242
 Gender: Nu
@@ -52,5 +52,13 @@ Password: 12345678
 Fullname: Nguyen Thi Tam
 Phone: 04528492
 Date of birth: 9/3/1998
+Gender: Nu
+
+#1014
+Username: user1014
+Password: 12345678
+Fullname: Nguyen Thi Thuy
+Phone: 0334105228
+Date of birth: 29/01/2005
 Gender: Nu
 
