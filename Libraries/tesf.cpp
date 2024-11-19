@@ -4,7 +4,17 @@
 
 int main(){
     Booking booking;
-    booking.sellTicket();
+    DoubleLinkedList<Screen> screens;
+    Screen screen;
+    screen.loadScreenFromFile(screens);
+    DoubleLinkedList<Movie> movies;
+    Movie movie;
+    movie.readFile(movies);
+    DoubleLinkedList<Show> shows;
+    Show show;
+    show.loadShowFromFile(shows,screens);
+    booking.sellTicket(shows,screens,movies);
+
 
     // DoubleLinkedList<Screen> screens;
     // Screen screen;

@@ -25,11 +25,11 @@ void menuEditFilm()
     cout << "|                  0. Exit                        |" << endl;
     cout << "+-------------------------------------------------+" << endl;
 }
-Movie::Movie()
-{
-    // countMovie++;
-    // this->ID_Movie = this->getCountMovie();
-}
+// Movie::Movie()
+// {
+//     // countMovie++;
+//     // this->ID_Movie = this->getCountMovie();
+// }
 Movie::Movie(const string &title, const string &genre, string &duration, const string &releaseDate, const string &Rating, string &director, string &actor, string &country, string &decription)
     : title(title), genre(genre), duration(duration), releaseDate(releaseDate), rating(Rating), director(director), actor(actor), country(country), description(description)
 {
@@ -456,9 +456,7 @@ void printMovie(Movie *m)
 {
     cout<<m->getTitle()<<endl;
 }
-void Movie::selectMovieToBooking(){
-    DoubleLinkedList<Movie> movieList;
-    this->readFile(movieList);
+void Movie::selectMovieToBooking(DoubleLinkedList<Movie> &movieList){
     for(int i=0;i<movieList.getSize();i++){
         cout<<movieList[i].ID_Movie<<". "<<movieList[i].title<<endl;
     }
@@ -468,6 +466,7 @@ void Movie::selectMovieToBooking(){
     for(int i=0;i<movieList.getSize();i++){
         if(movieList[i].ID_Movie==ID){
             *this = movieList[i];
+            cout<<"Movie selected: "<<this->title<<endl;
             return;
         }
     }

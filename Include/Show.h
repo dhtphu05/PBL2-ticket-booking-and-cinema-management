@@ -31,7 +31,7 @@ class Show{
     string getID_Show();
     string getStartTime();
     Movie* getMovie();
-    DoubleLinkedList<ShowSeat> getSeats();
+    DoubleLinkedList<ShowSeat>& getSeats();
     ShowSeat& getSeat(int index);
     Screen* getScreen();
     string getEndTime();
@@ -47,7 +47,7 @@ class Show{
     void setDate(string date);
     void setShow(Show show);
     //method
-    void loadShowFromFile(DoubleLinkedList<Show> &shows);
+    void loadShowFromFile(DoubleLinkedList<Show> &shows, DoubleLinkedList<Screen> &screens);
     void calculateEndTime();
     static void displayAllShow(const DoubleLinkedList<Show> &shows);//da co
     void addShow();
@@ -59,12 +59,13 @@ class Show{
     string getShow();
     bool saveShowToFile(DoubleLinkedList<Show> shows);
     static bool overwriteFile(DoubleLinkedList<Show> shows);
-    void selectShow(Movie* movie);
+    void selectShow(Movie* movie, DoubleLinkedList<Screen> &screens);
     void displayAllSimpleShow(DoubleLinkedList<Show> &shows);
     Show getShowByID(string ID);
     Show& operator=(Show &show);
     ShowSeat& getSeatByRowColumn(string row, int column);
-    
+    void setSeatStatus(string row, int column, bool status);
+    friend void editSeatStatusInFile(Show* show,DoubleLinkedList<Show> &shows,string ID, string row, int column, bool status);
     // Destructor
     ~Show();
 
