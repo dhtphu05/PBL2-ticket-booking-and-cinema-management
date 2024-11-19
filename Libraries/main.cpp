@@ -203,6 +203,7 @@ int main()
                     break;
                 case 35:
                     system("cls");
+                    menuAdmin_default();
                     movie.searchMovie();
                     break;
                 default:
