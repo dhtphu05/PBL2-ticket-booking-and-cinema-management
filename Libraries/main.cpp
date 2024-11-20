@@ -8,9 +8,44 @@
 #include "admin.cpp"
 #include "login.cpp"
 #include "User.cpp"
+#include "conio.h"
+
+#define byte windows_byte
+
+#include <windows.h>
+#undef byte
+
 using namespace std;
 
-void menuAdmin_default()
+void header_admin(string str1)
+{
+    int x = 0;
+    for (int i = 0; i < 155; i++)
+    {
+        gotoXY(x, 3);
+        cout << "_";
+        x++;
+    }
+    gotoXY(0, 0);
+    cout << "+-----------+" << endl;
+    gotoXY(0, 1);
+    cout << "| 0.BACK    |" << endl;
+    gotoXY(0, 2);
+    cout << "+-----------+" << endl;
+    gotoXY(28, 1);
+    cout << "1. VIEW BENEFITS <>" << endl;
+    gotoXY(50, 1);
+    cout << "2. VOUCHER <>" << endl;
+    gotoXY(71, 1);
+    cout << "3. CINEMA <>" << endl;
+    gotoXY(92, 1);
+    cout << "4. ROOM <>" << endl;
+    gotoXY(112, 1);
+    cout << "5. BOOKING <>" << endl;
+    gotoXY(130, 1);
+    cout << "\033[1;31m" << str1 + " <>" << "\033[0m" << endl;
+}
+void menuAdmin_default(Admin &admin)
 {
     int y = 3;
     int x = 0;
@@ -20,93 +55,81 @@ void menuAdmin_default()
         cout << "|";
         y++;
     }
-    for (int i = 0; i < 155; i++)
-    {
-        gotoXY(x, 2);
-        cout << "_";
-        x++;
-    }
-    gotoXY(130, 1);
-    cout << "(*_*)" << " Admin" << endl;
-    gotoXY(0, 0);
-    cout << "+-----------+" << endl;
-    gotoXY(0, 1);
-    cout << "| 0.BACK    |" << endl;
-    gotoXY(0, 2);
-    cout << "+-----------+" << endl;
-    gotoXY(30, 1);
-    cout << "VIEW BENEFITS <>" << endl;
-    gotoXY(50, 1);
-    cout << "VOUCHER <>" << endl;
-    gotoXY(70, 1);
-    cout << "CINEMA <>" << endl;
-    gotoXY(90, 1);
-    cout << "ROOM <>" << endl;
-    gotoXY(110, 1);
-    cout << "BOOKING <>" << endl;
+    header_admin(admin.getFullName());
     gotoXY(5, 5);
     cout << "I.STAFF MANAGEMENT" << endl;
     gotoXY(5, 7);
-    cout << "1.1 Remove staff" << endl;
+    cout << "11 Remove staff" << endl;
     gotoXY(5, 8);
-    cout << "1.2 Add staff" << endl;
+    cout << "12 Add staff" << endl;
     gotoXY(5, 9);
-    cout << "1.3 Edit staff" << endl;
+    cout << "13 Edit staff" << endl;
     gotoXY(5, 10);
-    cout << "1.4 View staff list" << endl;
+    cout << "14 View staff list" << endl;
     gotoXY(5, 12);
     cout << "II.CUSTOMER MANAGEMENT" << endl;
     gotoXY(5, 14);
-    cout << "2.1 Remove customer" << endl;
+    cout << "21 Remove customer" << endl;
     gotoXY(5, 15);
-    cout << "2.2 Add customer" << endl;
+    cout << "22 Add customer" << endl;
     gotoXY(5, 16);
-    cout << "2.3 Edit customer" << endl;
+    cout << "23 Edit customer" << endl;
     gotoXY(5, 17);
-    cout << "2.4 View customer list" << endl;
+    cout << "24 View customer list" << endl;
     gotoXY(5, 19);
     cout << "III.MOVIE MANAGEMENT" << endl;
     gotoXY(5, 21);
-    cout << "3.1 Remove movie" << endl;
+    cout << "31 Remove movie" << endl;
     gotoXY(5, 22);
-    cout << "3.2 Add movie" << endl;
+    cout << "32 Add movie" << endl;
     gotoXY(5, 23);
-    cout << "3.3 Edit movie" << endl;
+    cout << "33 Edit movie" << endl;
     gotoXY(5, 24);
-    cout << "3.4 View movie list" << endl;
+    cout << "34 Top movie " << endl;
     gotoXY(5, 25);
-    cout << "3.5 Search movie" << endl;
+    cout << "35 View movie" << endl;
+
     gotoXY(5, 26);
+    cout << "36 Search movie" << endl;
 }
 
 int main()
 {
-
+    DoubleLinkedList<Admin> adminList;
+    DoubleLinkedList<Staff> staffList;
+    DoubleLinkedList<Customer> customerList;
+    DoubleLinkedList<Movie> movieList34;
+    int k;
+    SetConsoleOutputCP(65001);
+    //    cout <<"HIHI XIN CHÀO MỌI NGƯỜI";
     bool loggedIn = false;
-    int log = logIn();
+    int log = logIn(adminList, staffList, customerList, k);
+
     // int log =1;
     if (log == 1)
+
     {
         loggedIn = true;
-        Admin admin;
-        Movie movie;
-        Staff staff;
         bool running = true;
+
         while (loggedIn)
         {
+            
+
             bool running = true;
             while (running)
             {
-                menuAdmin_default();
-                int choice;
+
+                menuAdmin_default(adminList[k]);
+                int choice, _choice34;
                 // cout << "Please enter your choice: ";
                 cin >> choice;
                 switch (choice)
                 {
                 case 12:
                     system("cls");
-                    menuAdmin_default();
-                    admin.addStaff();
+                    menuAdmin_default(adminList[k]);
+                    adminList[k].addStaff();
                     gotoXY(130, 4);
                     cout << "DONE";
                     Sleep(2000);
@@ -115,7 +138,7 @@ int main()
                 case 14:
                     system("cls");
                     // menuAdmin_default();
-                    admin.showStaff();
+                    adminList[k].showStaff();
                     // gotoXY(130, 4);
                     // cout << "DONE";
                     // Sleep(2000);
@@ -123,96 +146,170 @@ int main()
                     break;
                 case 13:
                     system("cls");
-                    menuAdmin_default();
-                    admin.editStaff();
+                    menuAdmin_default(adminList[k]);
+                    adminList[k].editStaff();
                     Sleep(2000);
                     system("cls");
                     break;
                 case 11:
                     system("cls");
-                    menuAdmin_default();
-                    admin.removeStaff();
+                    menuAdmin_default(adminList[k]);
+                    adminList[k].removeStaff();
                     Sleep(2000);
                     system("cls");
                     break;
                 case 22:
                     system("cls");
-                    menuAdmin_default();
-                    admin.addCustomer();
+                    menuAdmin_default(adminList[k]);
+                    adminList[k].addCustomer();
                     gotoXY(130, 4);
                     cout << "DONE";
                     Sleep(2000);
                     system("cls");
                     break;
                 case 24:
+                {
+
                     system("cls");
-                    admin.showCustomer();
+                    adminList[k].showCustomer();
                     break;
+                }
                 case 23:
                     system("cls");
-                    menuAdmin_default();
-                    admin.editCustomer();
+                    menuAdmin_default(adminList[k]);
+                    adminList[k].editCustomer();
                     Sleep(2000);
                     system("cls");
                     break;
                 case 21:
                     system("cls");
-                    menuAdmin_default();
-                    admin.removeCustomer();
+                    menuAdmin_default(adminList[k]);
+                    adminList[k].removeCustomer();
                     Sleep(2000);
                     system("cls");
                     break;
                 case 32:
                     system("cls");
-                    menuAdmin_default();
-                    movie.addMovie();
+                    menuAdmin_default(adminList[k]);
+                    adminList[k].addMovie();
                     Sleep(2000);
                     system("cls");
                     break;
                 case 33:
                     system("cls");
-                    menuAdmin_default();
-                    movie.editMovie();
+                    menuAdmin_default(adminList[k]);
+                    adminList[k].editMovie();
                     Sleep(2000);
                     system("cls");
                     break;
                 case 31:
                     system("cls");
-                    menuAdmin_default();
-                    movie.removeMovie();
+                    menuAdmin_default(adminList[k]);
+                    adminList[k].removeMovie();
                     Sleep(2000);
                     system("cls");
                     break;
 
                 case 34:
+                {
                     system("cls");
-                    movie.show();
+                    bool running = true;
+                    while (running)
+                    {
+                        menuAdmin_default(adminList[k]);
+                        adminList[k].showMovie(movieList34, 1);
+                        gotoXY(40, 40);
+                        cout << "Choose to see detail..";
+                        cin >> _choice34;
+                        switch (_choice34)
+                        {
+                        case 1:
+                            system("cls");
+                            header_admin(adminList[k].getFullName());
+                            movieList34[0].showDetailMovie();
+                            movieList34[1].showCurrentMovie();
+                            _getch();
+                            system("cls");
+
+                            break;
+                        case 2:
+                            system("cls");
+                            header_admin(adminList[k].getFullName());
+                            movieList34[1].showDetailMovie();
+                            movieList34[2].showCurrentMovie();
+                            _getch();
+                            system("cls");
+                            break;
+                        case 3:
+                            system("cls");
+                            header_admin(adminList[k].getFullName());
+                            movieList34[2].showDetailMovie();
+                            movieList34[3].showCurrentMovie();
+                            _getch();
+                            system("cls");
+                            break;
+                        case 4:
+                            system("cls");
+                            header_admin(adminList[k].getFullName());
+                            movieList34[3].showDetailMovie();
+                            movieList34[4].showCurrentMovie();
+                            _getch();
+                            system("cls");
+                            break;
+                        case 5:
+                            system("cls");
+                            header_admin(adminList[k].getFullName());
+                            movieList34[4].showDetailMovie();
+                            movieList34[0].showCurrentMovie();
+                            _getch();
+                            system("cls");
+                            break;
+                        default:
+                            running = false;
+                            break;
+                        }
+                    }
+                    system("cls");
                     break;
+                }
                 case 35:
                     system("cls");
-                    menuAdmin_default();
-                    movie.searchMovie();
+                    // menuAdmin_default(adminList[k]);
+                    adminList[k].showMovie(movieList34, 0);
+                    gotoXY(40, 40);
+
                     break;
-                default:
+                case 36:
+                    system("cls");
+                    header_admin(adminList[k].getFullName());
+                    adminList[k].searchMovie();
+                    gotoXY(12, 40);
+                    cout << "Press Enter to continue...";
+                    _getch();
+                    system("cls");
+                    break;
+                case 0:
                     running = false;
+                    loggedIn = false;
                     break;
                 }
             }
-            running = true;
+            // running = true;
         }
     }
     else if (log == 2)
     {
         loggedIn = true;
-        Staff staff;
+        system("cls");
         bool running = true;
         while (loggedIn)
         {
-            // bool running = true;
+            menuLogin(staffList[k].getFullName(), "Log out");
             while (running)
             {
                 // menuStaff();
                 int choice;
+                gotoXY(5, 40);
                 cout << "Please enter your choice: ";
                 cin >> choice;
                 switch (choice)
@@ -220,7 +317,7 @@ int main()
                 case 1:
                 {
                     system("cls");
-                    Movie movie;
+
                     int choice;
                     // menuAdmin_f();
                     cin >> choice;
@@ -228,23 +325,23 @@ int main()
                     {
                     case 1:
                         system("cls");
-                        movie.addMovie();
+                        staffList[k].addMovie();
                         break;
                     case 2:
                         system("cls");
-                        movie.editMovie();
+                        staffList[k].editMovie();
                         break;
                     case 3:
                         system("cls");
-                        movie.removeMovie();
+                        staffList[k].removeMovie();
                         break;
                     case 4:
                         system("cls");
-                        movie.show();
+                        // movie.show();
                         break;
                     case 5:
                         system("cls");
-                        movie.searchMovie();
+                        staffList[k].searchMovie();
                         break;
                     case 6:
                         break;
@@ -266,11 +363,11 @@ int main()
                     {
                     case 1:
                         system("cls");
-                        staff.addCustomer();
+                        staffList[k].addCustomer();
                         break;
                     case 2:
                         system("cls");
-                        staff.showCustomer();
+                        staffList[k].showCustomer();
                         cout << "Press Enter to continue..." << endl;
                         cin.ignore();
                         cin.get();
@@ -278,11 +375,11 @@ int main()
 
                     case 3:
                         system("cls");
-                        staff.editCustomer();
+                        staffList[k].editCustomer();
                         break;
                     case 4:
                         system("cls");
-                        staff.removeCustomer();
+                        staffList[k].removeCustomer();
                         break;
                     case 5:
                         break;
@@ -307,13 +404,34 @@ int main()
         }
     }
     else if (log == 3)
-    {   
-        
-        main();
+    {
+        loggedIn = true;
+        system("cls");
+        bool running = true;
+        while (loggedIn)
+        {
+            menuLogin(customerList[k].getFullName(), "Log out");
+            while (running)
+            {
+                // menuStaff();
+                int choice;
+                gotoXY(5, 40);
+                cout << "Please enter your choice: ";
+                cin >> choice;
+                switch (choice)
+                {
+                case 3:
+                {
+                    system("cls");
+                    customerList[k].showMovie(movieList34,0);
+                    break;
+                }
+                }
+            }
+        }
     }
     else if (log == 4)
     {
-       
         main();
     }
     else

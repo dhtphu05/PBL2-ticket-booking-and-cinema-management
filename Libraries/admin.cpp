@@ -16,7 +16,21 @@ void Admin::addStaff()
 {
     Staff staff;
     cin >> staff;
-    staff.savetoFile();
+    gotoXY(60, 24);
+    cout << "+---------------------------------+";
+    gotoXY(60, 25);
+    cout << "|    1. SAVE    |    2.CANCLE     |";
+    gotoXY(60, 26);
+    cout << "+---------------------------------+";
+    gotoXY(60, 27);
+    cout << "Your choice: ";
+    int choice;
+    gotoXY(80, 27);
+    cin >> choice;
+    if (choice == 1)
+    {
+        staff.savetoFile();
+    }
 }
 void subEditStaff(Staff &staff, string &line, string message)
 {
@@ -144,7 +158,7 @@ void Admin::editStaff()
             }
         }
     }
-    if (find = false)
+    if (find == false)
     {
         gotoXY(50, 10);
         cout << "No result!!" << endl;
