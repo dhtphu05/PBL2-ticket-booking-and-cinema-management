@@ -62,13 +62,13 @@ void menu_header(string message1, string message2)
     gotoXY(115, 1);
     cout << "+---------------+" << endl;
     gotoXY(115, 2);
-    cout << "|       " << left << setw(10) << message1 << "    |" << endl;
+    cout << "|" << left << setw(10) << "1. " + message1 << "     |" << endl;
     gotoXY(115, 3);
     cout << "+---------------+" << endl;
     gotoXY(135, 1);
     cout << "+----------------+" << endl;
     gotoXY(135, 2);
-    cout << "|       " << left << setw(10) << message2 << "    |" << endl;
+    cout << "|  " << left << setw(10) << "2. " + message2 << "   |" << endl;
     gotoXY(135, 3);
     cout << "+----------------+" << endl;
     gotoXY(8, 1.5);
@@ -287,6 +287,7 @@ int logIn()
 {
     menuLogin("LOGIN", "REGISTER");
     int choice;
+    gotoXY(4, 40);
     // cout << "Please enter your choice: ";
     cin >> choice;
     system("cls");
