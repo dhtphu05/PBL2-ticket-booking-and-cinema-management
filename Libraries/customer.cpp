@@ -1,7 +1,11 @@
 #include "../Include/Customer.h"
 #include <fstream>
+#include <conio.h>
 #include "../Include/gotoXY.h"
 #include <sstream>
+#include <iomanip>
+#include <stdexcept>
+#include <thread>
 int Customer::count = 1000;
 Customer::Customer(string &username, string &password, string &fullName, string &phoneNumber, string &DOB, string &gender)
     : User(username, password, fullName, phoneNumber, DOB, gender)
@@ -16,7 +20,8 @@ Customer::Customer(string username, string password)
 void forchar(int n, int x, int y, char ch)
 {
     gotoXY(x, y);
-    if (ch != ' ');
+    if (ch != ' ')
+        ;
     cout << "+";
     for (int i = 0; i < n; i++)
     {
@@ -61,13 +66,100 @@ istream &operator>>(istream &in, Customer &customer)
     gotoXY(52, 8);
     getline(in, customer.fullName);
     gotoXY(57, 10);
-
     getline(in, customer.phoneNumber);
     gotoXY(58, 12);
     getline(in, customer.dateOfBirth);
     gotoXY(52, 14);
     getline(in, customer.gender);
     return in;
+}
+void GetPassword(string &password)
+{
+    char ch;
+    while (true)
+    {
+        ch = _getch();
+        if (ch == 13)
+        { // Phím Enter
+            break;
+        }
+        else if (ch == 8)
+        { // Phím Backspace
+            if (!password.empty())
+            {
+                cout << "\b \b";
+                password.pop_back();
+            }
+        }
+        else
+        {
+            password += ch;
+            cout << ch;
+            this_thread::sleep_for(std::chrono::milliseconds(200));
+            cout << "\b*";
+        }
+    }
+    cout << endl;
+    // return password;
+}
+void Customer::resigter(Customer &customer)
+{
+    string passwordTemp;
+    gotoXY(40, 7);
+    forchar(80, 40, 7, '-');
+    gotoXY(40, 8);
+    cout << "| Fullname:";
+    forchar(68, 52, 8, ' ');
+    forchar(80, 40, 9, '-');
+    gotoXY(40, 10);
+    cout << "| Phone number: ";
+    forchar(63, 57, 10, ' ');
+    forchar(80, 40, 11, '-');
+    gotoXY(40, 12);
+    cout << "| Date of birth: ";
+    forchar(62, 58, 12, ' ');
+    forchar(80, 40, 13, '-');
+    gotoXY(40, 14);
+    cout << "| Gender: ";
+    forchar(69, 51, 14, ' ');
+    forchar(80, 40, 15, '-');
+    gotoXY(40, 16);
+    cout << "| Username: ";
+    forchar(68, 51, 16, ' ');
+    forchar(80, 40, 17, '-');
+    gotoXY(40, 18);
+    cout << "| Password: ";
+    forchar(68, 51, 18, ' ');
+    forchar(80, 40, 19, '-');
+    gotoXY(40, 20);
+    cout << "| Confirm password: ";
+    forchar(63, 59, 20, ' ');
+    forchar(80, 40, 21, '-');
+
+    cin.ignore();
+    gotoXY(52, 8);
+    getline(cin, customer.fullName);
+    gotoXY(57, 10);
+    getline(cin, customer.phoneNumber);
+    gotoXY(58, 12);
+    getline(cin, customer.dateOfBirth);
+    gotoXY(52, 14);
+    getline(cin, customer.gender);
+    gotoXY(51, 16);
+    getline(cin, customer.username);
+    gotoXY(51, 18);
+    GetPassword(customer.password);
+    gotoXY(59, 20);
+    GetPassword(passwordTemp);
+    while (passwordTemp != customer.password)
+    {
+        gotoXY(40, 22);
+        cout << "Password does not match. Please enter again!";
+        gotoXY(59, 20);
+        cout << left << setw(10) << " ";
+        gotoXY(59, 20);
+        GetPassword(passwordTemp);
+    }
 }
 ostream &operator<<(ostream &out, Customer &customer)
 {

@@ -70,14 +70,6 @@ Phone: 0278939432
 Date of birth: 2/3/1902
 Gender: Nu
 
-#3015
-Username: Nghia123
-Password: 123dhs
-Fullname: Nguyen Van NGhia
-Phone: 0983742423
-Date of birth: 2/3/2005
-Gender: Nam
-
 #3016
 Username: thuyhi
 Password: 3028424
