@@ -113,6 +113,18 @@ string ShowSeat::convertSeatTypeToString(){
             return "Unknown";
     }
 }
+string ShowSeat::convertSeatTypeToSimpleString(){
+    switch (ShowSeat::getType()) {
+        case SeatType::Regular:
+            return "R";
+        case SeatType::VIP:
+            return "V";
+        case SeatType::Disable:
+            return "D";
+        default:
+            return "U";
+    }
+}
 string ShowSeat::getTimeBooked(){
     return this->timeBooked;
 }

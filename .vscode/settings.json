@@ -58,6 +58,32 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "ostream": "cpp",
+    "oaidl.idl": "cpp",
+    "oaidl.tlh": "cpp",
+    "oaidl.tli": "cpp",
+    "objidl.idl": "cpp",
+    "objidl.tlh": "cpp",
+    "objidl.tli": "cpp",
+    "ocidl.idl": "cpp",
+    "ocidl.tlh": "cpp",
+    "ocidl.tli": "cpp",
+    "atlbase.h": "cpp",
+    "atlcom.h": "cpp",
+    "atlconv.h": "cpp",
+    "atldef.h": "cpp",
+    "atlhost.h": "cpp",
+    "atliface.h": "cpp",
+    "atltime.h": "cpp",
+    "atltypes.h": "cpp",
+    "atlwin.h": "cpp",
+    "objidl.h": "cpp",
+    "objidlbase.h": "cpp",
+    "rpcndr.h": "cpp",
+    "wtypes.h": "cpp",
+    "wtypesbase.h": "cpp",
+    "oaidl.h": "cpp",
+    
   }
 }
