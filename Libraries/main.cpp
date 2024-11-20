@@ -1,13 +1,16 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cctype>
 #include <windows.h>
-#include "Movie.cpp"
+// #include "Movie.cpp"
 #include "staff.cpp"
 #include "admin.cpp"
 #include "login.cpp"
-#include "User.cpp"
+// #include "User.cpp"
+#include "Booking.cpp"
+
 using namespace std;
 
 void menuAdmin_default()

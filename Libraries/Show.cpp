@@ -140,7 +140,7 @@ void Show::calculateEndTime(){
 // }
 void Show::displaySeatStatus(){
     Node<ShowSeat> *current = this->seats.begin();
-    cout<<"huhuhuhuh"<<endl;
+    
     while(current!=nullptr){
         current->data.displaySeat();
         current = current->next;
@@ -390,7 +390,6 @@ ShowSeat& Show::getSeatByRowColumn(string row, int column){
     current->data.displaySeat();
     int i=0;
     while(current!=nullptr){
-        cout<<"checkpoint huhuhu"<<++i<<endl;
         if(current->data.getSeatRow()==row && current->data.getSeatColumn()==column){
             return current->data;
         }
