@@ -1,15 +1,15 @@
 
 #include "Booking.cpp"
-#include <stdio.h>
-#define byte windows_byte
 
-#include <windows.h>
-#undef byte
+// #define byte windows_byte
+
+// #include <windows.h>
+// #undef byte
 
 int main(){
-    SetConsoleOutputCP(65001);
-    cout<<"██"<<endl;
-    cout<<"xin chào các bạn trẻ mình là thiên phú";
+    // SetConsoleOutputCP(65001);
+    // cout<<"██"<<endl;
+    // cout<<"xin chào các bạn trẻ mình là thiên phú";
     Booking booking;
     DoubleLinkedList<Screen> screens;
     Screen screen;
