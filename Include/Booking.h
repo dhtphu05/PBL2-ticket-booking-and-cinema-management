@@ -49,7 +49,7 @@ class Booking{
     void displayBooking();
     void displayAllBooking(DoubleLinkedList<Booking> &bookings);
     void sellTicket(DoubleLinkedList<Show> &shows,DoubleLinkedList<Screen> &screens,DoubleLinkedList<Movie> &movies);
-
+    void getRandomBookingNumber();
 };
 
 #endif

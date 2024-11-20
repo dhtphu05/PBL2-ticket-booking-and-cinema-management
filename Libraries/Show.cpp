@@ -2,6 +2,8 @@
 #include "../Include/Show.h"
 #include "../Libraries/Movie.cpp"
 
+#define green "\e[38:5:2m"
+#define red "\e[38:5:1m"
 using namespace std;
 Show::Show(std::string ID_Show, std::string date, std::string startTime, std::string endTime, Movie* movie, DoubleLinkedList<ShowSeat> seatLayout, Screen* screen)
     : ID_Show(ID_Show), date(date), startTime(startTime), endTime(endTime), movie(movie), screen(screen) {
@@ -308,11 +310,31 @@ void Show::displayAllSimpleShow(DoubleLinkedList<Show> &shows){
         current = current->next;
     }
 }
-
+void Show::displayAllSimpleShowFollowMovie(DoubleLinkedList<Show> &shows, Movie* movie){
+    Node<Show> *current = shows.begin();
+    while(current!=nullptr){
+        if(current->data.getMovie()->getID_Movie()==movie->getID_Movie()){
+            cout << "ID Show: " << current->data.getID_Show() << endl;
+            cout << "Date: " << current->data.getDate() << endl;
+            cout << "Start Time: " << current->data.getStartTime() << endl;
+            cout << "End Time: " << current->data.getEndTime() << endl;
+            cout << "Movie: ";
+            printMovie(current->data.getMovie());
+            if(current->data.getScreen()!=nullptr){
+                cout << "Screen: ";
+                printScreen(current->data.getScreen());
+            }
+            else cout << "Screen: " << "NULL" << endl;
+            cout<<"-----------------------------------"<<endl;
+        }
+        current = current->next;
+    }
+}
 void Show::selectShow(Movie* movie, DoubleLinkedList<Screen> &screens){
     DoubleLinkedList <Show> showList;
     this->loadShowFromFile(showList, screens);
-    this->displayAllSimpleShow(showList);
+    // this->displayAllSimpleShow(showList);
+    this->displayAllSimpleShowFollowMovie(showList, movie);
     cin.ignore();
     cout<<"Enter the ID of the show you want to select: ";
     string ID;
@@ -388,13 +410,14 @@ void Show::setSeatStatus(string row, int column, bool status){
 }
 void editSeatStatusInFile(Show* show, DoubleLinkedList<Show>&shows, string ID, std::string row, int column, bool status){
     Show showInstance;
-    showInstance.displayAllShow(shows);
+    //showInstance.displayAllShow(shows);
     ofstream file("../Databases/Show.txt");
     
     
    // showInstance.displayAllSimpleShow(shows);
     Node<Show> *current = shows.begin();
     while(current!=nullptr){
+        file<<"# Show Details"<<endl;
         file << "ShowID: " << current->data.getID_Show() << endl;
         file << "Date: " << current->data.getDate() << endl;
         file << "StartTime: " << current->data.getStartTime() << endl;
@@ -419,6 +442,35 @@ void editSeatStatusInFile(Show* show, DoubleLinkedList<Show>&shows, string ID, s
             file << "Seat: " << currentSeat->data.getSeatRow() << " " << currentSeat->data.getSeatColumn() << " " << currentSeat->data.convertSeatTypeToString() << " " << currentSeat->data.getPrice() << " " << (currentSeat->data.getIsBooked() ? "Booked" : "Available") << endl;
             currentSeat = currentSeat->next;
         }
+        file<<endl;
         current = current->next;
+    }
+    
+}
+void displayAllSeatToBook(Show *show){
+    Node<ShowSeat> *current = show->getSeats().begin();
+    int colIdx = 0;
+    while(current!=nullptr){
+        if(colIdx==10){
+            cout<<endl;
+            colIdx = 0;
+        }
+        colIdx++;
+        if(current->data.getIsBooked()){
+            cout<<red<<current->data.convertSeatTypeToSimpleString()<<" ";
+        }
+        else{
+            cout<<green<<current->data.convertSeatTypeToSimpleString()<<" ";    
+        }
+        current = current->next;
+    }
+}
+void convertSeaTypeToSimpleString(SeatType type){
+    if(type==SeatType::VIP){
+        cout<<"V";
+    } else if(type==SeatType::Regular){
+        cout<<"R";
+    } else if(type==SeatType::Disable){
+        cout<<"D";
     }
 }
