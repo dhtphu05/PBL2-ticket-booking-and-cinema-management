@@ -22,7 +22,7 @@ void header_admin(string str1)
     int x = 0;
     for (int i = 0; i < 155; i++)
     {
-        gotoXY(x, 3);
+        gotoXY(x, 3); 
         cout << "_";
         x++;
     }
