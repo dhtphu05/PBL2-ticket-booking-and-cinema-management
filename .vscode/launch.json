@@ -1,7 +1,46 @@
+// {
+//   "configurations": [
+//     {
+//       "name": "(Windows) Launch",
+//       "type": "cppvsdbg",
+//       "request": "launch",
+//       "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+//       "args": [],
+//       "stopAtEntry": false,
+//       "cwd": "${fileDirname}",
+//       "environment": [],
+//       "console": "externalTerminal",
+//       "preLaunchTask": "C/C++: g++.exe build active file"
+//     },
+//     {
+//       "name": "C/C++ Runner: Debug Session",
+//       "type": "cppdbg",
+//       "request": "launch",
+//       "args": [],
+//       "stopAtEntry": false,
+//       "externalConsole": true,
+//       "cwd": "f:/PBL2-ticket-booking-and-cinema-management/Libraries",
+//       // "program": "f:/PBL2-ticket-booking-and-cinema-management/Libraries/main.exe",
+      
+//       "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+//       "MIMode": "gdb",
+//       "miDebuggerPath": "gdb",
+//       "setupCommands": [
+//         {
+//           "description": "Enable pretty-printing for gdb",
+//           "text": "-enable-pretty-printing",
+//           "ignoreFailures": true
+//         }
+//       ]
+//     }
+//   ],
+//   "version": "2.0.0"
+// }
 {
+  "version": "2.0.0",
   "configurations": [
     {
-      "name": "(Windows) Launch",
+      "name": "(Windows) Launch Active File",
       "type": "cppvsdbg",
       "request": "launch",
       "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
@@ -11,28 +50,6 @@
       "environment": [],
       "console": "externalTerminal",
       "preLaunchTask": "C/C++: g++.exe build active file"
-    },
-    {
-      "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
-      "request": "launch",
-      "args": [],
-      "stopAtEntry": false,
-      "externalConsole": true,
-      "cwd": "f:/PBL2-ticket-booking-and-cinema-management/Libraries",
-      // "program": "f:/PBL2-ticket-booking-and-cinema-management/Libraries/main.exe",
-      
-      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
-      "setupCommands": [
-        {
-          "description": "Enable pretty-printing for gdb",
-          "text": "-enable-pretty-printing",
-          "ignoreFailures": true
-        }
-      ]
     }
-  ],
-  "version": "2.0.0"
+  ]
 }

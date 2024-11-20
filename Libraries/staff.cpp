@@ -55,7 +55,22 @@ void Staff::addCustomer()
     customer.setID(newID); // Gán ID duy nhất cho khách hàng mới
 
     // Lưu thông tin khách hàng vào file
-    customer.savetoFile();
+    gotoXY(40, 17);
+    cout << "+---------------------------------+";
+    gotoXY(40, 18);
+    cout << "|   1.Save     |    2. Cancel     |";
+    gotoXY(40, 19);
+    cout << "+---------------------------------+";
+    int choice;
+    gotoXY(40, 20);
+    cout << "Your choice";
+    cin >> choice;
+    if (choice == 1)
+    {
+        // gotoXY(130, 6);
+        // cout << "DONE";
+        customer.savetoFile();
+    }
 }
 
 // Hàm kiểm tra ID đã tồn tại
@@ -317,7 +332,7 @@ void Staff::editCustomer()
         gotoXY(120, 20);
         cout << "+------------------------------------+";
         gotoXY(120, 21);
-        cout << "|    1. SAVE    |    2.CANCLE         |";
+        cout << "|    1. SAVE    |    2.CANCLE        |";
         gotoXY(120, 22);
         cout << "+------------------------------------+";
         gotoXY(120, 23);

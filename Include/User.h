@@ -45,6 +45,36 @@ public:
     virtual void savetoFile();
     virtual void readfromFile();
     virtual void saveAgainFile();
+     void addMovie()
+    {
+        Movie movie;
+        movie.addMovie();
+    }
+    void editMovie()
+    {
+        Movie movie;
+        movie.editMovie();
+    }
+    void removeMovie()
+    {
+        Movie movie;
+        movie.removeMovie();
+    }
+    void showMovie(DoubleLinkedList<Movie> &movieList,int k)
+    {
+        Movie movie;
+        movie.show(movieList,k);
+    }
+    void searchMovie()
+    {
+        Movie movie;
+        movie.searchMovie();
+    }
+    void sort_rating(DoubleLinkedList<Movie> &movieList)
+    {
+        Movie movie;
+        movie.sort_rating(movieList);
+    }   
 };
 
 // class Management
