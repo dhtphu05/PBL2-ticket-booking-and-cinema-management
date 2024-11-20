@@ -10,19 +10,6 @@
 #include "User.cpp"
 using namespace std;
 
-void menuStaff()
-{
-    cout << "+==========================================+" << endl;
-    cout << "|            SYSTEM MANAGEMENT             |" << endl;
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Manage MOVIES                       |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. Manage CUSTOMERS                    |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. LOG OUT                             |" << endl;
-    cout << "+==========================================+" << endl;
-}
-
 void menuAdmin_default()
 {
     int y = 3;
@@ -224,7 +211,7 @@ int main()
             // bool running = true;
             while (running)
             {
-                menuStaff();
+                // menuStaff();
                 int choice;
                 cout << "Please enter your choice: ";
                 cin >> choice;
@@ -320,12 +307,13 @@ int main()
         }
     }
     else if (log == 3)
-    {
+    {   
+        
         main();
     }
     else if (log == 4)
     {
-        cout << "WELCOME TO OUR PROGRAM" << endl;
+       
         main();
     }
     else

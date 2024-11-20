@@ -62,3 +62,51 @@ Phone: 0334105228
 Date of birth: 29/01/2005
 Gender: Nu
 
+#1015
+Username: user1015
+Password: 12345678
+Fullname: Nguyen Thi Thuy
+Phone: 291205
+Date of birth: 29/1/-5
+Gender: Nu
+
+#1016
+Username: user1016
+Password: 12345678
+Fullname: 
+Phone: 
+Date of birth: 
+Gender: 
+
+#1017
+Username: user1017
+Password: 12345678
+Fullname: 
+Phone: 
+Date of birth: 
+Gender: 
+
+#1018
+Username: user1018
+Password: 12345678
+Fullname: 
+Phone: 
+Date of birth: 
+Gender: 
+
+#1019
+Username: user1019
+Password: thuy291205
+Fullname: Nguyen Thi Thuy
+Phone: 0377612-528
+Date of birth: 29/12/2005
+Gender: Nu
+
+#1020
+Username: user1020
+Password: Hong124
+Fullname: Nguyen Thi Hong
+Phone: 098765432
+Date of birth: 4/5/2005
+Gender: Nu
+
