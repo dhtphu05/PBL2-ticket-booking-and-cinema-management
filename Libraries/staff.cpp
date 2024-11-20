@@ -2,8 +2,10 @@
 #include "customer.cpp"
 #include <fstream>
 #include <sstream>
+#include "../Include/gotoXY.h"
+#include <iomanip>
 
-void menuEditCustomer();
+void menuEditCustomer(Customer &customer);
 int Staff::countStaff = 3000;
 Staff::Staff()
 {
@@ -23,10 +25,16 @@ Staff::Staff(string &userName, string &password, string &fullName, string &phone
 // }
 void Staff::Display()
 {
+    int i;
+    gotoXY(35, i++);
     cout << "-------------------" << endl;
+    gotoXY(35, i++);
     cout << "Fullname: " << this->fullName << endl;
+    gotoXY(35, i++);
     cout << "PhoneNumber: " << this->phoneNumber << endl;
+    gotoXY(35, i++);
     cout << "Date of birth: " << this->dateOfBirth << endl;
+    gotoXY(35, i++);
     cout << "Gender: " << this->gender << endl;
 }
 void Staff::addCustomer()
@@ -34,7 +42,7 @@ void Staff::addCustomer()
     Customer customer;
     DoubleLinkedList<Customer> listCustomer;
     customer.readfromFile(listCustomer);
-
+    gotoXY(35, 5);
     cout << "Add new customer" << endl;
     cin >> customer;
     int newID = Customer::count + 1; // Khởi tạo ID mới bằng ID cao nhất + 1
@@ -67,13 +75,27 @@ void Staff::showCustomer()
     DoubleLinkedList<Customer> listCustomer;
     Customer m;
     m.readfromFile(listCustomer);
-    listCustomer.display();
+    gotoXY(50, 6);
+    cout << "List of customers" << endl;
+    forchar(83, 50, 8, '-');
+    gotoXY(50, 9);
+    int x = 10;
+    cout << "| " << left << setw(3) << "NO." << "| " << left << setw(5) << "ID" << " |" << left << setw(30) << "FullName" << "| " << left << setw(12) << "Phone" << "| " << left << setw(15) << "Date of birth" << "| " << left << setw(5) << "Gender" << "|";
+    for (int i = 0; i < listCustomer.getSize(); i++)
+    {
+
+        forchar(83, 50, x + i, '-');
+        gotoXY(50, ++x + i);
+        Customer customer = listCustomer[i];
+        cout << "| " << left << setw(3) << i + 1 << "| " << left << setw(5) << customer.returnID() << " |" << left << setw(30) << customer.getFullName() << "| " << left << setw(12) << customer.getPhoneNumber() << "| " << left << setw(15) << customer.getDOB() << "| " << left << setw(5) << customer.getGender() << " |";
+    }
+    forchar(83, 50, x + listCustomer.getSize(), '-');
 }
 void Staff::savetoFile()
 {
     DoubleLinkedList<Staff> staffs;
     readID(staffs);        // Đọc ID của các bộ phim hiện tại để cập nhật ID mới
-    this->ID = countStaff; // Gán ID mới cho bộ phim
+    this->ID = countStaff; //
 
     ofstream out;
     if (0)
@@ -213,61 +235,127 @@ void Staff::editCustomer()
     int count = false;
     m.readfromFile(listCustomer);
     int ID;
-    cout << "Enter ID: ";
+    gotoXY(50, 4);
+    cout << "....Edit Customer....";
+    gotoXY(50, 5);
+    cout << "ID: ";
+    gotoXY(50, 6);
+    cout << "+-----------+" << endl;
+    gotoXY(50, 7);
+    cout << "|           |" << endl;
+    gotoXY(50, 8);
+    cout << "+-----------+" << endl;
+    gotoXY(51, 7);
     cin >> ID;
+    Customer customerTemp;
+    int k;
     for (int i = 0; i < listCustomer.getSize(); i++)
     {
         if (listCustomer[i].returnID() == ID)
         {
+            k = i;
+            customerTemp = listCustomer[i];
             count = true;
-            menuEditCustomer();
-            cout << "Choose imformation to edit:  " << endl;
-            int choice;
-            cin >> choice;
-            string temp;
-            switch (choice)
+            menuEditCustomer(listCustomer[i]);
+            bool run = true;
+            while (run)
             {
-            case 1:
-                cout << "New Name: " << endl;
+                gotoXY(0, 30);
+                cout << "Choose your choice: ";
+                int choice;
+                cin >> choice;
+                string temp;
                 cin.ignore();
-                getline(cin, temp);
-                listCustomer[i].setFullName(temp);
-                break;
-            case 2:
-                cout << "New phone number: " << endl;
-                cin.ignore();
-                getline(cin, temp);
-                listCustomer[i].setPhoneNumber(temp);
-                break;
-            case 3:
-                cout << "New date of birth: " << endl;
-                cin.ignore();
-                getline(cin, temp);
-                listCustomer[i].setDOB(temp);
-            case 4:
-                cout << "New gender: " << endl;
-                cin.ignore();
-                getline(cin, temp);
-                listCustomer[i].setGender(temp);
-                break;
-            default:
-                cout << "Invalid choice" << endl;
-                break;
+                switch (choice)
+                {
+                case 1:
+                    gotoXY(55, 11);
+                    cout << left << setw(25) << " ";
+                    gotoXY(55, 11);
+                    getline(cin, temp);
+                    listCustomer[i].setFullName(temp);
+                    gotoXY(10, 30);
+                    break;
+                case 2:
+                    gotoXY(59, 13);
+                    cout << left << setw(25) << " ";
+                    gotoXY(59, 13);
+                    getline(cin, temp);
+                    listCustomer[i].setPhoneNumber(temp);
+                    gotoXY(10, 30);
+                    break;
+                case 3:
+                    gotoXY(60, 15);
+                    cout << left << setw(25) << " ";
+                    gotoXY(60, 15);
+                    getline(cin, temp);
+                    listCustomer[i].setDOB(temp);
+                    gotoXY(10, 30);
+                    break;
+                case 4:
+                    gotoXY(52, 17);
+                    cout << left << setw(25) << " ";
+                    gotoXY(52, 17);
+                    getline(cin, temp);
+                    listCustomer[i].setGender(temp);
+                    gotoXY(10, 30);
+                    break;
+                default:
+                    run = false;
+                    break;
+                }
             }
         }
     }
     if (count == false)
     {
+        gotoXY(50, 10);
         cout << "No result" << endl;
-    } else 
-    m.saveAgainFile(listCustomer); //
+    }
+    else
+    {
+        gotoXY(120, 20);
+        cout << "+------------------------------------+";
+        gotoXY(120, 21);
+        cout << "|    1. SAVE    |    2.CANCLE         |";
+        gotoXY(120, 22);
+        cout << "+------------------------------------+";
+        gotoXY(120, 23);
+        cout << "Your choice: ";
+        int choice;
+        cin >> choice;
+        if (choice == 1)
+        {
+            gotoXY(130, 4);
+            cout << "DONE";
+        }
+        else
+        {
+            listCustomer[k] = customerTemp;
+        }
+        m.saveAgainFile(listCustomer); //
+    }
 }
-void menuEditCustomer()
+void menuEditCustomer(Customer &customer)
 {
-    cout << "1.Fullname" << endl;
-    cout << "2.PhoneNumber" << endl;
-    cout << "3.Date of birth" << endl;
-    cout << "4.Gender" << endl;
+    gotoXY(40, 10);
+    cout << "+----------------------------------------------------------------+";
+    gotoXY(40, 11);
+    cout << "| 1. Fullname: " << left << setw(25) << customer.getFullName() << "                         |";
+    gotoXY(40, 12);
+    cout << "+----------------------------------------------------------------+";
+    gotoXY(40, 13);
+    cout << "| 2. Phone number: " << left << setw(25) << customer.getPhoneNumber() << "                     |";
+    gotoXY(40, 14);
+    cout << "+----------------------------------------------------------------+";
+    gotoXY(40, 15);
+    cout << "| 3. Date of birth: " << left << setw(25) << customer.getDOB() << "                    |";
+    gotoXY(40, 16);
+    cout << "+----------------------------------------------------------------+";
+    gotoXY(40, 17);
+    cout << "| 4.Gender: " << left << setw(25) << customer.getGender() << "                            |";
+    gotoXY(40, 18);
+    cout << "+----------------------------------------------------------------+";
 }
 
 void Staff::removeCustomer()
@@ -276,41 +364,98 @@ void Staff::removeCustomer()
     Customer m;
     m.readfromFile(listCustomer);
     int ID;
+    gotoXY(50, 4);
     cout << "Enter ID: ";
+    gotoXY(50, 5);
+    cout << "+-----------+" << endl;
+    gotoXY(50, 6);
+    cout << "|           |" << endl;
+    gotoXY(50, 7);
+    cout << "+-----------+" << endl;
+    gotoXY(51, 6);
     cin >> ID;
+    bool find = false;
     for (int i = 0; i < listCustomer.getSize(); i++)
     {
         if (listCustomer[i].returnID() == ID)
+
         {
-            listCustomer.earse(i);
-            cout << "Remove successfully" << endl;
+            find = true;
+            menuEditCustomer(listCustomer[i]);
+            gotoXY(40, 20);
+            cout << "Are you sure you want to remove this customer? ";
+            gotoXY(40, 21);
+            cout << "1. Yes";
+            gotoXY(40, 22);
+            cout << "2. No";
+            int choice;
+            gotoXY(40, 23);
+            cout << "Choose: ";
+            cin >> choice;
+            if (choice == 1)
+            {
+                listCustomer.earse(i);
+                gotoXY(130, 4);
+                cout << "Remove successfully" << endl;
+            }
+            else
+                break;
         }
     }
+    if (find == false)
+    {
+        gotoXY(50, 10);
+        cout << "No result!!" << endl;
+    }
+
     m.saveAgainFile(listCustomer);
 }
-ostream &operator<<(ostream &out, Staff &staff)
-{
-    cout << "-------------------" << endl;
-    cout << "Fullname: " << staff.fullName << endl;
-    cout << "Phone: " << staff.phoneNumber << endl;
-    cout << "Date of birth: " << staff.dateOfBirth << endl;
-    cout << "Gender: " << staff.gender << endl;
-}
+// ostream &operator<<(ostream &out, Staff &staff)
+// {
+//     gotoXY(30, 3);
+// }
 istream &operator>>(istream &in, Staff &staff)
 {
+    gotoXY(40, 6);
     cout << "--------Add new staff----------" << endl;
-    cout << "Username: ";
+    gotoXY(40, 7);
+    forchar(80, 40, 7, '-');
+    gotoXY(40, 8);
+    cout << "| Fullname:";
+    forchar(68, 52, 8, ' ');
+    forchar(80, 40, 9, '-');
+    gotoXY(40, 10);
+    cout << "| Phone number: ";
+    forchar(63, 57, 10, ' ');
+    forchar(80, 40, 11, '-');
+    gotoXY(40, 12);
+    cout << "| Date of birth: ";
+    forchar(62, 58, 12, ' ');
+    forchar(80, 40, 13, '-');
+    gotoXY(40, 14);
+    cout << "| Gender: ";
+    forchar(69, 51, 14, ' ');
+    forchar(80, 40, 15, '-');
+    gotoXY(40, 16);
+    cout << "| Username: ";
+    forchar(69, 51, 16, ' ');
+    forchar(80, 40, 17, '-');
+    gotoXY(40, 18);
+    cout << "| Password: ";
+    forchar(68, 52, 18, ' ');
+    forchar(80, 40, 19, '-');
     in.ignore();
-    getline(in, staff.username);
-    cout << "Password: ";
-    getline(in, staff.password);
-    cout << "Fullname: ";
+    gotoXY(52, 8);
     getline(in, staff.fullName);
-    cout << "Phonenumber: ";
+    gotoXY(57, 10);
     getline(in, staff.phoneNumber);
-    cout << "Date of birth: ";
+    gotoXY(58, 12);
     getline(in, staff.dateOfBirth);
-    cout << "Gender: ";
+    gotoXY(52, 14);
     getline(in, staff.gender);
+    gotoXY(51, 16);
+    getline(in, staff.username);
+    gotoXY(57, 18);
+    getline(in, staff.password);
     return in;
 }

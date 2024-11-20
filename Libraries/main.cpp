@@ -10,79 +10,73 @@
 #include "User.cpp"
 using namespace std;
 
-void menuStaff()
+void menuAdmin_default()
 {
-    cout << "+==========================================+" << endl;
-    cout << "|            SYSTEM MANAGEMENT             |" << endl;
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Manage MOVIES                       |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. Manage CUSTOMERS                    |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. LOG OUT                             |" << endl;
-    cout << "+==========================================+" << endl;
-}
-
-void menuAdmin()
-{
-    cout << "+==========================================+" << endl;
-    cout << "|              SYSTEM MANAGEMENT            |" << endl;
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Manage EMPLOYEES                    |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. Manage CUSTOMERS                    |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. Manage MOVIES                       |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  4. LOG OUT                             |" << endl;
-    cout << "+==========================================+" << endl;
-}
-
-void menuAdmin_s()
-{
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Add Staff                            |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. View Staff List                      |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. Edit Staff                           |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  4. Delete Staff                         |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  5. Exit                                |" << endl;
-    cout << "+==========================================+" << endl;
-}
-
-void menuAdmin_c()
-{
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Add Customer                         |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. View Customer List                   |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. Edit Customer                        |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  4. Delete Customer                      |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  5. Exit                                |" << endl;
-    cout << "+==========================================+" << endl;
-}
-
-void menuAdmin_f()
-{
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Add Movie                           |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. Edit Movie                          |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. Delete Movie                        |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  4. View Movie List                     |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  5. Search Movie                        |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  6. Exit                                |" << endl;
-    cout << "+==========================================+" << endl;
+    int y = 3;
+    int x = 0;
+    for (int i = 0; i < 38; i++)
+    {
+        gotoXY(28, y);
+        cout << "|";
+        y++;
+    }
+    for (int i = 0; i < 155; i++)
+    {
+        gotoXY(x, 2);
+        cout << "_";
+        x++;
+    }
+    gotoXY(130, 1);
+    cout << "(*_*)" << " Admin" << endl;
+    gotoXY(0, 0);
+    cout << "+-----------+" << endl;
+    gotoXY(0, 1);
+    cout << "| 0.BACK    |" << endl;
+    gotoXY(0, 2);
+    cout << "+-----------+" << endl;
+    gotoXY(30, 1);
+    cout << "VIEW BENEFITS <>" << endl;
+    gotoXY(50, 1);
+    cout << "VOUCHER <>" << endl;
+    gotoXY(70, 1);
+    cout << "CINEMA <>" << endl;
+    gotoXY(90, 1);
+    cout << "ROOM <>" << endl;
+    gotoXY(110, 1);
+    cout << "BOOKING <>" << endl;
+    gotoXY(5, 5);
+    cout << "I.STAFF MANAGEMENT" << endl;
+    gotoXY(5, 7);
+    cout << "1.1 Remove staff" << endl;
+    gotoXY(5, 8);
+    cout << "1.2 Add staff" << endl;
+    gotoXY(5, 9);
+    cout << "1.3 Edit staff" << endl;
+    gotoXY(5, 10);
+    cout << "1.4 View staff list" << endl;
+    gotoXY(5, 12);
+    cout << "II.CUSTOMER MANAGEMENT" << endl;
+    gotoXY(5, 14);
+    cout << "2.1 Remove customer" << endl;
+    gotoXY(5, 15);
+    cout << "2.2 Add customer" << endl;
+    gotoXY(5, 16);
+    cout << "2.3 Edit customer" << endl;
+    gotoXY(5, 17);
+    cout << "2.4 View customer list" << endl;
+    gotoXY(5, 19);
+    cout << "III.MOVIE MANAGEMENT" << endl;
+    gotoXY(5, 21);
+    cout << "3.1 Remove movie" << endl;
+    gotoXY(5, 22);
+    cout << "3.2 Add movie" << endl;
+    gotoXY(5, 23);
+    cout << "3.3 Edit movie" << endl;
+    gotoXY(5, 24);
+    cout << "3.4 View movie list" << endl;
+    gotoXY(5, 25);
+    cout << "3.5 Search movie" << endl;
+    gotoXY(5, 26);
 }
 
 int main()
@@ -95,132 +89,116 @@ int main()
     {
         loggedIn = true;
         Admin admin;
+        Movie movie;
+        Staff staff;
         bool running = true;
         while (loggedIn)
         {
-            // bool running = true;
+            bool running = true;
             while (running)
             {
-                menuAdmin();
+                menuAdmin_default();
                 int choice;
-                cout << "Please enter your choice: ";
+                // cout << "Please enter your choice: ";
                 cin >> choice;
                 switch (choice)
                 {
-                case 1:
-                {
+                case 12:
                     system("cls");
-                    menuAdmin_s();
-                    int choice;
-                    cout << "Please enter your choice: ";
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        admin.addStaff();
-                        break;
-                    case 2:
-                        system("cls");
-                        admin.showStaff();
-                        break;
-                    case 3:
-                        system("cls");
-                        admin.editStaff();
-                        break;
-                    case 4:
-                        system("cls");
-                        admin.removeStaff();
-                        break;
-                    case 5:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
-                    break;
-                }
-                case 2:
-                {
+                    menuAdmin_default();
+                    admin.addStaff();
+                    gotoXY(130, 4);
+                    cout << "DONE";
+                    Sleep(2000);
                     system("cls");
-                    int choice;
-                    menuAdmin_c();
-                    cout << "Please enter your choice: ";
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        admin.addCustomer();
-                        break;
-                    case 2:
-                        system("cls");
-                        admin.showCustomer();
-                        break;
-                    case 3:
-                        system("cls");
-                        admin.editCustomer();
-                        break;
-                    case 4:
-                        system("cls");
-                        admin.removeCustomer();
-                        break;
-                    case 5:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
                     break;
-                }
-                case 3:
-                {
+                case 14:
                     system("cls");
-                    Movie movie;
-                    int choice;
-                    menuAdmin_f();
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        movie.addMovie();
-                        break;
-                    case 2:
-                        system("cls");
-                        movie.editMovie();
-                        break;
-                    case 3:
-                        system("cls");
-                        movie.removeMovie();
-                        break;
-                    case 4:
-                        system("cls");
-                        movie.show();
-                        break;
-                    case 5:
-                        system("cls");
-                        movie.searchMovie();
-                        break;
-                    case 6:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
+                    // menuAdmin_default();
+                    admin.showStaff();
+                    // gotoXY(130, 4);
+                    // cout << "DONE";
+                    // Sleep(2000);
+                    // system("cls");
                     break;
-                }
-                case 4:
-                {
-                    running = false;
-                    loggedIn = false;
-                    main();
+                case 13:
+                    system("cls");
+                    menuAdmin_default();
+                    admin.editStaff();
+                    Sleep(2000);
+                    system("cls");
                     break;
-                }
+                case 11:
+                    system("cls");
+                    menuAdmin_default();
+                    admin.removeStaff();
+                    Sleep(2000);
+                    system("cls");
+                    break;
+                case 22:
+                    system("cls");
+                    menuAdmin_default();
+                    admin.addCustomer();
+                    gotoXY(130, 4);
+                    cout << "DONE";
+                    Sleep(2000);
+                    system("cls");
+                    break;
+                case 24:
+                    system("cls");
+                    admin.showCustomer();
+                    break;
+                case 23:
+                    system("cls");
+                    menuAdmin_default();
+                    admin.editCustomer();
+                    Sleep(2000);
+                    system("cls");
+                    break;
+                case 21:
+                    system("cls");
+                    menuAdmin_default();
+                    admin.removeCustomer();
+                    Sleep(2000);
+                    system("cls");
+                    break;
+                case 32:
+                    system("cls");
+                    menuAdmin_default();
+                    movie.addMovie();
+                    Sleep(2000);
+                    system("cls");
+                    break;
+                case 33:
+                    system("cls");
+                    menuAdmin_default();
+                    movie.editMovie();
+                    Sleep(2000);
+                    system("cls");
+                    break;
+                case 31:
+                    system("cls");
+                    menuAdmin_default();
+                    movie.removeMovie();
+                    Sleep(2000);
+                    system("cls");
+                    break;
 
-                break;
+                case 34:
+                    system("cls");
+                    movie.show();
+                    break;
+                case 35:
+                    system("cls");
+                    menuAdmin_default();
+                    movie.searchMovie();
+                    break;
+                default:
+                    running = false;
+                    break;
                 }
             }
+            running = true;
         }
     }
     else if (log == 2)
@@ -233,7 +211,7 @@ int main()
             // bool running = true;
             while (running)
             {
-                menuStaff();
+                // menuStaff();
                 int choice;
                 cout << "Please enter your choice: ";
                 cin >> choice;
@@ -244,7 +222,7 @@ int main()
                     system("cls");
                     Movie movie;
                     int choice;
-                    menuAdmin_f();
+                    // menuAdmin_f();
                     cin >> choice;
                     switch (choice)
                     {
@@ -281,7 +259,7 @@ int main()
                 {
                     system("cls");
                     int choice;
-                    menuAdmin_c();
+
                     cout << "Please enter your choice: ";
                     cin >> choice;
                     switch (choice)
@@ -329,12 +307,13 @@ int main()
         }
     }
     else if (log == 3)
-    {
+    {   
+        
         main();
     }
     else if (log == 4)
     {
-        cout << "WELCOME TO OUR PROGRAM" << endl;
+       
         main();
     }
     else

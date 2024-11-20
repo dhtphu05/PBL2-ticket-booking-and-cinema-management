@@ -4,26 +4,43 @@
 #include <sstream>
 #include <cctype>
 #include <iomanip>
+#include "../Include/gotoXY.h"
 
 int Movie::countMovie = 2000;
+void forChar(int n, int x, int y, char ch);
 
-void menuEditFilm()
+void menuEditFilm(Movie &movie)
 {
-    cout << "+-------------------------------------------------+" << endl;
-    cout << "|             EDIT MOVIE INFORMATION              |" << endl;
-    cout << "+-------------------------------------------------+" << endl;
-    cout << "|                1. Movie Title                   |" << endl;
-    cout << "|                2. Genre                         |" << endl;
-    cout << "|               3. Duration                       |" << endl;
-    cout << "|             4. Release Date                     |" << endl;
-    cout << "|                5. Director                      |" << endl;
-    cout << "|               6. Actors                         |" << endl;
-    cout << "|             7. Country of Origin                |" << endl;
-    cout << "|                  8. Description                 |" << endl;
-    cout << "|               9. Rating                         |" << endl;
-    cout << "+-------------------------------------------------+" << endl;
-    cout << "|                  0. Exit                        |" << endl;
-    cout << "+-------------------------------------------------+" << endl;
+    forChar(100, 40, 10, '-');
+    gotoXY(40, 11);
+    cout << "| Title: " << left << setw(91) << movie.getTitle() << "|";
+    forChar(100, 40, 12, '-');
+    gotoXY(40, 13);
+    cout << "| Genre: " << left << setw(91) << movie.getGenre() << "|";
+    forChar(100, 40, 14, '-');
+
+    gotoXY(40, 15);
+    cout << "| Duration: " << left << setw(88) << movie.getDuration() << "|";
+    forChar(100, 40, 16, '-');
+    gotoXY(40, 17);
+    cout << "| Release Date: " << left << setw(84) << movie.getReleaseDate() << "|";
+    forChar(100, 40, 18, '-');
+    gotoXY(40, 19);
+    cout << "| Director: " << left << setw(88) << movie.getDirector() << "|";
+    forChar(100, 40, 20, '-');
+    gotoXY(40, 21);
+
+    cout << "| Actors: " << left << setw(90) << movie.getActor() << "|";
+    forChar(100, 40, 22, '-');
+    gotoXY(40, 23);
+    cout << "| Country of Origin: " << left << setw(79) << movie.getCountry() << "|";
+    forChar(100, 40, 24, '-');
+    gotoXY(40, 25);
+    cout << "| Description: " << left << setw(85) << movie.getDescription() << "|";
+    forChar(100, 40, 26, '-');
+    gotoXY(40, 27);
+    cout << "| Rating: " << left << setw(90) << movie.getRating() << "|";
+    forChar(100, 40, 28, '-');
 }
 
 Movie::Movie(const string &title, const string &genre, string &duration, const string &releaseDate, const string &Rating, string &director, string &actor, string &country, string &decription)
@@ -33,7 +50,7 @@ Movie::Movie(const string &title, const string &genre, string &duration, const s
     // this->ID_Movie = this->getCountMovie();
 }
 Movie::Movie()
-{   
+{
     this->ID_Movie = countMovie;
     countMovie++;
     this->title = "";
@@ -50,8 +67,31 @@ Movie::Movie()
 void Movie::addMovie()
 {
     Movie newMovie;
+    gotoXY(50, 5);
+    cout << "--Add movie--";
     cin >> newMovie;
-    newMovie.saveToFile(0);
+    gotoXY(90, 30);
+
+    cout << "+-----------------+";
+    gotoXY(90, 31);
+    cout << "|   1. COMFIRM    |";
+    gotoXY(90, 32);
+    cout << "+-----------------+";
+    gotoXY(120, 30);
+    cout << "+-----------------+";
+    gotoXY(120, 31);
+    cout << "|    2. CANCEL    |";
+    gotoXY(120, 32);
+    cout << "+-----------------+";
+    int choice;
+    gotoXY(100, 34);
+    cout << "Your choice: ";
+    gotoXY(120, 34);
+    cin >> choice;
+    if (choice == 1)
+    {
+        newMovie.saveToFile(0);
+    }
 }
 void subEditMovie(Movie &movie, string &line, string message)
 {
@@ -91,62 +131,140 @@ void Movie::editMovie()
 {
     DoubleLinkedList<Movie> movieList;
     this->readFile(movieList);
-    system("cls");
-    cout << "Enter ID's movie that you want to edit: ";
+    gotoXY(40, 5);
+    cout << "--Edit movie---";
+    gotoXY(40, 6);
+    cout << "ID: ";
+    gotoXY(40, 7);
+    cout << "+--------------+";
+    gotoXY(40, 8);
+    cout << "|              |";
+    gotoXY(40, 9);
+    cout << "+--------------+";
+    gotoXY(42, 8);
     int ID;
     cin >> ID;
-    int count = false;
+    int find = false;
+    int k;
+    Movie tempMovie;
     for (int i = 0; i < movieList.getSize(); i++)
     {
         if (movieList[i].ID_Movie == ID)
         {
-            count = true;
-            menuEditFilm();
-            cout << "Please enter your choice  " << endl;
-            int choice;
-            cin >> choice;
-            switch (choice)
+            k = i;
+            tempMovie = movieList[i];
+            find = true;
+            menuEditFilm(movieList[i]);
+            bool run = true;
+            while (run)
             {
+                gotoXY(0, 30);
+                cout << "Choose your choice: ";
+                int choice;
+                cin >> choice;
+                cin.ignore();
+                switch (choice)
+                {
 
-            case 1:
-                subEditMovie(movieList[i], movieList[i].title, "Title");
-                break;
-            case 2:
-                subEditMovie(movieList[i], movieList[i].genre, "Genre");
-                break;
-            case 3:
-                subEditMovie(movieList[i], movieList[i].duration, "Duration");
-                break;
-            case 4:
-                subEditMovie(movieList[i], movieList[i].releaseDate, "Release Date");
-                break;
-            case 5:
-                subEditMovie(movieList[i], movieList[i].director, "Director");
-                break;
-            case 6:
-                subEditMovie(movieList[i], movieList[i].actor, "Actors");
-                break;
-            case 7:
-                subEditMovie(movieList[i], movieList[i].country, "Country of Origin");
-                break;
-            case 8:
-                subEditMovie(movieList[i], movieList[i].description, "Description");
-                break;
-            case 9:
-                subEditMovie(movieList[i], movieList[i].rating, "Rating");
-                break;
-            default:
-                cout << "Invalid choice!" << endl;
+                case 1:
+                    gotoXY(49, 11);
+                    cout << left << setw(87) << " ";
+                    gotoXY(49, 11);
+                    getline(cin, movieList[i].title);
+                    gotoXY(10, 30);
+                    break;
+                case 2:
+                    gotoXY(49, 13);
+                    cout << left << setw(87) << " ";
+                    gotoXY(49, 13);
+                    getline(cin, movieList[i].genre);
+                    gotoXY(10, 30);
+                    break;
+                case 3:
+                    gotoXY(52, 15);
+                    cout << left << setw(80) << " ";
+                    gotoXY(52, 15);
+                    getline(cin, movieList[i].duration);
+                    gotoXY(10, 30);
+                    break;
+                case 4:
+                    gotoXY(56, 17);
+                    cout << left << setw(83) << " ";
+                    gotoXY(56, 17);
+                    getline(cin, movieList[i].releaseDate);
+                    gotoXY(10, 30);
+                    break;
+                case 5:
+                    gotoXY(52, 19);
+                    cout << left << setw(86) << " ";
+                    gotoXY(52, 19);
+                    getline(cin, movieList[i].director);
+                    gotoXY(10, 30);
+                    break;
+                case 6:
+
+                    gotoXY(50, 21);
+                    cout << left << setw(88) << " ";
+                    gotoXY(50, 21);
+                    getline(cin, movieList[i].actor);
+                    gotoXY(10, 30);
+                    break;
+                case 7:
+
+                    gotoXY(61, 23);
+                    cout << left << setw(77) << " ";
+                    gotoXY(61, 23);
+                    getline(cin, movieList[i].country);
+                    gotoXY(10, 30);
+                    break;
+                case 8:
+
+                    gotoXY(55, 25);
+                    cout << left << setw(83) << " ";
+                    gotoXY(55, 25);
+                    getline(cin, movieList[i].description);
+                    gotoXY(10, 30);
+                    break;
+                case 9:
+
+                    gotoXY(50, 27);
+                    cout << left << setw(87) << " ";
+                    gotoXY(50, 27);
+                    getline(cin, movieList[i].rating);
+                    gotoXY(10, 30);
+                    break;
+                default:
+                    run = false;
+                    break;
+                }
             }
-            break;
         }
     }
-    if (count == false)
+
+    if (find == false)
     {
+        gotoXY(40, 10);
         cout << "No result!" << endl;
     }
     else
     {
+        gotoXY(90, 29);
+        cout << "+---------------------------+";
+        gotoXY(90, 30);
+        cout << "|  1.SAVE    |   2. CANCEL  |";
+        gotoXY(90, 31);
+        cout << "+----------------------------+";
+        int choice;
+        gotoXY(90, 32);
+        cout << "Your choice: ";
+        cin >> choice;
+        if (choice == 1)
+        {
+        }
+        else
+        {
+            movieList[k] = tempMovie;
+        }
         subSaveAgainFile(movieList);
     }
 }
@@ -184,28 +302,83 @@ void Movie::saveToFile(int i)
     out << "Rating: " << this->rating << endl;
     out.close();
 }
-
+void forChar(int n, int x, int y, char ch)
+{
+    gotoXY(x, y);
+    if (ch != ' ')
+        ;
+    cout << "+";
+    for (int i = 0; i < n; i++)
+    {
+        if (ch != ' ')
+        {
+            gotoXY(x + 1, y);
+        }
+        else
+            gotoXY(x, y);
+        cout << ch;
+        x++;
+    }
+    if (ch != ' ')
+    {
+        gotoXY(x, y);
+        cout << "+";
+    }
+    else
+        cout << "|";
+}
 istream &operator>>(istream &in, Movie &m)
 {
-    cout << "Title: ";
     in.ignore();
+    forChar(100, 40, 10, '-');
+    gotoXY(40, 11);
+    cout << "| Title: " << right << setw(91) << "|";
+    forChar(100, 40, 12, '-');
+    gotoXY(40, 13);
+    cout << "| Genre: " << right << setw(91) << "|";
+    forChar(100, 40, 14, '-');
+
+    gotoXY(40, 15);
+    cout << "| Duration: " << right << setw(88) << "|";
+    forChar(100, 40, 16, '-');
+    gotoXY(40, 17);
+    cout << "| Release Date: " << right << setw(84) << "|";
+    forChar(100, 40, 18, '-');
+    gotoXY(40, 19);
+    cout << "| Director: " << right << setw(87) << "|";
+    forChar(100, 40, 20, '-');
+    gotoXY(40, 21);
+
+    cout << "| Actors: " << right << setw(90) << "|";
+    forChar(100, 40, 22, '-');
+    gotoXY(40, 23);
+    cout << "| Country of Origin: " << right << setw(79) << "|";
+    forChar(100, 40, 24, '-');
+    gotoXY(40, 25);
+    cout << "| Description: " << right << setw(85) << "|";
+    forChar(100, 40, 26, '-');
+    gotoXY(40, 27);
+    cout << "| Rating: " << right << setw(90) << "|";
+    forChar(100, 40, 28, '-');
+    gotoXY(53, 11);
     getline(in, m.title);
-    cout << "Genre: ";
+    gotoXY(49, 13);
     getline(in, m.genre);
-    cout << "Duration: ";
+    gotoXY(53, 15);
     getline(in, m.duration);
-    cout << "Release Date: ";
+    gotoXY(57, 17);
     getline(in, m.releaseDate);
-    cout << "Director: ";
+    gotoXY(54, 19);
     getline(in, m.director);
-    cout << "Actors: ";
+    gotoXY(50, 21);
     getline(in, m.actor);
-    cout << "Country of Origin:";
+    gotoXY(61, 23);
     getline(in, m.country);
-    cout << "Description: ";
+    gotoXY(55, 25);
     getline(in, m.description);
-    cout << "Rating: ";
+    gotoXY(50, 27);
     getline(in, m.rating);
+
     return in;
 }
 ostream &operator<<(ostream &out, const Movie &m)
@@ -226,15 +399,50 @@ void Movie::removeMovie()
 {
     DoubleLinkedList<Movie> movieList;
     this->readFile(movieList);
+    bool find = false;
     int ID;
-    cout << "Enter ID's movie that you want to remove: ";
+    gotoXY(40, 5);
+    cout << "--Remove movie---";
+    gotoXY(40, 6);
+    cout << "ID: ";
+    gotoXY(40, 7);
+    cout << "+--------------+";
+    gotoXY(40, 8);
+    cout << "|              |";
+    gotoXY(40, 9);
+    cout << "+--------------+";
+    gotoXY(42, 8);
     cin >> ID;
     for (int i = 0; i < movieList.getSize(); i++)
     {
         if (movieList[i].ID_Movie == ID)
         {
-            movieList.earse(i);
+            find = true;
+            menuEditFilm(movieList[i]);
+            gotoXY(40, 30);
+            cout << "Are you sure you want to remove this movie? ";
+            gotoXY(40, 31);
+            cout << "1. Yes";
+            gotoXY(40, 32);
+            cout << "2. No";
+            int choice;
+            gotoXY(40, 33);
+            cout << "Choose: ";
+            cin >> choice;
+            if (choice == 1)
+            {
+                movieList.earse(i);
+                gotoXY(130, 4);
+                cout << "REMOVE SUCCESSFULLY!!";
+            }
+            else
+                break;
         }
+    }
+    if (!find)
+    {
+        gotoXY(50, 10);
+        cout << "No result!!";
     }
     subSaveAgainFile(movieList);
 }
@@ -353,7 +561,19 @@ void Movie::show()
 {
     DoubleLinkedList<Movie> movieList;
     this->readFile(movieList);
-    movieList.display();
+    gotoXY(30, 6);
+    cout << "List of movies" << endl;
+    forChar(123, 30, 8, '-');
+    gotoXY(30, 9);
+    int x = 10;
+    cout << "| " << left << setw(3) << "NO." << "| " << left << setw(5) << "ID" << " |" << left << setw(30) << "TITLE" << "| " << left << setw(30) << "GENRE" << "| " << left << setw(15) << "DURATION" << "| " << left << setw(15) << "COUNTRY" << "| " << left << setw(10) << "RATING" << " |" << endl;
+    for (int i = 0; i < movieList.getSize(); i++)
+    {
+        forChar(123, 30, x + i, '-');
+        gotoXY(30, ++x + i);
+        cout << "| " << left << setw(3) << i + 1 << "| " << left << setw(5) << movieList[i].ID_Movie << " |" << left << setw(30) << movieList[i].title << "| " << left << setw(30) << movieList[i].genre << "| " << left << setw(15) << movieList[i].duration << "| " << left << setw(15) << movieList[i].country << "| " << left << setw(10) << movieList[i].rating << " |";
+    }
+    forChar(123, 30, x + movieList.getSize(), '-');
 }
 std::string toLowerCase(const std::string &str)
 {
@@ -370,22 +590,39 @@ void Movie::searchMovie()
     DoubleLinkedList<Movie> movieList;
     this->readFile(movieList);
     string title;
-    cout << "Enter the title of the movie you want to search: ";
+    gotoXY(40, 5);
+    cout << "--Search movie---";
+    gotoXY(40, 6);
+    cout << "Title: ";
+    gotoXY(40, 7);
+    cout << "************************************************************************";
+    gotoXY(40, 8);
+    cout << "|                                                                      |";
+    gotoXY(40, 9);
+    cout << "************************************************************************";
+    gotoXY(42, 8);
     cin.ignore();
     getline(cin, title);
     title = toLowerCase(title);
     for (int i = 0; i < movieList.getSize(); i++)
     {
 
-        if (toLowerCase(movieList[i].title) == title)
+        if (toLowerCase(movieList[i].title)==title)
         {
             count = true;
-            cout << movieList[i];
+            menuEditFilm(movieList[i]);
+            gotoXY(120, 30);
+            cout << "+---------------+";
+            gotoXY(120, 31);
+            cout << "|    BOOKING    |";
+            gotoXY(120, 32);
+            cout << "+---------------+";
             break;
         }
     }
     if (count == false)
     {
+        gotoXY(50, 10);
         cout << "No result!" << endl;
     }
 }
@@ -398,7 +635,7 @@ string Movie::getTitle()
 {
     return this->title;
 }
-string* Movie::getTitlePointer()
+string *Movie::getTitlePointer()
 {
     return &this->title;
 }
@@ -406,7 +643,7 @@ string Movie::getGenre()
 {
     return this->genre;
 }
-string Movie::getDuration() 
+string Movie::getDuration()
 {
     return this->duration;
 }
@@ -434,7 +671,7 @@ string Movie::getRating()
 {
     return this->rating;
 }
-Movie* Movie::selectMovie(int ID)
+Movie *Movie::selectMovie(int ID)
 {
     DoubleLinkedList<Movie> movieList;
     this->readFile(movieList);
@@ -450,22 +687,26 @@ Movie* Movie::selectMovie(int ID)
 }
 void printMovie(Movie *m)
 {
-    cout<<m->getTitle()<<endl;
+    cout << m->getTitle() << endl;
 }
-void Movie::selectMovieToBooking(){
+void Movie::selectMovieToBooking()
+{
     DoubleLinkedList<Movie> movieList;
     this->readFile(movieList);
-    for(int i=0;i<movieList.getSize();i++){
-        cout<<movieList[i].ID_Movie<<". "<<movieList[i].title<<endl;
+    for (int i = 0; i < movieList.getSize(); i++)
+    {
+        cout << movieList[i].ID_Movie << ". " << movieList[i].title << endl;
     }
-    cout<<"Enter the ID of the movie you want to select: ";
+    cout << "Enter the ID of the movie you want to select: ";
     int ID;
-    cin>>ID;
-    for(int i=0;i<movieList.getSize();i++){
-        if(movieList[i].ID_Movie==ID){
+    cin >> ID;
+    for (int i = 0; i < movieList.getSize(); i++)
+    {
+        if (movieList[i].ID_Movie == ID)
+        {
             *this = movieList[i];
             return;
         }
     }
-    cout<<"Movie not found."<<endl;
+    cout << "Movie not found." << endl;
 }
