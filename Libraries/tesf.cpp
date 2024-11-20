@@ -1,15 +1,12 @@
 
 #include "Booking.cpp"
-
+// #include "layout-select-seat.cpp"
 #define byte windows_byte
-
 #include <windows.h>
 #undef byte
 
 int main(){
     SetConsoleOutputCP(65001);
-    cout<<"██"<<endl;
-    cout<<"xin chào các bạn trẻ mình là thiên phú";
     Booking booking;
     DoubleLinkedList<Screen> screens;
     Screen screen;
@@ -20,7 +17,10 @@ int main(){
     DoubleLinkedList<Show> shows;
     Show show;
     show.loadShowFromFile(shows,screens);
-    show.displayAllShow(shows);
+    // show.displayAllShow(shows);
+    // Node<Show> *current = shows.begin();
+    
+    // layoutBorderSeat(&current->data);
     booking.sellTicket(shows,screens,movies);
 
 
