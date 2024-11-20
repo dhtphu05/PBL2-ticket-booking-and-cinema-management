@@ -62,6 +62,6 @@ class Movie{
     friend istream &operator>>(istream& in, Movie& m);
     friend void subSaveAgainFile(DoubleLinkedList<Movie> &movieList);
     friend void printMovie(Movie* m);
-    void selectMovieToBooking();
+    void selectMovieToBooking(DoubleLinkedList<Movie> &movieList);
 };
 #endif

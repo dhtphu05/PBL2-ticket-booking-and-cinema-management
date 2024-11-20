@@ -1,3 +1,4 @@
+#pragma once
 #include "../Include/Movie.h"
 #include "../Template/DoubleLinkedList.h"
 #include <fstream>
@@ -5,6 +6,9 @@
 #include <cctype>
 #include <iomanip>
 #include "../Include/gotoXY.h"
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#define _HAS_STD_BYTE 0  //
 
 int Movie::countMovie = 2000;
 void forChar(int n, int x, int y, char ch);
@@ -689,13 +693,9 @@ void printMovie(Movie *m)
 {
     cout << m->getTitle() << endl;
 }
-void Movie::selectMovieToBooking()
-{
-    DoubleLinkedList<Movie> movieList;
-    this->readFile(movieList);
-    for (int i = 0; i < movieList.getSize(); i++)
-    {
-        cout << movieList[i].ID_Movie << ". " << movieList[i].title << endl;
+void Movie::selectMovieToBooking(DoubleLinkedList<Movie> &movieList){
+    for(int i=0;i<movieList.getSize();i++){
+        cout<<movieList[i].ID_Movie<<". "<<movieList[i].title<<endl;
     }
     cout << "Enter the ID of the movie you want to select: ";
     int ID;
@@ -705,6 +705,7 @@ void Movie::selectMovieToBooking()
         if (movieList[i].ID_Movie == ID)
         {
             *this = movieList[i];
+            cout<<"Movie selected: "<<this->title<<endl;
             return;
         }
     }

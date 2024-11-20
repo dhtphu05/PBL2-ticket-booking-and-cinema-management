@@ -30,10 +30,10 @@ class Screen{
     Screen selectScreen();
     void displayScreenSimpleLayout();
     void displayAllScreenSimpleLayout(DoubleLinkedList<Screen> &screens);
-    Screen* selectScreen(int ID_screen);
+    Screen* selectScreen(DoubleLinkedList<Screen>& screens,int ID_screen);
     friend void printScreen(Screen* screen);
     
 
 };
-#endif
+#endif // SCREEN_H
 

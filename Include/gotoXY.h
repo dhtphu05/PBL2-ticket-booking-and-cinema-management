@@ -1,3 +1,6 @@
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#define _HAS_STD_BYTE 0  //
 #include <windows.h>
 #ifndef GOTOXY_H
 #define GOTOXY_H
