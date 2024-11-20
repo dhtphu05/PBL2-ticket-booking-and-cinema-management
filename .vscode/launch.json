@@ -20,7 +20,9 @@
       "stopAtEntry": false,
       "externalConsole": true,
       "cwd": "f:/PBL2-ticket-booking-and-cinema-management/Libraries",
-      "program": "f:/PBL2-ticket-booking-and-cinema-management/Libraries/main.exe",
+      // "program": "f:/PBL2-ticket-booking-and-cinema-management/Libraries/main.exe",
+      
+      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

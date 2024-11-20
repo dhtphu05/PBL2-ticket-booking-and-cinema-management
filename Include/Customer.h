@@ -14,6 +14,7 @@ static int count;
     void saveAgainFile(DoubleLinkedList<Customer> &);
     void Display();
     void readID(DoubleLinkedList<Customer> &); 
+    void resigter(Customer &customer);
     friend istream &operator>>(istream &in, Customer &customer);
     friend ostream &operator<<(ostream &out, Customer &customer);
 };
