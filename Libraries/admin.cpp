@@ -77,9 +77,9 @@ void Admin::editStaff()
     for (int i = 0; i < staffList.getSize(); i++)
     {
         if (staffList[i].returnID() == ID)
-        {   
-            staffTemp=staffList[i];
-            k=i;
+        {
+            staffTemp = staffList[i];
+            k = i;
             find = true;
             menu(staffList[i]);
             // gotoXY(100, 35);
@@ -151,13 +151,13 @@ void Admin::editStaff()
     }
     else
     {
-        gotoXY(120, 20);
-        cout << "+------------------------------------+";
-        gotoXY(120, 21);
-        cout << "|    1. SAVE    |    2.CANCLE         |";
-        gotoXY(120, 22);
-        cout << "+------------------------------------+";
         gotoXY(120, 23);
+        cout << "+----------------------------------+";
+        gotoXY(120, 24);
+        cout << "|    1. SAVE    |    2.CANCLE      |";
+        gotoXY(120, 25);
+        cout << "+----------------------------------+";
+        gotoXY(120, 26);
         cout << "Your choice: ";
         int choice;
         cin >> choice;
@@ -170,7 +170,7 @@ void Admin::editStaff()
         {
             staffList[k] = staffTemp;
         }
-    staff.saveAgainFile(staffList);
+        staff.saveAgainFile(staffList);
     }
 }
 
