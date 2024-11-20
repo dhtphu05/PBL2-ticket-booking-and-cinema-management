@@ -57,20 +57,38 @@ void menu_footer()
     gotoXY(130, 38);
     cout << "Hotline: 0334105228" << endl;
 }
+void printBox(string content, int x, int y, int maxWidth = 40)
+{
+    int startX = x + 1;
+    int contentWidth = content.length();
+    int boxWidth = min(contentWidth + 4, maxWidth); // Đảm bảo khung không vượt quá maxWidth
+    string displayContent = content;
+
+    // Nếu nội dung vượt quá maxWidth - 4, cắt bớt và thêm "..."
+    if (contentWidth > maxWidth - 4)
+    {
+        displayContent = content.substr(0, maxWidth - 7) + "...";
+        contentWidth = displayContent.length();
+    }
+
+    // In khung
+    gotoXY(startX, y); // Góc trên bên trái của khung
+    cout << "+" << string(boxWidth - 2, '-') << "+";
+    gotoXY(startX, y + 1);
+    cout << "| " << left << setw(boxWidth - 4) << displayContent << " |";
+    gotoXY(startX, y + 2);
+    cout << "+" << string(boxWidth - 2, '-') << "+";
+}
 void menu_header(string message1, string message2)
 {
-    gotoXY(115, 1);
-    cout << "+---------------+" << endl;
-    gotoXY(115, 2);
-    cout << "|" << left << setw(10) << "1. " + message1 << "     |" << endl;
-    gotoXY(115, 3);
-    cout << "+---------------+" << endl;
-    gotoXY(135, 1);
-    cout << "+----------------+" << endl;
-    gotoXY(135, 2);
-    cout << "|  " << left << setw(10) << "2. " + message2 << "   |" << endl;
-    gotoXY(135, 3);
-    cout << "+----------------+" << endl;
+    // gotoXY(115, 1);
+    // cout << "+---------------+" << endl;
+    // gotoXY(115, 2);
+    // cout << "|" << left << setw(10) << "1. " + message1 << "     |" << endl;
+    // gotoXY(115, 3);
+    // cout << "+---------------+" << endl;
+    printBox("1. " + message1, 115, 1);
+    printBox("2. " + message2, 140, 1);
     gotoXY(8, 1.5);
     cout << "**************" << endl;
     gotoXY(8, 2.5);
@@ -118,6 +136,23 @@ void menuDate_showmovie()
     cout << "|  24/11  |" << endl;
     gotoXY(115, 14);
     cout << "+---------+" << endl;
+    gotoXY(130, 11);
+    cout << "+---------+" << endl;
+    gotoXY(130, 12);
+    cout << "|  Monday |" << endl;
+    gotoXY(130, 13);
+    cout << "|  25/11  |" << endl;
+    gotoXY(130, 14);
+    cout << "+---------+" << endl;
+    gotoXY(145, 11);
+    cout << "+---------+" << endl;
+    gotoXY(145, 12);
+    cout << "| Tuesday |" << endl;
+    gotoXY(145, 13);
+    cout << "|  26/11  |" << endl;
+    gotoXY(145, 14);
+    cout << "+---------+" << endl;
+    // gotoXY(160, 11);
 }
 
 void getchar(int n, int x, int y, char ch)
@@ -217,7 +252,7 @@ void menuLogin(string str1, string str2)
     menuDate_showmovie();
     DoubleLinkedList<Movie> movie;
     importMovie(movie);
-    ifstream inputFile("../Databases/conan.txt"); // File chứa ASCII Art đã chuyển đổi
+    ifstream inputFile("../Databases/" + movie[1].getfileImange()); // File chứa ASCII Art đã chuyển đổi
     if (!inputFile)
     {
         cerr << "Không thể mở file ASCII!" << endl;
@@ -233,8 +268,11 @@ void menuLogin(string str1, string str2)
         cout << line << endl;
         currentY++;
     }
+    gotoXY(startX + 6, currentY + 1);
+    cout << "\033[1;31m" << movie[1].getTitle() << "\033[0m" << endl;
+
     inputFile.close();
-    inputFile.open("../Databases/toystory.txt");
+    inputFile.open("../Databases/" + movie[2].getfileImange());
     if (!inputFile)
     {
         cerr << "Không thể mở file ASCII!" << endl;
@@ -246,8 +284,11 @@ void menuLogin(string str1, string str2)
         cout << line << endl;
         currentY++;
     }
+    gotoXY(startX + 45 + 5, currentY + 1);
+    cout << "\033[1;31m" << movie[2].getTitle() << "\033[0m" << endl;
+
     inputFile.close();
-    inputFile.open("../Databases/anime1.txt");
+    inputFile.open("../Databases/" + movie[3].getfileImange());
     if (!inputFile)
     {
         cerr << "Không thể mở file ASCII!" << endl;
@@ -259,6 +300,8 @@ void menuLogin(string str1, string str2)
         cout << line << endl;
         currentY++;
     }
+    gotoXY(startX + 80 + 5, currentY + 1);
+    cout << "\033[1;31m" << movie[3].getTitle() << "\033[0m" << endl;
     gotoXY(130, 25);
     cout << "+----------------+" << endl;
     gotoXY(130, 26);
@@ -267,7 +310,7 @@ void menuLogin(string str1, string str2)
     cout << "+----------------+" << endl;
 }
 template <class T>
-bool checkUser(DoubleLinkedList<T> &list, string userName, string password, int &k)
+bool checkUser(DoubleLinkedList<T> &list, string &userName, string &password, int &k)
 {
     for (int i = 0; i < list.getSize(); i++)
     {
@@ -283,7 +326,7 @@ string showName(string &s)
 {
     return s;
 }
-int logIn()
+int logIn(DoubleLinkedList<Admin> &adminList, DoubleLinkedList<Staff> &staffList, DoubleLinkedList<Customer> &customerList, int &k)
 {
     menuLogin("LOGIN", "REGISTER");
     int choice;
@@ -296,7 +339,7 @@ int logIn()
     case 1:
     {
         string userName;
-        int k;
+
         string password;
         gotoXY(50, 10);
         cout << "+-------------------------------+" << endl;
@@ -318,40 +361,57 @@ int logIn()
         gotoXY(62, 15);
 
         getPassword(password);
-        DoubleLinkedList<Admin> adminList;
-        DoubleLinkedList<Staff> staffList;
-        DoubleLinkedList<Customer> customerList;
+
         readFileManagement(1, adminList, staffList, customerList);
         // cout << "1 oke" << endl;
         readFileManagement(2, adminList, staffList, customerList);
         // cout << "2 ooke" << endl;
         readFileManagement(3, adminList, staffList, customerList);
-        if (checkUser(adminList, userName, password, k))
+        bool run = true;
+        while (run)
         {
-            system("cls");
-            // cin.ignore();
-            // cin.get();
-            // system("cls");
-            return 1;
+            if (checkUser(adminList, userName, password, k))
+            {
+                system("cls");
+                // gotoXY(130, 1);
+                // cout << adminList[k].getFullName() << "<>" << endl;
+                // // cin.ignore();
+                // // cin.get();
+                // system("cls");
+                run = false;
+                return 1;
+            }
+            else if (checkUser(staffList, userName, password, k))
+            {
+                gotoXY(130, 1);
+                cout << staffList[k].getFullName() << "<>" << endl;
+                run = false;
+                return 2;
+            }
+            else if (checkUser(customerList, userName, password, k))
+            {
+                gotoXY(130, 1);
+                cout << customerList[k].getFullName() << "<>" << endl;
+                run = false;
+                return 3;
+            }
+            else
+            {
+                cin.ignore();
+                gotoXY(50, 18);
+                cout << "Username or password is incorrect" << endl;
+                gotoXY(62, 13);
+                cout << "                   ";
+                gotoXY(62, 13);
+                userName = "";
+                cin >> userName;
+                gotoXY(62, 15);
+                cout << "                   ";
+                gotoXY(62, 15);
+                password = "";
+                getPassword(password);
+            }
         }
-        else if (checkUser(staffList, userName, password, k))
-        {
-            gotoXY(130, 1);
-            cout << staffList[k].getFullName() << "<>" << endl;
-            return 2;
-        }
-        else if (checkUser(customerList, userName, password, k))
-        {
-            gotoXY(130, 1);
-            cout << customerList[k].getFullName() << "<>" << endl;
-            return 3;
-        }
-        else
-        {
-            cout << "Username or password is incorrect." << endl;
-            return 0;
-        }
-
         break;
     }
 

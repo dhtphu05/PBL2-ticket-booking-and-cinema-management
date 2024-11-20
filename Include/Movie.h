@@ -1,11 +1,12 @@
 #include <iostream>
 #include <string>
-#include"../Template/DoubleLinkedList.h"
+#include "../Template/DoubleLinkedList.h"
 using namespace std;
 #ifndef MOVIE_H
 #define MOVIE_H
-class Movie{
-    private:
+class Movie
+{
+private:
     static int countMovie;
     int ID_Movie;
     string title;
@@ -18,10 +19,11 @@ class Movie{
     string description;
     string language;
     string rating;
+    string fileImage;
 
-    public:
+public:
     Movie();
-    Movie(const string& title, const string& genre, string &duration, const string& releaseDate, const string& Rating, string &director, string &actor, string &language, string &decription);
+    Movie(const string &title, const string &genre, string &duration, const string &releaseDate, const string &Rating, string &director, string &actor, string &language, string &decription);
     void addMovie();
     void editMovie();
     void removeMovie();
@@ -29,27 +31,27 @@ class Movie{
     void viewMovie();
     void searchMovie();
     void saveToFile(int i);
-    void readFile(DoubleLinkedList<Movie>&);
-    Movie* selectMovie(int ID);
+    void readFile(DoubleLinkedList<Movie> &);
+    Movie *selectMovie(int ID);
     void getMovie();
-    void setID_Movie(){
+    void setID_Movie()
+    {
         this->ID_Movie = countMovie;
-        
     };
     void setTitle();
     void setGenre();
     void setReleaseDate();
     void setDirector();
     void setRating();
-    void setDuration() ;
+    void setDuration();
     void setActor();
     void setLanguage();
     void setDescription();
     void Display();
-    void show();
+    void show(DoubleLinkedList<Movie> &movieList, int k);
     string getID_Movie();
     string getTitle();
-    string* getTitlePointer();
+    string *getTitlePointer();
     string getGenre();
     string getDuration();
     string getReleaseDate();
@@ -58,10 +60,18 @@ class Movie{
     string getCountry();
     string getDescription();
     string getRating();
-    friend ostream &operator<<(ostream& out, const Movie& m);
-    friend istream &operator>>(istream& in, Movie& m);
+    string getfileImange()
+    {
+        return this->fileImage;
+    }
+    void sort_rating(DoubleLinkedList<Movie> &movieList);
+    void showCurrentMovie();
+    void showDetailMovie();
+    friend ostream &operator<<(ostream &out, const Movie &m);
+    friend istream &operator>>(istream &in, Movie &m);
     friend void subSaveAgainFile(DoubleLinkedList<Movie> &movieList);
-    friend void printMovie(Movie* m);
+    friend void printMovie(Movie *m);
     void selectMovieToBooking(DoubleLinkedList<Movie> &movieList);
+    friend class User;
 };
 #endif

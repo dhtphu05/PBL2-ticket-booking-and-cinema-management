@@ -8,7 +8,7 @@
 #include "../Include/gotoXY.h"
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
-#define _HAS_STD_BYTE 0  //
+#define _HAS_STD_BYTE 0 //
 
 int Movie::countMovie = 2000;
 void forChar(int n, int x, int y, char ch);
@@ -46,6 +46,10 @@ void menuEditFilm(Movie &movie)
     cout << "| Rating: " << left << setw(90) << movie.getRating() << "|";
     forChar(100, 40, 28, '-');
 }
+void view_detail_movie(Movie &movie)
+{
+    gotoXY(40, 10);
+}
 
 Movie::Movie(const string &title, const string &genre, string &duration, const string &releaseDate, const string &Rating, string &director, string &actor, string &country, string &decription)
     : title(title), genre(genre), duration(duration), releaseDate(releaseDate), rating(Rating), director(director), actor(actor), country(country), description(description)
@@ -67,6 +71,7 @@ Movie::Movie()
     this->country = "";
     this->description = "";
     this->rating = "";
+    this->fileImage = "";
 }
 void Movie::addMovie()
 {
@@ -74,6 +79,7 @@ void Movie::addMovie()
     gotoXY(50, 5);
     cout << "--Add movie--";
     cin >> newMovie;
+
     gotoXY(90, 30);
 
     cout << "+-----------------+";
@@ -125,6 +131,7 @@ void subSaveAgainFile(DoubleLinkedList<Movie> &movieList)
         out << "Country of Origin: " << movieList[i].country << endl;
         out << "Description: " << movieList[i].description << endl;
         out << "Rating: " << movieList[i].rating << endl;
+        out << "File Image: " << movieList[i].fileImage << endl;
         out << endl;
     }
 
@@ -304,6 +311,7 @@ void Movie::saveToFile(int i)
     out << "Country: " << this->country << endl;
     out << "Description: " << this->description << endl;
     out << "Rating: " << this->rating << endl;
+    out << "File Image: " << this->fileImage << endl;
     out.close();
 }
 void forChar(int n, int x, int y, char ch)
@@ -364,6 +372,9 @@ istream &operator>>(istream &in, Movie &m)
     gotoXY(40, 27);
     cout << "| Rating: " << right << setw(90) << "|";
     forChar(100, 40, 28, '-');
+    gotoXY(40, 29);
+    cout << "| File image: " << right << setw(87) << "|";
+    forChar(100, 40, 30, '-');
     gotoXY(53, 11);
     getline(in, m.title);
     gotoXY(49, 13);
@@ -382,6 +393,8 @@ istream &operator>>(istream &in, Movie &m)
     getline(in, m.description);
     gotoXY(50, 27);
     getline(in, m.rating);
+    gotoXY(55, 29);
+    getline(in, m.fileImage);
 
     return in;
 }
@@ -508,6 +521,10 @@ void Movie::readFile(DoubleLinkedList<Movie> &movieList)
         else if (line.find("Rating:") == 0)
         {
             m.rating = trim(line.substr(7));
+        }
+        else if (line.find("File Image:") == 0)
+        {
+            m.fileImage = trim(line.substr(11));
             movieList.push_back(m);
             m = Movie();
         }
@@ -561,10 +578,151 @@ void Movie::Display()
     cout << *this;
     cout << "---------------------------------" << endl;
 }
-void Movie::show()
+void printBox(string label, string content, int x, int y, int maxWidth = 40)
 {
-    DoubleLinkedList<Movie> movieList;
+    int startX = x + label.length() + 1;
+    int contentWidth = content.length();
+    int boxWidth = min(contentWidth + 4, maxWidth); // Đảm bảo khung không vượt quá maxWidth
+    string displayContent = content;
+
+    // Nếu nội dung vượt quá maxWidth - 4, cắt bớt và thêm "..."
+    if (contentWidth > maxWidth - 4)
+    {
+        displayContent = content.substr(0, maxWidth - 7) + "...";
+        contentWidth = displayContent.length();
+    }
+
+    // In khung
+    gotoXY(startX, y); // Góc trên bên trái của khung
+    cout << "+" << string(boxWidth - 2, '-') << "+";
+    gotoXY(startX, y + 1);
+    cout << "| " << left << setw(boxWidth - 4) << displayContent << " |";
+    gotoXY(startX, y + 2);
+    cout << "+" << string(boxWidth - 2, '-') << "+";
+
+    // In nhãn (label) tại vị trí thẳng hàng với nội dung
+    int labelPosition = x + 2; // Vị trí bắt đầu của nội dung trong khung
+    gotoXY(x, y + 1);
+    cout << label;
+}
+void printFormattedText(const string &text, int maxLineLength, int x, int y)
+{
+    istringstream stream(text); // Chuyển chuỗi thành một stream
+    string word;
+    string line;
+
+    while (stream >> word)
+    {
+        // Kiểm tra nếu việc thêm từ vào dòng hiện tại sẽ vượt quá giới hạn dòng
+        if (line.length() + word.length() + 1 > maxLineLength)
+        {
+            gotoXY(x, y);
+            cout << line;
+            line = word;
+            y++;
+            // Khởi tạo dòng mới với từ hiện tại
+        }
+        else
+        {
+            // Nếu không, thêm từ vào dòng hiện tại
+            if (!line.empty())
+            {
+                line += " "; // Thêm khoảng trắng giữa các từ
+            }
+            line += word;
+        }
+    }
+
+    // In dòng cuối cùng (nếu có)
+    if (!line.empty())
+
+    {
+        gotoXY(x, y);
+        cout << line;
+    }
+}
+void Movie::showCurrentMovie()
+{
+    gotoXY(100, 5);
+    cout << "*THE MOVIE CURRENTLY SHOWING*";
+    string line;
+    fstream in;
+    int x;
+    in.open("../Databases/" + this->fileImage);
+    if (!in)
+    {
+        cerr << "Không thể mở file ASCII" << endl;
+    }
+    int startX = 95, startY = 7;
+    int currentY = startY;
+    while (getline(in, line))
+    {
+        x = line.length();
+        gotoXY(startX, currentY);
+        cout << line << endl;
+        currentY++;
+    }
+    x = x + startX + 4;
+    in.close();
+    gotoXY(100, currentY + 1);
+    cout << "*" << "\033[1;31m" << this->title << "\033[0m" << "*";
+    gotoXY(115, currentY + 3);
+    cout << "+--------------------+";
+    gotoXY(115, currentY + 4);
+    cout << "|    BUY TICKET!!    |";
+    gotoXY(115, currentY + 5);
+    cout << "+--------------------+";
+}
+void Movie::showDetailMovie()
+{
+    string line;
+    fstream in;
+    int x = 35;
+    in.open("../Databases/" + this->fileImage);
+    if (!in)
+    {
+        cerr << "Không thể mở file ASCII" << endl;
+    }
+    int startX = 5, startY = 5;
+    int currentY = startY;
+    while (getline(in, line))
+    {
+        x = line.length();
+        gotoXY(startX, currentY);
+        cout << line << endl;
+        currentY++;
+    }
+    x = x + startX + 4;
+    in.close();
+    gotoXY(x, 8);
+    cout << "*" << "\033[1;31m" << this->title << "\033[0m" << "*";
+    gotoXY(x, 10);
+    cout << this->duration;
+    gotoXY(x, 11);
+    cout << "\033[33m" << this->rating << "\033[0m";
+    gotoXY(x, 12);
+    cout << "Country: " << this->country;
+    printBox("Genre: ", this->genre, x, 13);
+    printBox("Director: ", this->director, x, 17);
+
+    printBox("Actors: ", this->actor, x, 20);
+
+    gotoXY(6, currentY + 3);
+    cout << "*DESCRIPTION: ";
+    // gotoXY(6, startY + 4);
+    printFormattedText(this->description, 50, 6, currentY + 4);
+}
+void Movie::show(DoubleLinkedList<Movie> &movieList,int k)
+{
+
+    for (int i = movieList.getSize() - 1; i >= 0; i--)
+    {
+        movieList.earse(i);
+    }
     this->readFile(movieList);
+    if(k){
+    this->sort_rating(movieList);
+    }
     gotoXY(30, 6);
     cout << "List of movies" << endl;
     forChar(123, 30, 8, '-');
@@ -574,10 +732,12 @@ void Movie::show()
     for (int i = 0; i < movieList.getSize(); i++)
     {
         forChar(123, 30, x + i, '-');
+
         gotoXY(30, ++x + i);
-        cout << "| " << left << setw(3) << i + 1 << "| " << left << setw(5) << movieList[i].ID_Movie << " |" << left << setw(30) << movieList[i].title << "| " << left << setw(30) << movieList[i].genre << "| " << left << setw(15) << movieList[i].duration << "| " << left << setw(15) << movieList[i].country << "| " << left << setw(10) << movieList[i].rating << " |";
+        cout << "| " << left << setw(3) << i + 1 << "| " << left << setw(5) << movieList[i].ID_Movie << " |" << "\033[1;31m" << left << setw(30) << movieList[i].title << "\033[0m" << " |" << left << setw(30) << movieList[i].genre << "| " << left << setw(15) << movieList[i].duration << "| " << left << setw(15) << movieList[i].country << "| " << left << setw(10) << "\033[33m" << movieList[i].rating << "\033[0m" << "|";
     }
     forChar(123, 30, x + movieList.getSize(), '-');
+    gotoXY(30, x + 1 + movieList.getSize());
 }
 std::string toLowerCase(const std::string &str)
 {
@@ -601,7 +761,7 @@ void Movie::searchMovie()
     gotoXY(40, 7);
     cout << "************************************************************************";
     gotoXY(40, 8);
-    cout << "|                                                                      |";
+    cout << "|                                                                       |";
     gotoXY(40, 9);
     cout << "************************************************************************";
     gotoXY(42, 8);
@@ -611,10 +771,11 @@ void Movie::searchMovie()
     for (int i = 0; i < movieList.getSize(); i++)
     {
 
-        if (toLowerCase(movieList[i].title)==title)
+        if (toLowerCase(movieList[i].title) == title)
         {
+            system("cls");
             count = true;
-            menuEditFilm(movieList[i]);
+            movieList[i].showDetailMovie();
             gotoXY(120, 30);
             cout << "+---------------+";
             gotoXY(120, 31);
@@ -693,9 +854,11 @@ void printMovie(Movie *m)
 {
     cout << m->getTitle() << endl;
 }
-void Movie::selectMovieToBooking(DoubleLinkedList<Movie> &movieList){
-    for(int i=0;i<movieList.getSize();i++){
-        cout<<movieList[i].ID_Movie<<". "<<movieList[i].title<<endl;
+void Movie::selectMovieToBooking(DoubleLinkedList<Movie> &movieList)
+{
+    for (int i = 0; i < movieList.getSize(); i++)
+    {
+        cout << movieList[i].ID_Movie << ". " << movieList[i].title << endl;
     }
     cout << "Enter the ID of the movie you want to select: ";
     int ID;
@@ -705,9 +868,35 @@ void Movie::selectMovieToBooking(DoubleLinkedList<Movie> &movieList){
         if (movieList[i].ID_Movie == ID)
         {
             *this = movieList[i];
-            cout<<"Movie selected: "<<this->title<<endl;
+            cout << "Movie selected: " << this->title << endl;
             return;
         }
     }
     cout << "Movie not found." << endl;
+}
+void Movie::sort_rating(DoubleLinkedList<Movie> &movieList)
+{
+
+    // this->readFile(movieList);
+    double a, b;
+    string temp1, temp2;
+    for (int i = 0; i < movieList.getSize(); i++)
+    {
+        int pos = movieList[i].rating.find("/");
+        temp1 = movieList[i].rating.substr(0, pos);
+        a = stod(temp1);
+        for (int j = i + 1; j < movieList.getSize(); j++)
+        {
+            int pos = movieList[j].rating.find("/");
+            temp2 = movieList[j].rating.substr(0, pos);
+            b = stod(temp2);
+            if (a < b)
+            {
+                Movie temp = movieList[i];
+                movieList[i] = movieList[j];
+                movieList[j] = temp;
+            }
+        }
+    }
+    // subSaveAgainFile(movieList);
 }

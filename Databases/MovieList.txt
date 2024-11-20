@@ -8,6 +8,7 @@ Actors: Leonardo DiCaprio, Kate Winslet
 Country of Origin: USA
 Description: A romance unfolds aboard the ill-fated Titanic.
 Rating: 7.9/10
+File Image: titanic.txt
 
 #2002
 Title: Detective Conan
@@ -19,6 +20,7 @@ Actors: Minami Takayama, Wakana Yamazaki
 Country of Origin: Japan
 Description: A high school detective transformed into a child solves mysteries.
 Rating: 8.2/10
+File Image: detectiveConan.txt
 
 #2003
 Title: Toy Story
@@ -30,6 +32,7 @@ Actors: Tom Hanks, Tim Allen
 Country of Origin: USA
 Description: Toys come to life and go on adventures when their owner isn’t around.
 Rating: 8.3/10
+File Image: toystory.txt
 
 #2004
 Title: Avatar
@@ -41,6 +44,7 @@ Actors: Sam Worthington, Zoe Saldana
 Country of Origin: USA
 Description: A paraplegic marine explores a new world and fights to protect it.
 Rating: 7.8/10
+File Image: avatar.txt
 
 #2005
 Title: Inception
@@ -50,6 +54,7 @@ Release Date: 16-7-2010
 Director: Christopher Nolan
 Actors: Leonardo DiCaprio, Joseph Gordon-Levitt
 Country of Origin: USA
-Description: A thief who infiltrates dreams tries to plant an idea into a target's subconscious.
+Description: A thief who infiltrates dreams tries to plant an idea into a target's subconscious. This is funny movie that you have to see in this year, you will feel the beaty of nature. 
 Rating: 8.8/10
+File Image: inception.txt
 
