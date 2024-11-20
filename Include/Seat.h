@@ -72,5 +72,6 @@ class ShowSeat: public Seat{
     void bookSeat(const string time="");
     void cancelSeat();
     void displaySeat()  override;
+    string convertSeatTypeToSimpleString();
 
 };

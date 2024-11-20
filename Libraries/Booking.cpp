@@ -94,7 +94,9 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
     int column;
     double totalPrice=0;
     // showInstance.displayAllShow(shows);
+
     for(int i=0;i<numberOfSeats;i++){
+        displayAllSeatToBook(show);
         cout<<"Enter the row and column of the seat you want to book: ";
         string inputSeat;
         cin>>inputSeat;
@@ -111,6 +113,8 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
         else{
             // seat.setIsBooked(true);
             show->setSeatStatus(row, column, true);
+            editSeatStatusInFile(show,shows,show->getID_Show(),row,column,true);
+            this->seats.push_back(show->getSeatByRowColumn(row,column));
             //time_t t = time(0);
 
             totalPrice+=show->getSeatByRowColumn(row,column).getPrice();
@@ -125,19 +129,43 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
         //save booking to file
         //edit in file
         //showInstance.displayAllShow(shows);
-        editSeatStatusInFile(show,shows,show->getID_Show(),row,column,true);
+        //editSeatStatusInFile(show,shows,show->getID_Show(),row,column,true);
         //* chưa xử lý 2 ghế, cái ni mới dùng đc 1 ghế chơ mấy.
         //* oke mai xu ly cai vu show chui vo chung 1 lan 
         //update seat status
         //update booking list
         cout<<"Booking confirmed."<<endl;
+        this->setShow(show);
+        this->setNumberOfSeats(numberOfSeats);
+        this->setTotalPrice(totalPrice);
+        this->getRandomBookingNumber();
+        cout<<"Booking number: "<<this->getBookingNumber()<<endl;
+        this->getShow()->displayShow();
+        cout<<"Number of seats: "<<this->getNumberOfSeats()<<endl;
+        cout<<"Seat: "<<endl;
+        cout<<"Row Column Type Price Status"<<endl;
+        cout<<"--------------------------------"<<endl;
+        for(Node<ShowSeat>* node = this->seats.begin(); node != nullptr; node = node->next){
+            node->data.displaySeat();
+        }
+        cout<<"Total Price: "<<this->getTotalPrice();
+        //displayAllSeatToBook(show);
     }
     else{
         cout<<"Booking cancelled."<<endl;
     }
-
+}
+void Booking::getRandomBookingNumber()
+{
+    const string charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    string randomString;
+    srand(time(nullptr)); // Khởi tạo seed dựa trên thời gian thực
     
-
+    for (int i = 0; i < 10; ++i) {
+        randomString += charset[rand() % charset.size()];
+    }
+    this->bookingNumber = randomString;
+    
 }
 
 

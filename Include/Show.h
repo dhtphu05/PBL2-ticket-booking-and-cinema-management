@@ -66,6 +66,7 @@ class Show{
     ShowSeat& getSeatByRowColumn(string row, int column);
     void setSeatStatus(string row, int column, bool status);
     friend void editSeatStatusInFile(Show* show,DoubleLinkedList<Show> &shows,string ID, string row, int column, bool status);
+    void displayAllSimpleShowFollowMovie(DoubleLinkedList<Show> &shows, Movie* movie);
     // Destructor
     ~Show();
 
