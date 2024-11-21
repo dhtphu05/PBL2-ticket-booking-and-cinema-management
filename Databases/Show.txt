@@ -18,7 +18,7 @@ Seat: A 8 Regular 10 Booked
 Seat: A 9 VIP 10 Available
 Seat: B 0 Regular 10 Booked
 Seat: B 1 Regular 10 Booked
-Seat: B 2 Regular 10 Available
+Seat: B 2 Regular 10 Booked
 Seat: B 3 VIP 10 Booked
 Seat: B 4 VIP 10 Available
 Seat: B 5 VIP 10 Booked
@@ -36,7 +36,7 @@ Seat: C 6 Regular 10 Booked
 Seat: C 7 Regular 10 Available
 Seat: C 8 Regular 10 Booked
 Seat: C 9 Regular 10 Available
-Seat: D 0 Regular 10 Available
+Seat: D 0 Regular 10 Booked
 Seat: D 1 Regular 10 Booked
 Seat: D 2 Regular 10 Available
 Seat: D 3 VIP 10 Booked
@@ -56,7 +56,7 @@ Seat: E 6 VIP 10 Booked
 Seat: E 7 VIP 10 Available
 Seat: E 8 Regular 10 Booked
 Seat: E 9 Regular 10 Available
-Seat: F 0 Regular 10 Available
+Seat: F 0 Regular 10 Booked
 Seat: F 1 Regular 10 Booked
 Seat: F 2 Regular 10 Available
 Seat: F 3 Regular 10 Booked
@@ -76,7 +76,7 @@ Seat: G 6 VIP 10 Booked
 Seat: G 7 VIP 10 Available
 Seat: G 8 Regular 10 Booked
 Seat: G 9 Regular 10 Available
-Seat: H 0 Regular 10 Available
+Seat: H 0 Regular 10 Booked
 Seat: H 1 Regular 10 Booked
 Seat: H 2 Regular 10 Available
 Seat: H 3 VIP 10 Booked
@@ -96,7 +96,7 @@ Seat: I 6 Regular 10 Booked
 Seat: I 7 Regular 10 Available
 Seat: I 8 Regular 10 Booked
 Seat: I 9 Regular 10 Available
-Seat: J 0 Regular 10 Available
+Seat: J 0 Regular 10 Booked
 Seat: J 1 Regular 10 Booked
 Seat: J 2 Regular 10 Available
 Seat: J 3 VIP 10 Booked

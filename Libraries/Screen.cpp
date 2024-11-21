@@ -228,7 +228,7 @@ void Screen::displayScreenSimpleLayout(){
 Screen* Screen::selectScreen(DoubleLinkedList<Screen>&screens,int ID_screen){
     for(Node<Screen>* node = screens.begin(); node != nullptr; node = node->next){
         if(node->data.getID_screen()==ID_screen){
-            cout<<"huhu"<<node->data.getID_screen()<<"huhu"<<endl;
+            // cout<<"huhu"<<node->data.getID_screen()<<"huhu"<<endl;
             return &node->data;
         }
     }
