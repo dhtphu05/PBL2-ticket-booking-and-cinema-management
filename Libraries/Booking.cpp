@@ -5,6 +5,7 @@
 #include "../Libraries/Screen.cpp"
 #include "../Libraries/User.cpp"
 #include <time.h>
+#include "layout-select-seat.cpp"
 class Show;
 class Screen;
 class ShowSeat;
@@ -85,27 +86,36 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
     Show showInstance;
     Show* show = new Show;
     show->selectShow(movie, screens);
-    
+    system("cls");
+    layoutBorderSeat(show);
+    this->setShow(show);
+    this->setNumberOfSeats(numberOfSeats);
+    this->setTotalPrice(totalPrice);
+    this->getRandomBookingNumber();
+    layoutBooking(this);
     //show->displaySeatStatus();
+    gotoXY(122, 37);
     cout<<"Enter the number of seats you want to book: ";
     int numberOfSeats;
     cin>>numberOfSeats;
     string row;
     int column;
     double totalPrice=0;
+    // layoutBorderSeat(show);
     // showInstance.displayAllShow(shows);
 
     for(int i=0;i<numberOfSeats;i++){
-        displayAllSeatToBook(show);
+        // displayAllSeatToBook(show);
         cout<<"Enter the row and column of the seat you want to book: ";
         string inputSeat;
         cin>>inputSeat;
         row = inputSeat.substr(0,1);
         column = stoi(inputSeat.substr(1,1));
-        cout<<row<<column<<endl;
+        // cout<<row<<column<<endl;
         
         // ShowSeat& seat = show->getSeatByRowColumn(row, column);
         // seat.displaySeat();
+        layoutBooking(this);
         if(show->getSeatByRowColumn(row,column).getIsBooked()){
             cout<<"Seat is already booked."<<endl;
             i--;
@@ -115,9 +125,11 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
             show->setSeatStatus(row, column, true);
             editSeatStatusInFile(show,shows,show->getID_Show(),row,column,true);
             this->seats.push_back(show->getSeatByRowColumn(row,column));
-            //time_t t = time(0);
-
+            time_t t = time(0);
             totalPrice+=show->getSeatByRowColumn(row,column).getPrice();
+            this->setTotalPrice(totalPrice);
+            this->setBookingTime(ctime(&t));
+            layoutBooking(this);
         }
     }
     //calculate total price
@@ -134,21 +146,25 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
         //* oke mai xu ly cai vu show chui vo chung 1 lan 
         //update seat status
         //update booking list
-        cout<<"Booking confirmed."<<endl;
-        this->setShow(show);
-        this->setNumberOfSeats(numberOfSeats);
-        this->setTotalPrice(totalPrice);
-        this->getRandomBookingNumber();
-        cout<<"Booking number: "<<this->getBookingNumber()<<endl;
-        this->getShow()->displayShow();
-        cout<<"Number of seats: "<<this->getNumberOfSeats()<<endl;
-        cout<<"Seat: "<<endl;
-        cout<<"Row Column Type Price Status"<<endl;
-        cout<<"--------------------------------"<<endl;
-        for(Node<ShowSeat>* node = this->seats.begin(); node != nullptr; node = node->next){
-            node->data.displaySeat();
-        }
-        cout<<"Total Price: "<<this->getTotalPrice();
+
+
+        // cout<<"Booking confirmed."<<endl;
+        // this->setShow(show);
+        // this->setNumberOfSeats(numberOfSeats);
+        // this->setTotalPrice(totalPrice);
+        // cout<<"Booking number: "<<this->getBookingNumber()<<endl;
+        // this->getShow()->displayShow();
+        // cout<<"Number of seats: "<<this->getNumberOfSeats()<<endl;
+        // cout<<"Seat: "<<endl;
+        // cout<<"Row Column Type Price Status"<<endl;
+        // cout<<"--------------------------------"<<endl;
+        // for(Node<ShowSeat>* node = this->seats.begin(); node != nullptr; node = node->next){
+        //     node->data.displaySeat();
+        // }
+        // cout<<"Total Price: "<<this->getTotalPrice();
+        
+        layoutBooking(this);
+
         //displayAllSeatToBook(show);
     }
     else{

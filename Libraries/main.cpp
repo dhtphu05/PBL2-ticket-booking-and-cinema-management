@@ -1,14 +1,17 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cctype>
-#include <windows.h>
-#include "Movie.cpp"
+#include <windows.h> 
+// #include "Movie.cpp"
+#include "customer.cpp"
 #include "staff.cpp"
 #include "admin.cpp"
 #include "login.cpp"
 #include "User.cpp"
 #include "conio.h"
+#include "movie.cpp"
 
 #define byte windows_byte
 

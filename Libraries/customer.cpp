@@ -17,6 +17,7 @@ Customer::Customer(string username, string password)
     // this->ID = count;
     // count++;
 }
+
 void forchar(int n, int x, int y, char ch)
 {
     gotoXY(x, y);
