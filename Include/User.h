@@ -45,7 +45,7 @@ public:
     virtual void savetoFile();
     virtual void readfromFile();
     virtual void saveAgainFile();
-     void addMovie()
+    void addMovie()
     {
         Movie movie;
         movie.addMovie();
@@ -60,21 +60,21 @@ public:
         Movie movie;
         movie.removeMovie();
     }
-    void showMovie(DoubleLinkedList<Movie> &movieList,int k)
+    void showMovie(DoubleLinkedList<Movie> &movieList, int currentPage, int moviePerPage, int k)
     {
         Movie movie;
-        movie.show(movieList,k);
+        movie.show(movieList, currentPage, moviePerPage, k);
     }
-    void searchMovie()
+    void searchMovie(string &line)
     {
         Movie movie;
-        movie.searchMovie();
+        movie.searchMovie(line);
     }
     void sort_rating(DoubleLinkedList<Movie> &movieList)
     {
         Movie movie;
         movie.sort_rating(movieList);
-    }   
+    }
 };
 
 // class Management
