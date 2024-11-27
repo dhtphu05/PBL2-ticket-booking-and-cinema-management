@@ -41,7 +41,7 @@ Gender: Nu
 #3009
 Username: nv309
 Password: 12345678
-Fullname: Tran Van Duc
+Fullname: Phu 
 Phone: 0987345678
 Date of birth: 02/05/1991
 Gender: Nam

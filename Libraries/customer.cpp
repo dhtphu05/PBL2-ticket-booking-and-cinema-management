@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <stdexcept>
 #include <thread>
+
+// #include "forchar.cpp"
 int Customer::count = 1000;
 Customer::Customer(string &username, string &password, string &fullName, string &phoneNumber, string &DOB, string &gender)
     : User(username, password, fullName, phoneNumber, DOB, gender)
@@ -18,31 +20,31 @@ Customer::Customer(string username, string password)
     // count++;
 }
 
-void forchar(int n, int x, int y, char ch)
-{
-    gotoXY(x, y);
-    if (ch != ' ')
-        ;
-    cout << "+";
-    for (int i = 0; i < n; i++)
-    {
-        if (ch != ' ')
-        {
-            gotoXY(x + 1, y);
-        }
-        else
-            gotoXY(x, y);
-        cout << ch;
-        x++;
-    }
-    if (ch != ' ')
-    {
-        gotoXY(x, y);
-        cout << "+";
-    }
-    else
-        cout << "|";
-}
+// void forchar(int n, int x, int y, char ch)
+// {
+//     gotoXY(x, y);
+//     if (ch != ' ')
+//         ;
+//     cout << "+";
+//     for (int i = 0; i < n; i++)
+//     {
+//         if (ch != ' ')
+//         {
+//             gotoXY(x + 1, y);
+//         }
+//         else
+//             gotoXY(x, y);
+//         cout << ch;
+//         x++;
+//     }
+//     if (ch != ' ')
+//     {
+//         gotoXY(x, y);
+//         cout << "+";
+//     }
+//     else
+//         cout << "|";
+// }
 istream &operator>>(istream &in, Customer &customer)
 {
     gotoXY(40, 7);

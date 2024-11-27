@@ -4,6 +4,8 @@
 #include <sstream>
 #include "../Include/gotoXY.h"
 #include <iomanip>
+// #include "forchar.cpp"
+// #include "customer.cpp"
 // void forchar(int n, int x, int y, char ch)
 // {
 //     gotoXY(x, y);

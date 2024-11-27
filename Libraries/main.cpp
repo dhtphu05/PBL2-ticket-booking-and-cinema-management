@@ -5,21 +5,23 @@
 #include <cctype>
 #include <windows.h> 
 // #include "Movie.cpp"
-#include "customer.cpp"
+// #include "customer.cpp"
 #include "staff.cpp"
 #include "admin.cpp"
 #include "login.cpp"
-#include "User.cpp"
+// #include "User.cpp"
 #include "conio.h"
 #include "movie.cpp"
-
+// #include "../Include/Booking.h"
+#include "Booking.cpp"
 #define byte windows_byte
-
 #include <windows.h>
 #undef byte
 
 using namespace std;
 
+//!! ghe disable bi looix luc ghi lai vao file show.txt, kha nang la do ham editstatus
+//!!
 void header_admin(string str1)
 {
     int x = 0;
@@ -105,11 +107,25 @@ int main()
     int k;
     SetConsoleOutputCP(65001);
     //    cout <<"HIHI XIN CHÀO MỌI NGƯỜI";
+    Booking booking;
+    DoubleLinkedList<Screen> screens;
+    Screen screen;
+    screen.loadScreenFromFile(screens); 
+    Movie movie;
+    movie.readFile(movieList34); 
+    DoubleLinkedList<Show> shows;
+    Show show;
+    show.loadShowFromFile(shows,screens);
+    // show.displayAllShow(shows);
+    // Node<Show> *current = shows.begin();
+    
+    // layoutBorderSeat(&current->data);
+    //booking.sellTicket(shows,screens,movies);
+    dashboard: 
     bool loggedIn = false;
     int log = logIn(adminList, staffList, customerList, k);
-
     // int log =1;
-    if (log == 1)
+    if (log == 1 )
 
     {
         loggedIn = true;
@@ -129,6 +145,12 @@ int main()
                 cin >> choice;
                 switch (choice)
                 {
+                case 99:
+                    system("cls");
+                    running = true;
+                    loggedIn = true;
+                    goto dashboard;
+                    break;
                 case 12:
                     system("cls");
                     menuAdmin_default(adminList[k]);
@@ -439,7 +461,7 @@ int main()
     }
     else
     {
-        cout << "Invalid choice!" << endl;
+        booking.sellTicket(shows, screens, movieList34);
     }
     return 0;
 }

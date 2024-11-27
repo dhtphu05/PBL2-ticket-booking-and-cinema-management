@@ -1,25 +1,25 @@
 ID_Screen: 1
 Layout:
-R R R V V V R R R V
-R R R V V V R R R V
-D D R R R R D D R R
-R R R V V V D D R R
-R R R V V V D D R R
-R R R V V V D D R R
-D D R R R R D D R R
-R R R V V V D D R R
-R R R V V V D D R R
-D D R R R R D D R R
+R R D R R R R R R R
+R R D R R R R R R R
+R R D V V V V R R R
+R R D V V V V R R R
+R R D R R R R R R R
+R R D R R R R R R R
+R R D V V V V R R R
+R R D V V V V R R R
+R R D R R R R R R R
+R R D R R R R R R R
 
 ID_Screen: 2
 Layout:
-V V V V V V D D D R
-R R R R R R D D D R
-D D D R R R D D D R
-V V V V V V D D D R
-R R R R R R D D D R
-D D D R R R D D D R
-V V V V V V D D D R
-R R R R R R D D D R
-D D D R R R D D D R
-D D D R R R D D D R
+V V V V V V V V V V
+V V V V V V V V V V
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
