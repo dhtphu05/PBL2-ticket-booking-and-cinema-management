@@ -9,7 +9,7 @@ ostream& operator<<(std::ostream& os, const SeatType& type) {
             os << "VIP";
             break;
         case SeatType::Disable:
-            os << "Disabled";
+            os << "Disable";
             break;
         default:
             os << "Unknown";
@@ -22,10 +22,10 @@ Seat::Seat(string seatRow, int seatColumn,  SeatType type){
     this->seatColumn=seatColumn;
     this->type=type;
 }
-string Seat::getSeatRow(){
+string Seat::getSeatRow()  {
     return this->seatRow;
 }
-int Seat::getSeatColumn(){
+int Seat::getSeatColumn() {
     return this->seatColumn;
 }
 SeatType Seat::getType(){
@@ -108,7 +108,7 @@ string ShowSeat::convertSeatTypeToString(){
         case SeatType::VIP:
             return "VIP";
         case SeatType::Disable:
-            return "Disabled";
+            return "Disable";
         default:
             return "Unknown";
     }
@@ -127,4 +127,10 @@ string ShowSeat::convertSeatTypeToSimpleString(){
 }
 string ShowSeat::getTimeBooked(){
     return this->timeBooked;
+}
+void ShowSeat::setTimeBooked(string timeBooked){
+    this->timeBooked = timeBooked;
+}
+bool ShowSeat::operator==( ShowSeat& seat)  {
+    return this->getSeatRow() == seat.getSeatRow() && this->getSeatColumn() == seat.getSeatColumn();
 }
