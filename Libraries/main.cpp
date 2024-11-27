@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <cctype>
-#include <windows.h> 
+#include <windows.h>
 // #include "Movie.cpp"
 #include "customer.cpp"
 #include "staff.cpp"
@@ -12,88 +12,101 @@
 #include "User.cpp"
 #include "conio.h"
 #include "movie.cpp"
+#include <cmath>
+#include "../Include/menu.h"
 
 #define byte windows_byte
 
 #include <windows.h>
 #undef byte
-
 using namespace std;
 
-void header_admin(string str1)
+int getMouseDashBoardCustomer()
 {
-    int x = 0;
-    for (int i = 0; i < 155; i++)
+    click = processInputEvents();
+    x_click = click.X;
+    y_click = click.Y;
+    if (x_click >= 100 && x_click <= 120 && y_click >= 1 && y_click <= 3)
     {
-        gotoXY(x, 3); 
-        cout << "_";
-        x++;
+        return 1; // trang ca nhan
     }
-    gotoXY(0, 0);
-    cout << "+-----------+" << endl;
-    gotoXY(0, 1);
-    cout << "| 0.BACK    |" << endl;
-    gotoXY(0, 2);
-    cout << "+-----------+" << endl;
-    gotoXY(28, 1);
-    cout << "1. VIEW BENEFITS <>" << endl;
-    gotoXY(50, 1);
-    cout << "2. VOUCHER <>" << endl;
-    gotoXY(71, 1);
-    cout << "3. CINEMA <>" << endl;
-    gotoXY(92, 1);
-    cout << "4. ROOM <>" << endl;
-    gotoXY(112, 1);
-    cout << "5. BOOKING <>" << endl;
-    gotoXY(130, 1);
-    cout << "\033[1;31m" << str1 + " <>" << "\033[0m" << endl;
+    if (x_click >= 130 && x_click <= 150 && y_click >= 1 && y_click <= 3)
+    {
+        return 2; // dang xuat
+    }
+    if (x_click >= 8 && x_click <= 18 && y_click >= 1 && y_click <= 3)
+    {
+        return 3; // mua ve
+    }
+    if (x_click >= 30 && x_click <= 40 && y_click >= 1 && y_click <= 3)
+    {
+        return 4; // phim
+    }
+    if (x_click >= 45 && x_click <= 55 && y_click >= 1 && y_click <= 3)
+    {
+        return 5; // su kien
+    }
+    if (x_click >= 60 && x_click <= 70 && y_click >= 1 && y_click <= 3)
+    {
+        return 6; // tim kiem
+    }
+    return 0;
 }
-void menuAdmin_default(Admin &admin)
+void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customerList)
 {
-    int y = 3;
-    int x = 0;
-    for (int i = 0; i < 38; i++)
-    {
-        gotoXY(28, y);
-        cout << "|";
-        y++;
-    }
-    header_admin(admin.getFullName());
-    gotoXY(5, 5);
-    cout << "I.STAFF MANAGEMENT" << endl;
-    gotoXY(5, 7);
-    cout << "11 Remove staff" << endl;
-    gotoXY(5, 8);
-    cout << "12 Add staff" << endl;
-    gotoXY(5, 9);
-    cout << "13 Edit staff" << endl;
-    gotoXY(5, 10);
-    cout << "14 View staff list" << endl;
-    gotoXY(5, 12);
-    cout << "II.CUSTOMER MANAGEMENT" << endl;
-    gotoXY(5, 14);
-    cout << "21 Remove customer" << endl;
-    gotoXY(5, 15);
-    cout << "22 Add customer" << endl;
-    gotoXY(5, 16);
-    cout << "23 Edit customer" << endl;
-    gotoXY(5, 17);
-    cout << "24 View customer list" << endl;
-    gotoXY(5, 19);
-    cout << "III.MOVIE MANAGEMENT" << endl;
-    gotoXY(5, 21);
-    cout << "31 Remove movie" << endl;
-    gotoXY(5, 22);
-    cout << "32 Add movie" << endl;
-    gotoXY(5, 23);
-    cout << "33 Edit movie" << endl;
-    gotoXY(5, 24);
-    cout << "34 Top movie " << endl;
-    gotoXY(5, 25);
-    cout << "35 View movie" << endl;
+    bool loggedIn = true;
+    int choice;
 
-    gotoXY(5, 26);
-    cout << "36 Search movie" << endl;
+    while (loggedIn)
+    {
+        // Hiển thị menu chính
+        system("cls");
+        menuLogin("🧑" + customer->getUserName(), "Đăng xuất");
+
+        // Lấy lựa chọn từ người dùng
+        choice = getMouseDashBoardCustomer();
+
+        // Xử lý lựa chọn
+        switch (choice)
+        {
+        case 1:
+            // Hiển thị thông tin cá nhân
+            system("cls");
+            menu_header("🧑" + customer->getUserName(), "Quay lại");
+            // choice = getMouseDashBoardCustomer();
+            profilePage(customer, customerList); // hàm này ở menu.h nhé
+            break;
+
+        case 4:
+            // Thêm chức năng khác, ví dụ: Xem dịch vụ
+            system("cls");
+            menu_header("🧑" + customer->getUserName(), "Quay lại");
+            gotoXY(50, 20);
+            cout << "Phim";
+            choice = getMouseDashBoardCustomer();
+            // viewServices(customer); // Hàm xử lý dịch vụ
+            break;
+
+        case 3:
+            // mua vé
+            system("cls");
+            menu_header("🧑" + customer->getUserName(), "Quay lại");
+            buyTicket(customer);
+            choice = getMouseDashBoardCustomer();
+            // viewTransactionHistory(customer); // Hàm xử lý lịch sử
+            break;
+
+        case 2:
+            // Đăng xuất
+            loggedIn = false;
+
+            break;
+        default:
+            // Lựa chọn không hợp lệ
+            choice = getMouseDashBoardCustomer();
+            break;
+        }
+    }
 }
 
 int main()
@@ -101,345 +114,46 @@ int main()
     DoubleLinkedList<Admin> adminList;
     DoubleLinkedList<Staff> staffList;
     DoubleLinkedList<Customer> customerList;
-    DoubleLinkedList<Movie> movieList34;
+    DoubleLinkedList<Movie> movieList;
     int k;
+    User *user = new User();
     SetConsoleOutputCP(65001);
+    SetConsoleCP(CP_UTF8);
     //    cout <<"HIHI XIN CHÀO MỌI NGƯỜI";
     bool loggedIn = false;
+dashboard_main:
     int log = logIn(adminList, staffList, customerList, k);
-
     // int log =1;
-    if (log == 1)
-
+    if (log == 1)//nguoi dung là admin
     {
-        loggedIn = true;
-        bool running = true;
-
-        while (loggedIn)
-        {
-            
-
-            bool running = true;
-            while (running)
-            {
-
-                menuAdmin_default(adminList[k]);
-                int choice, _choice34;
-                // cout << "Please enter your choice: ";
-                cin >> choice;
-                switch (choice)
-                {
-                case 12:
-                    system("cls");
-                    menuAdmin_default(adminList[k]);
-                    adminList[k].addStaff();
-                    gotoXY(130, 4);
-                    cout << "DONE";
-                    Sleep(2000);
-                    system("cls");
-                    break;
-                case 14:
-                    system("cls");
-                    // menuAdmin_default();
-                    adminList[k].showStaff();
-                    // gotoXY(130, 4);
-                    // cout << "DONE";
-                    // Sleep(2000);
-                    // system("cls");
-                    break;
-                case 13:
-                    system("cls");
-                    menuAdmin_default(adminList[k]);
-                    adminList[k].editStaff();
-                    Sleep(2000);
-                    system("cls");
-                    break;
-                case 11:
-                    system("cls");
-                    menuAdmin_default(adminList[k]);
-                    adminList[k].removeStaff();
-                    Sleep(2000);
-                    system("cls");
-                    break;
-                case 22:
-                    system("cls");
-                    menuAdmin_default(adminList[k]);
-                    adminList[k].addCustomer();
-                    gotoXY(130, 4);
-                    cout << "DONE";
-                    Sleep(2000);
-                    system("cls");
-                    break;
-                case 24:
-                {
-
-                    system("cls");
-                    adminList[k].showCustomer();
-                    break;
-                }
-                case 23:
-                    system("cls");
-                    menuAdmin_default(adminList[k]);
-                    adminList[k].editCustomer();
-                    Sleep(2000);
-                    system("cls");
-                    break;
-                case 21:
-                    system("cls");
-                    menuAdmin_default(adminList[k]);
-                    adminList[k].removeCustomer();
-                    Sleep(2000);
-                    system("cls");
-                    break;
-                case 32:
-                    system("cls");
-                    menuAdmin_default(adminList[k]);
-                    adminList[k].addMovie();
-                    Sleep(2000);
-                    system("cls");
-                    break;
-                case 33:
-                    system("cls");
-                    menuAdmin_default(adminList[k]);
-                    adminList[k].editMovie();
-                    Sleep(2000);
-                    system("cls");
-                    break;
-                case 31:
-                    system("cls");
-                    menuAdmin_default(adminList[k]);
-                    adminList[k].removeMovie();
-                    Sleep(2000);
-                    system("cls");
-                    break;
-
-                case 34:
-                {
-                    system("cls");
-                    bool running = true;
-                    while (running)
-                    {
-                        menuAdmin_default(adminList[k]);
-                        adminList[k].showMovie(movieList34, 1);
-                        gotoXY(40, 40);
-                        cout << "Choose to see detail..";
-                        cin >> _choice34;
-                        switch (_choice34)
-                        {
-                        case 1:
-                            system("cls");
-                            header_admin(adminList[k].getFullName());
-                            movieList34[0].showDetailMovie();
-                            movieList34[1].showCurrentMovie();
-                            _getch();
-                            system("cls");
-
-                            break;
-                        case 2:
-                            system("cls");
-                            header_admin(adminList[k].getFullName());
-                            movieList34[1].showDetailMovie();
-                            movieList34[2].showCurrentMovie();
-                            _getch();
-                            system("cls");
-                            break;
-                        case 3:
-                            system("cls");
-                            header_admin(adminList[k].getFullName());
-                            movieList34[2].showDetailMovie();
-                            movieList34[3].showCurrentMovie();
-                            _getch();
-                            system("cls");
-                            break;
-                        case 4:
-                            system("cls");
-                            header_admin(adminList[k].getFullName());
-                            movieList34[3].showDetailMovie();
-                            movieList34[4].showCurrentMovie();
-                            _getch();
-                            system("cls");
-                            break;
-                        case 5:
-                            system("cls");
-                            header_admin(adminList[k].getFullName());
-                            movieList34[4].showDetailMovie();
-                            movieList34[0].showCurrentMovie();
-                            _getch();
-                            system("cls");
-                            break;
-                        default:
-                            running = false;
-                            break;
-                        }
-                    }
-                    system("cls");
-                    break;
-                }
-                case 35:
-                    system("cls");
-                    // menuAdmin_default(adminList[k]);
-                    adminList[k].showMovie(movieList34, 0);
-                    gotoXY(40, 40);
-
-                    break;
-                case 36:
-                    system("cls");
-                    header_admin(adminList[k].getFullName());
-                    adminList[k].searchMovie();
-                    gotoXY(12, 40);
-                    cout << "Press Enter to continue...";
-                    _getch();
-                    system("cls");
-                    break;
-                case 0:
-                    running = false;
-                    loggedIn = false;
-                    break;
-                }
-            }
-            // running = true;
-        }
-    }
-    else if (log == 2)
-    {
-        loggedIn = true;
+        Admin *admin = &adminList[k];
+        dashBoard_admin(admin, movieList,staffList,customerList);//hàm này ở menu.h nhé
         system("cls");
-        bool running = true;
-        while (loggedIn)
-        {
-            menuLogin(staffList[k].getFullName(), "Log out");
-            while (running)
-            {
-                // menuStaff();
-                int choice;
-                gotoXY(5, 40);
-                cout << "Please enter your choice: ";
-                cin >> choice;
-                switch (choice)
-                {
-                case 1:
-                {
-                    system("cls");
-
-                    int choice;
-                    // menuAdmin_f();
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        staffList[k].addMovie();
-                        break;
-                    case 2:
-                        system("cls");
-                        staffList[k].editMovie();
-                        break;
-                    case 3:
-                        system("cls");
-                        staffList[k].removeMovie();
-                        break;
-                    case 4:
-                        system("cls");
-                        // movie.show();
-                        break;
-                    case 5:
-                        system("cls");
-                        staffList[k].searchMovie();
-                        break;
-                    case 6:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
-                    break;
-                }
-
-                case 2:
-                {
-                    system("cls");
-                    int choice;
-
-                    cout << "Please enter your choice: ";
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        staffList[k].addCustomer();
-                        break;
-                    case 2:
-                        system("cls");
-                        staffList[k].showCustomer();
-                        cout << "Press Enter to continue..." << endl;
-                        cin.ignore();
-                        cin.get();
-                        break;
-
-                    case 3:
-                        system("cls");
-                        staffList[k].editCustomer();
-                        break;
-                    case 4:
-                        system("cls");
-                        staffList[k].removeCustomer();
-                        break;
-                    case 5:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
-                    break;
-                }
-                case 3:
-                {
-                    running = false;
-                    loggedIn = false;
-                    main();
-                    break;
-                }
-                default:
-                    cout << "Invalid choice!" << endl;
-                    break;
-                }
-            }
-        }
+        goto dashboard_main;
+    }
+    else if (log == 2)//nguoi dung là staff
+    {
+        
     }
     else if (log == 3)
     {
-        loggedIn = true;
+
+        Customer *customerPtr = &customerList[k];
+        dashBoard_customer(customerPtr, customerList);
         system("cls");
-        bool running = true;
-        while (loggedIn)
-        {
-            menuLogin(customerList[k].getFullName(), "Log out");
-            while (running)
-            {
-                // menuStaff();
-                int choice;
-                gotoXY(5, 40);
-                cout << "Please enter your choice: ";
-                cin >> choice;
-                switch (choice)
-                {
-                case 3:
-                {
-                    system("cls");
-                    customerList[k].showMovie(movieList34,0);
-                    break;
-                }
-                }
-            }
-        }
+        goto dashboard_main;
     }
     else if (log == 4)
     {
-        main();
+
+        Customer *customer = &customerList[customerList.getSize() - 1];
+        dashBoard_customer(customer, customerList);
+        system("cls");
+        goto dashboard_main;
     }
     else
     {
-        cout << "Invalid choice!" << endl;
+        cout << "Lựa chọn không hợp lệ!" << endl;
     }
     return 0;
 }
