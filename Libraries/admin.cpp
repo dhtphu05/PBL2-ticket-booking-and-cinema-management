@@ -1,8 +1,13 @@
 #include "../Include/Admin.h"
 #include "../Include/gotoXY.h"
-
+#include "../Include/layout.h"
+#include "../Include/clickMouse.h"
+#include "../Include/menu.h"
 #include <fstream>
 #include <iomanip>
+#include <cmath>
+#include <ctime>
+#include <algorithm>
 Admin::Admin()
 {
     // this->ID = count;
@@ -12,80 +17,223 @@ Admin::Admin(string &userName, string &password, string &fullName, string &phone
     : Staff(userName, password, fullName, phoneNumber, DOB, gender)
 {
 }
+int getClick_addstaff()
+{
+    click = processInputEvents();
+    x_click = click.X;
+    y_click = click.Y;
+    if (x_click >= 40 && x_click <= 120 && y_click >= 7 && y_click < 9)
+    {
+        return 1; // ho ten
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 9 && y_click < 11)
+    {
+        return 2; // so dien thoai
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 11 && y_click < 13)
+    {
+        return 3; // ngay sinh
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 13 && y_click < 15)
+    {
+        return 4; // gioi tinh
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 15 && y_click < 17)
+    {
+        return 5; // ten dang nhap
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 17 && y_click < 19)
+    {
+        return 6; // mat khau
+    }
+    if (x_click >= 80 && x_click <= 92 && y_click >= 20 && y_click < 22)
+    {
+        return 7; // luu
+    }
+    if (x_click >= 93 && x_click <= 111 && y_click >= 21 && y_click < 22)
+    {
+        return 8; // huy
+    }
+    if (x_click >= 130 && x_click <= 131 && y_click > 4 && y_click < 6)
+    {
+        return 9; // X
+    }
+    return 0;
+}
 void Admin::addStaff()
 {
     Staff staff;
-    cin >> staff;
-    gotoXY(60, 24);
-    cout << "+---------------------------------+";
-    gotoXY(60, 25);
-    cout << "|    1. SAVE    |    2.CANCLE     |";
-    gotoXY(60, 26);
-    cout << "+---------------------------------+";
-    gotoXY(60, 27);
-    cout << "Your choice: ";
+    showString("Thêm nhân viên mới", 40, 6);
+    lineWidth(80, 40, 7, true, true);
+    showString("Họ và tên: ", 42, 8);
+    lineWidth(81, 40, 9, false, false);
+    showString("Số điện thoại: ", 42, 10);
+    lineWidth(81, 40, 11, false, false);
+    showString("Ngày sinh: ", 42, 12);
+    lineWidth(81, 40, 13, false, false);
+    showString("Giới tính: ", 42, 14);
+    lineWidth(81, 40, 15, false, false);
+    showString("Tên đăng nhập: ", 42, 16);
+    lineWidth(81, 40, 17, false, false);
+    showString("Mật khẩu: ", 42, 18);
+    lineWidth(80, 40, 19, true, false);
+    lineHeight(6, 40, 8, false, false, false);
+    lineHeight(6, 121, 8, false, false, false);
+    lineHeight(5, 40, 9, true, false, false);
+    lineHeight(5, 121, 9, false, true, false);
+    lineWidth(27, 80, 20, true, true);
+    gotoXY(80, 21);
+    cout << "│     Lưu    │     Hủy      │";
+    lineWidth(27, 80, 22, true, false);
+    showString("┬", 93, 20);
+    showString("┴", 93, 22);
     int choice;
-    gotoXY(80, 27);
-    cin >> choice;
-    if (choice == 1)
+    bool run = true;
+    while (run)
     {
-        staff.savetoFile();
+        choice = getClick_addstaff();
+        switch (choice)
+        {
+        case 1:
+            getString(staff.getFullName(), 54, 8);
+            break;
+        case 2:
+            getString(staff.getPhoneNumber(), 60, 10);
+            break;
+        case 3:
+            getString(staff.getDOB(), 54, 12);
+            break;
+        case 4:
+            getString(staff.getGender(), 54, 14);
+            break;
+        case 5:
+            getString(staff.getUserName(), 57, 16);
+            break;
+        case 6:
+            getString(staff.getPassword(), 57, 18);
+            break;
+        case 7:
+            staff.savetoFile();
+            gotoXY(130, 25);
+            cout << "Thành công";
+            run = false;
+            this_thread::sleep_for(chrono::seconds(2));
+            gotoXY(130, 25);
+            cout << "               "; // Clear the success message
+            break;
+        case 8:
+            run = false;
+            break;
+        }
     }
-}
-void subEditStaff(Staff &staff, string &line, string message)
-{
-    cout << message << " new: " << endl;
-    cin.ignore();
-    getline(cin, line);
+    gotoXY(130, 5);
+    cout << "❌";
+    choice = getClick_addstaff();
+    while (choice != 9)
+    {
+        choice = getClick_addstaff();
+    }
+    system("cls");
+    menuAdmin_default(*this);
 }
 void menu(Staff &staff)
 {
-    gotoXY(40, 10);
-    cout << "+----------------------------------------------------------------+";
-    gotoXY(40, 11);
-    cout << "| 1. Fullname: " << left << setw(25) << staff.getFullName() << "                         |";
-    gotoXY(40, 12);
-    cout << "+----------------------------------------------------------------+";
-    gotoXY(40, 13);
-    cout << "| 2. Phone number: " << left << setw(25) << staff.getPhoneNumber() << "                     |";
-    gotoXY(40, 14);
-    cout << "+----------------------------------------------------------------+";
-    gotoXY(40, 15);
-    cout << "| 3. Date of birth: " << left << setw(25) << staff.getDOB() << "                    |";
-    gotoXY(40, 16);
-    cout << "+----------------------------------------------------------------+";
-    gotoXY(40, 17);
-    cout << "| 4.Gender: " << left << setw(25) << staff.getGender() << "                            |";
-    gotoXY(40, 18);
-    cout << "+----------------------------------------------------------------+";
-    gotoXY(40, 19);
-    cout << "| 5. Username: " << left << setw(25) << staff.getUserName() << "                         |";
-    gotoXY(40, 20);
-    cout << "+----------------------------------------------------------------+";
-    gotoXY(40, 21);
-    cout << "| 6. Password: " << left << setw(25) << staff.getPassword() << "                         |";
-    gotoXY(40, 22);
-    cout << "+----------------------------------------------------------------+";
+    lineWidth(79, 40, 10, true, true);
+    showString("Họ và tên: ", 42, 11);
+    showString(staff.getFullName(), 54, 11);
+    lineWidth(81, 40, 12, false, false);
+    showString("Số điện thoại: ", 42, 13);
+    showString(staff.getPhoneNumber(), 57, 13);
+    lineWidth(81, 40, 14, false, false);
+    showString("Ngày sinh: ", 42, 15);
+    showString(staff.getDOB(), 53, 15);
+    lineWidth(81, 40, 16, false, false);
+    showString("Giới tính: ", 42, 17);
+    showString(staff.getGender(), 53, 17);
+    lineWidth(81, 40, 18, false, false);
+    showString("Tên đăng nhập: ", 42, 19);
+    showString(staff.getUserName(), 57, 19);
+    lineWidth(81, 40, 20, false, false);
+    showString("Mật khẩu: ", 42, 21);
+    showString(staff.getPassword(), 52, 21);
+    lineWidth(79, 40, 22, true, false);
+    lineHeight(6, 40, 11, false, false, false);
+    lineHeight(6, 120, 11, false, false, false);
+    lineHeight(5, 40, 12, true, false, false);
+    lineHeight(5, 120, 12, false, true, false);
+}
+int getclick_editStaff()
+{
+    click = processInputEvents();
+    x_click = click.X;
+    y_click = click.Y;
+
+    if (x_click >= 40 && x_click <= 120 && y_click >= 10 && y_click <12)
+    {
+        return 1; // ho ten
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 12 && y_click < 14)
+    {
+        return 2; // so dien thoai
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 14 && y_click <16)
+    {
+        return 3; // ngay sinh
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 16 && y_click < 18)
+    {
+        return 4; // gioi tinh
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 18 && y_click < 20)
+    {
+        return 5; // ten dang nhap
+    }
+    if (x_click >= 40 && x_click <= 120 && y_click >= 20 && y_click < 22)
+    {
+        return 6; // mat khau
+    }
+    if (x_click >= 80 && x_click <= 92 && y_click >= 24 && y_click < 26)
+    {
+        return 7; // luu
+    }
+    if (x_click >= 93 && x_click <= 111 && y_click >= 24 && y_click <=26)
+    {
+        return 8; // huy
+    }
+    if (x_click >= 40 && x_click <= 50 && y_click >= 6 && y_click < 8)
+    {
+        return 9; // Xoa
+    }
+    if (x_click >= 130 && x_click <= 131 && y_click > 4 && y_click < 6)
+    {
+        return 10; // X
+    }
+    return 0;
 }
 void Admin::editStaff()
 {
+
     DoubleLinkedList<Staff> staffList;
     Staff staff;
     staff.readfromFile(staffList);
     int ID;
-    gotoXY(50, 4);
-    cout << "....Edit Staff....";
-    gotoXY(50, 5);
+    gotoXY(40, 4);
+    cout << "Chỉnh sửa thông tin nhân viên";
+    gotoXY(40, 5);
     cout << "ID: ";
-    gotoXY(50, 6);
-    cout << "+-----------+" << endl;
-    gotoXY(50, 7);
-    cout << "|           |" << endl;
-    gotoXY(50, 8);
-    cout << "+-----------+" << endl;
+    lineWidth(10, 40, 6, true, true);
+    gotoXY(40, 7);
+    cout << "│          │" << endl;
+    lineWidth(10, 40, 8, true, false);
     bool find = false;
-    gotoXY(51, 7);
-    cin >> ID;
+    string str;
+    int choice = getclick_editStaff();
+    while (choice != 9)
+    {
+        choice = getclick_editStaff();
+    }
+    getString(str, 42, 7);
+    ID = stoi(str);
     int k;
     Staff staffTemp;
     for (int i = 0; i < staffList.getSize(); i++)
@@ -96,62 +244,68 @@ void Admin::editStaff()
             k = i;
             find = true;
             menu(staffList[i]);
-            // gotoXY(100, 35);
-            // cout << "Choose your choice: " << endl;
+            lineWidth(27, 80, 24, true, true);
+            gotoXY(80, 25);
+            cout << "│     Lưu    │     Hủy      │";
+            lineWidth(27, 80, 26, true, false);
+            showString("┬", 93, 24);
+            showString("┴", 93, 26);
+            int choicee;
             bool run = true;
             while (run)
             {
-                gotoXY(0, 30);
-                cout << "Choose your choice: ";
-
-                int choice;
-                cin >> choice;
-                cin.ignore();
-                switch (choice)
+                string str_temp;
+                choicee = getclick_editStaff();
+                switch (choicee)
                 {
                 case 1:
-                    gotoXY(55, 11);
+                    gotoXY(54, 11);
                     cout << left << setw(25) << " ";
-                    gotoXY(55, 11);
-                    getline(cin, staffList[i].getFullName());
-                    gotoXY(10, 30);
+                    getString(str_temp, 54, 11);
+                    staffList[i].setFullName(str_temp);
                     break;
                 case 2:
-                    gotoXY(59, 13);
-                    cout << left << setw(25) << " ";
-                    gotoXY(59, 13);
-                    getline(cin, staffList[i].getPhoneNumber());
-                    gotoXY(10, 30);
+                    gotoXY(57, 13);
+                    cout << left << setw(25) << "";
+                    getString(str_temp, 57, 13);
+                    staffList[i].setPhoneNumber(str_temp);
+
                     break;
                 case 3:
-                    gotoXY(60, 15);
+                    gotoXY(53, 15);
                     cout << left << setw(25) << " ";
-                    gotoXY(60, 15);
-                    getline(cin, staffList[i].getDOB());
-                    gotoXY(10, 30);
+                    getString(str_temp, 53, 15);
+                    staffList[i].setDOB(str_temp);
                     break;
                 case 4:
-                    gotoXY(52, 17);
+                    gotoXY(53, 17);
                     cout << left << setw(25) << " ";
-                    gotoXY(52, 17);
-                    getline(cin, staffList[i].getGender());
-                    gotoXY(10, 30);
+                    getString(str_temp, 53, 17);
+                    staffList[i].setGender(str_temp);
                     break;
                 case 5:
-                    gotoXY(55, 19);
+                    gotoXY(57, 19);
                     cout << left << setw(25) << " ";
-                    gotoXY(55, 19);
-                    getline(cin, staffList[i].getUserName());
-                    gotoXY(10, 30);
+                    getString(str_temp, 57, 19);
+                    staffList[i].setUserName(str_temp);
                     break;
                 case 6:
-                    gotoXY(55, 21);
+                    gotoXY(52, 21);
                     cout << left << setw(25) << " ";
-                    gotoXY(55, 21);
-                    getline(cin, staffList[i].getPassword());
-                    gotoXY(10, 30);
+                    getString(str_temp, 52, 21);
+                    staffList[i].setPassword(str_temp);
                     break;
-                default:
+                case 7:
+                    staffList[i].saveAgainFile(staffList);
+                    gotoXY(130, 25);
+                    cout << "Sửa thành công";
+                    this_thread::sleep_for(chrono::seconds(2));
+                    gotoXY(130, 25);
+                    cout << "               "; // Clear the success message
+                    run = false;
+                    break;
+                case 8:
+
                     run = false;
                     break;
                 }
@@ -161,33 +315,41 @@ void Admin::editStaff()
     if (find == false)
     {
         gotoXY(50, 10);
-        cout << "No result!!" << endl;
+        cout << "Không tìm thấy thông tin!" << endl;
     }
-    else
+    gotoXY(130, 5);
+    cout << "❌";
+    choice = getclick_editStaff();
+    while (choice != 10)
     {
-        gotoXY(120, 23);
-        cout << "+----------------------------------+";
-        gotoXY(120, 24);
-        cout << "|    1. SAVE    |    2.CANCLE      |";
-        gotoXY(120, 25);
-        cout << "+----------------------------------+";
-        gotoXY(120, 26);
-        cout << "Your choice: ";
-        int choice;
-        cin >> choice;
-        if (choice == 1)
-        {
-            gotoXY(130, 4);
-            cout << "DONE";
-        }
-        else
-        {
-            staffList[k] = staffTemp;
-        }
-        staff.saveAgainFile(staffList);
+        choice = getclick_editStaff();
     }
+    system("cls");
+    menuAdmin_default(*this);
 }
-
+int getClick_removeStaff()
+{
+    click = processInputEvents();
+    x_click = click.X;
+    y_click = click.Y;
+    if (x_click >= 40 && x_click <= 120 && y_click >= 7 && y_click <= 9)
+    {
+        return 1; // ID
+    }
+    if (x_click >= 120 && x_click <= 133 && y_click >= 23 && y_click <= 25)
+    {
+        return 2; // Xoa
+    }
+    if (x_click >= 133 && x_click <= 146 && y_click >= 23 && y_click <= 25)
+    {
+        return 3; // Huy
+    }
+    if (x_click >= 130 && x_click <= 131 && y_click > 4 && y_click < 6)
+    {
+        return 4; // X
+    }
+    return 0;
+}
 void Admin::removeStaff()
 {
     DoubleLinkedList<Staff> staffList;
@@ -195,19 +357,21 @@ void Admin::removeStaff()
     Staff staff;
     staff.readfromFile(staffList);
     int ID;
-    gotoXY(50, 4);
-    cout << "....Remove Staff....";
-    gotoXY(50, 5);
-    cout << "Enter ID: ";
-    gotoXY(50, 6);
-    cout << "+-----------+" << endl;
-    gotoXY(50, 7);
-    cout << "|           |" << endl;
-    gotoXY(50, 8);
-    cout << "+-----------+" << endl;
-    gotoXY(51, 7);
-    cin >> ID;
-
+    string str;
+    gotoXY(40, 4);
+    cout << "Xóa nhân viên";
+    gotoXY(40, 5);
+    cout << "Nhập ID ";
+    lineWidth(10, 40, 6, true, true);
+    gotoXY(40, 7);
+    cout << "│          │" << endl;
+    lineWidth(10, 40, 8, true, false);
+    int choice = getClick_removeStaff();
+    if (choice == 1)
+    {
+        getString(str, 42, 7);
+    }
+    ID = stoi(str);
     for (int i = 0; i < staffList.getSize(); i++)
     {
         if (staffList[i].returnID() == ID)
@@ -215,21 +379,21 @@ void Admin::removeStaff()
             count = true;
             menu(staffList[i]);
             gotoXY(40, 23);
-            cout << "Do you want to remove this staff?" << endl;
-            gotoXY(40, 24);
-            cout << "1. Yes" << endl;
-            gotoXY(40, 25);
-            cout << "2. No" << endl;
-            int choice;
-            gotoXY(40, 26);
-            cout << "Choose: ";
-            cin >> choice;
-            if (choice == 1)
+            lineWidth(27, 120, 23, true, true);
+            gotoXY(120, 24);
+            cout << "│     Xóa     │     Hủy     │";
+            lineWidth(27, 120, 25, true, false);
+            showString("┬", 134, 23);
+            showString("┴", 134, 25);
+            int choicee = getClick_removeStaff();
+            if (choicee == 2)
             {
-
                 staffList.earse(i);
-                gotoXY(130, 4);
-                cout << "Remove successfully" << endl;
+                gotoXY(130, 27);
+                cout << "Đã xóa thành công";
+                this_thread::sleep_for(chrono::seconds(2));
+                gotoXY(130, 27);
+                cout << "                        "; // Clear the
             }
             else
                 break;
@@ -238,9 +402,18 @@ void Admin::removeStaff()
     if (count == false)
     {
         gotoXY(50, 10);
-        cout << "No result!!" << endl;
+        cout << "Không tìm thấy thông tin" << endl;
     }
     staff.saveAgainFile(staffList);
+    gotoXY(130, 5);
+    cout << "❌";
+    choice = getClick_removeStaff();
+    while (choice != 4)
+    {
+        choice = getClick_removeStaff();
+    }
+    system("cls");
+    menuAdmin_default(*this);
 }
 void ForChar(int n, int x, int y, char ch)
 {
@@ -267,36 +440,124 @@ void ForChar(int n, int x, int y, char ch)
     else
         cout << "|";
 }
-void Admin::showStaff()
+int getClick_showStaff()
 {
-
-    DoubleLinkedList<Staff> staffList;
+    click = processInputEvents();
+    x_click = click.X;
+    y_click = click.Y;
+    if (x_click >= 37 && x_click <= 38 && y_click > 4 && y_click < 6)
+    {
+        return 1; // X
+    }
+    return 0;
+}
+void Admin::showStaff(DoubleLinkedList<Staff> &staffList, int currentPage, int staffPerPage)
+{
+    for (int i = staffList.getSize() - 1; i >= 0; i--)
+    {
+        staffList.earse(i);
+    }
     Staff staff;
     staff.readfromFile(staffList);
-    gotoXY(30, 6);
-    cout << "List of staffs" << endl;
-    ForChar(118, 30, 8, '-');
-    gotoXY(30, 9);
-    int x = 10;
-    cout << "| " << left << setw(3) << "NO." << "| " << left << setw(5) << "ID" << " |" << left << setw(30) << "FullName" << "| " << left << setw(12) << "Phone" << "| " << left << setw(15) << "Date of birth" << "| " << left << setw(5) << "Gender" << "| " << left << setw(15) << "Username" << "| " << left << setw(15) << "Password" << " |";
-    for (int i = 0; i < staffList.getSize(); i++)
+    int x = 8;
+    int totalPage = ceil((double)staffList.getSize() / staffPerPage);
+    int start = (currentPage - 1) * staffPerPage;
+    int end = min(start + staffPerPage, staffList.getSize());
+    showString("Danh sách nhân viên", 80, 5);
+    lineWidth(113, 38, 6, true, true);
+    lineHeight(end - start + 1, 38, 7, false, false, false);
+    showString("STT", 40, 7);
+    lineHeight(end - start + 1, 45, 7, false, false, false);
+    showString("┬", 45, 6);
+    showString("ID", 47, 7);
+    lineHeight(end - start + 1, 52, 7, false, false, false);
+    showString("┬", 52, 6);
+    showString("Họ và tên", 62, 7);
+    lineHeight(end - start + 1, 82, 7, false, false, false);
+    showString("┬", 82, 6);
+    showString("Số điện thoại", 84, 7);
+    lineHeight(end - start + 1, 97, 7, false, false, false);
+    showString("┬", 97, 6);
+    showString("Ngày sinh", 99, 7);
+    lineHeight(end - start + 1, 113, 7, false, false, false);
+    showString("┬", 113, 6);
+    showString("Giới tính", 114, 7);
+    lineHeight(end - start + 1, 126, 7, false, false, false);
+    showString("┬", 126, 6);
+    showString("Username", 128, 7);
+    lineHeight(end - start + 1, 139, 7, false, false, false);
+    showString("┬", 139, 6);
+    showString("Password", 141, 7);
+    lineHeight(end - start + 1, 152, 7, false, false, false);
+    for (int i = start; i < end; i++)
     {
-        ForChar(118, 30, x + i, '-');
-        gotoXY(30, ++x + i);
+
+        lineWidth(113, 39, x + i - start, false, false);
+        gotoXY(50, ++x + i - start);
         Staff staff = staffList[i];
-        cout << "| " << left << setw(3) << i + 1 << "| " << left << setw(5) << staff.returnID() << " |" << left << setw(30) << staff.getFullName() << "| " << left << setw(12) << staff.getPhoneNumber() << "| " << left << setw(15) << staff.getDOB() << "| " << left << setw(5) << staff.getGender() << "| " << left << setw(15) << staff.getUserName() << "| " << left << setw(15) << staff.getPassword() << "  |";
+        showString(to_string(i + 1), 40, x + i - start);
+        showString(to_string(staff.returnID()), 47, x + i - start);
+        showString(staff.getFullName(), 59, x + i - start);
+        showString(staff.getPhoneNumber(), 83, x + i - start);
+        showString(staff.getDOB(), 99, x + i - start);
+        showString(staff.getGender(), 118, x + i - start);
+        showString(staff.getUserName(), 128, x + i - start);
+        showString(staff.getPassword(), 141, x + i - start);
     }
-    ForChar(118, 30, x + staffList.getSize(), '-');
+    lineHeight(end - start, 38, 8, true, false, false);
+    lineHeight(end - start, 45, 8, false, false, true);
+    lineHeight(end - start, 52, 8, false, false, true);
+    lineHeight(end - start, 82, 8, false, false, true);
+    lineHeight(end - start, 97, 8, false, false, true);
+    lineHeight(end - start, 113, 8, false, false, true);
+    lineHeight(end - start, 126, 8, false, false, true);
+    lineHeight(end - start, 139, 8, false, false, true);
+    lineHeight(end - start, 152, 8, false, true, false);
+    lineWidth(113, 38, x + end - start, true, false);
+    gotoXY(45, x + end - start);
+    cout << "┴";
+    gotoXY(52, x + end - start);
+    cout << "┴";
+    gotoXY(82, x + end - start);
+    cout << "┴";
+    gotoXY(97, x + end - start);
+    cout << "┴";
+    gotoXY(113, x + end - start);
+    cout << "┴";
+    gotoXY(126, x + end - start);
+    cout << "┴";
+    gotoXY(139, x + end - start);
+    cout << "┴";
+    
 }
 void Admin::savetoFile()
 {
 }
+bool is_whitespace_utf8_a(char c)
+{
+    return std::isspace(static_cast<unsigned char>(c));
+}
+
 std::string Mytrim(const std::string &str)
 {
-    size_t start = str.find_first_not_of(" \t\n\r"); // Tìm vị trí ký tự không phải khoảng trắng
-    size_t end = str.find_last_not_of(" \t\n\r");    // Tìm vị trí ký tự không phải khoảng trắng ở cuối
-    return (start == std::string::npos || end == std::string::npos) ? "" : str.substr(start, end - start + 1);
+    size_t start = 0;
+    size_t end = str.size();
+
+    // Loại bỏ khoảng trắng từ đầu chuỗi
+    while (start < str.size() && is_whitespace_utf8_a(str[start]))
+    {
+        ++start;
+    }
+
+    // Loại bỏ khoảng trắng từ cuối chuỗi
+    while (end > start && is_whitespace_utf8_a(str[end - 1]))
+    {
+        --end;
+    }
+
+    return str.substr(start, end - start);
 }
+
 void Admin::readfromFile(DoubleLinkedList<Admin> &admins)
 {
 
@@ -304,7 +565,7 @@ void Admin::readfromFile(DoubleLinkedList<Admin> &admins)
     in.open("../Databases/AdminList.txt");
     if (!in.is_open())
     {
-        throw runtime_error("Error opening file");
+        throw runtime_error("Lỗi không thể mở file");
     }
     string line;
     Admin admin;
@@ -314,29 +575,29 @@ void Admin::readfromFile(DoubleLinkedList<Admin> &admins)
         {
             admin.ID = stoi(line.substr(1));
         }
-        else if (line.find("Username: ") == 0)
+        else if (line.find("Tên đăng nhập: ") == 0)
         {
-            admin.username = Mytrim(line.substr(10));
+            admin.username = Mytrim(line.substr(20));
         }
-        else if (line.find("Password: ") == 0)
+        else if (line.find("Mật khẩu: ") == 0)
         {
-            admin.password = Mytrim(line.substr(10));
+            admin.password = Mytrim(line.substr(13));
         }
-        else if (line.find("Fullname: ") == 0)
+        else if (line.find("Họ và tên: ") == 0)
         {
-            admin.fullName = Mytrim(line.substr(10));
+            admin.fullName = Mytrim(line.substr(15));
         }
-        else if (line.find("Phone: ") == 0)
+        else if (line.find("Số điện thoại: ") == 0)
         {
-            admin.phoneNumber = Mytrim(line.substr(7));
+            admin.phoneNumber = Mytrim(line.substr(22));
         }
-        else if (line.find("Date of birth: ") == 0)
+        else if (line.find("Ngày sinh: ") == 0)
         {
-            admin.dateOfBirth = Mytrim(line.substr(15));
+            admin.dateOfBirth = Mytrim(line.substr(13));
         }
-        else if (line.find("Gender:") == 0)
+        else if (line.find("Giới tính: ") == 0)
         {
-            admin.gender = Mytrim(line.substr(7));
+            admin.gender = Mytrim(line.substr(13));
             admins.push_back(admin);
             admin = Admin();
         }
