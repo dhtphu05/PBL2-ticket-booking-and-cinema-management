@@ -1,0 +1,5 @@
+CouponCode: MUNGKHAITRUONG
+Discount: 0.2
+
+CouponCode: THUHAI
+Discount: 0.1

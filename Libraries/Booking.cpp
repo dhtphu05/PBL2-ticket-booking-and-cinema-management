@@ -1,3 +1,4 @@
+#pragma once
 #include "../Include/Booking.h"
 #include "../Include/Movie.h"
 #include "../Libraries/Show.cpp"
@@ -6,6 +7,9 @@
 #include "../Libraries/User.cpp"
 #include <time.h>
 #include "layout-select-seat.cpp"
+#include "Combo.cpp"
+#include "Payment.cpp"
+#include "Coupon.cpp"
 class Show;
 class Screen;
 class ShowSeat;
@@ -95,11 +99,13 @@ void Booking::setPayment(Payment *payment)
 {
     this->payment = payment;
 }
-
+//!TODO: 1 hóa đơn là tạo 1 file
 void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> &screens,DoubleLinkedList<Movie> &movies)
-{   Movie movieInstance;
+{   system("cls");
+    Movie movieInstance;
     Movie* movie= &movieInstance;
     movie->selectMovieToBooking(movies);
+    
     //cout<<movie->getCountry()<<endl;
     Show showInstance;
     Show* show = new Show;
@@ -213,21 +219,25 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
     system("cls");
     Combo combo;
     combo.processCombo(this); 
-    gotoXY(122,39);
-    cout<<"Chọn phương thức thanh toán";
-    gotoXY(122,41);
-    cout<<"1. Chuyển khoản";
-    gotoXY(122,43);
-    cout<<"2. Tiền mặt";
-    gotoXY(122,45);
-    cout<<"Nhập lựa chọn của bạn: ";
-    int opt;
-    cin>>opt;
-    if(opt==1){
+    system("cls");
+    Coupon coupon;
+    coupon.processCoupon(this);
+    // gotoXY(122,39);
+    // cout<<"Chọn phương thức thanh toán";
+    // gotoXY(122,41);
+    // cout<<"1. Chuyển khoản";
+    // gotoXY(122,43);
+    // cout<<"2. Tiền mặt";
+    // gotoXY(122,45);
+    // cout<<"Nhập lựa chọn của bạn: ";
+    gotoXY(142, 33 +2 );
+    cout<<"- "<<coupon.getDiscount();
         this->setPayment(new CreditCardPayment());
         this->getPayment()->processPayment(this);
-    }
     
+
+    ofstream file("../Databases/Booking.txt", ios::app);
+
     //calculate total price
     // cout<<"Total price: "<<totalPrice<<endl;
     // cout<<"Confirm booking? 1.Yes 2.No"<<endl;

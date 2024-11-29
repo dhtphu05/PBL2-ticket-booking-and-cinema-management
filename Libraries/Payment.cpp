@@ -78,24 +78,42 @@ void printQRCode(int x,int y){
         y++;
     }
 }
-void CreditCardPayment::processPayment(Booking* booking)
-{       
-    DoubleLinkedList<Combo> combos;
-    combos=booking->getCombos();
-    for(Node<Combo>* node = combos.begin(); node != nullptr; node = node->next){
-        this->finalPrice+=node->data.getComboPrice();
-    }
-    
-    gotoXY(5,5);
-    printQRCode(5,4);
-    int x=115;
+void layoutChooseMethod(){
+    int x=10;
+    int y=17;
+    gotoXY(x,y+5);
+    cout<<"Chọn phương thức thanh toán";
+    gotoXY(x,y+7);
+    lineWidth(20,true,true);
+    gotoXY(x,y+8);
+    lineHeight(1,x,y+8);
+    lineHeight(1,x+21,y+8);
+    gotoXY(x,y+9);
+    lineWidth(20,true,false);
+    gotoXY(x+3,y+8);
+    cout<<"1. Chuyển khoản";
+    gotoXY(x+3,y+10);
+    lineWidth(20,true,true);
+    gotoXY(x,y+11);
+    lineHeight(1,x,y+11);
+    lineHeight(1,x+21,y+11);
+    gotoXY(x,y+12);
+    lineWidth(20,true,false);
+    gotoXY(x+3,y+11);
+    cout<<"2. Tiền mặt";
+    gotoXY(x,y+13);
+
+
+}
+void layoutFinal(Booking *booking){
+     int x=115;
     int y=5;
     gotoXY(110,3);
-    lineWidth(40,true,true);
-    lineHeight(22,110,3);
-    lineHeight(22,151,3);
+    lineWidth(42,true,true);
+    lineHeight(35,110,4);
+    lineHeight(35,153,4);
     gotoXY(110,23);
-    lineWidth(40,true,false);
+    lineWidth(42,true,false);
     gotoXY(x,y);
     cout<<"THÔNG TIN ĐẶT VÉ";
     gotoXY(x,y+2);
@@ -110,16 +128,81 @@ void CreditCardPayment::processPayment(Booking* booking)
     gotoXY(x,y+10);
     cout<<"PHÒNG CHIẾU: "<<booking->getShow()->getScreen()->getID_screen();
     gotoXY(x,y+12);
-    cout<<"GHẾ:"<<"A1, B2";
-    gotoXY(x+16,y+12);
-    cout<<booking->getTotalPrice();
-    // for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
-    //     gotoXY(x,y);
-    //     cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
-    //     y++;
-    // }
-    // gotoXY(x,y+18);
-    // cout<<"Tổng tiền: "<<booking->getTotalPrice();
+    cout<<"GHẾ:";
+    gotoXY(x-1,y+14);
+    int countVIP=0;
+    int countNormal=0;
+    for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
+        if(node->data.convertSeatTypeToSimpleString()=="V"){
+            countVIP++;
+        }
+        else{
+            countNormal++;
+        }
+    }
+    cout<<"x "<<countVIP<<" VIP: ";
+    for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){\
+        
+        if(node->data.convertSeatTypeToSimpleString()=="V"){
+            gotoXY(x-1+6+countVIP*4,y+14);
+            countVIP--;
+            cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
+        }
+    }
+    gotoXY(x-1,y+16);
+    cout<<"x "<<countNormal<<" THƯỜNG: ";
+    for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
+        
+        if(node->data.convertSeatTypeToSimpleString()=="R"){
+            gotoXY(x-1+9+countNormal*4,y+16);
+        countNormal--;
+            cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
+        }
+    }
+    int idxCombo=0;
+    for(Node<Combo>* node = booking->getCombos().begin(); node != nullptr; node = node->next){
+        node->data.displaySimpleCombo(114,25+idxCombo*2);
+        idxCombo++;
+    }
+    gotoXY(110,y+26);
+    lineWidth(42,false,true);
+    gotoXY(x,y+28);
+    cout<<"Tạm tính:           ";
+    gotoXY(114+30,y+28);
+    cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
+    gotoXY(x+16,y+16);
+    gotoXY(115, 33 +2);
+    cout<<"Giảm giá: ";
+    gotoXY(126, 33 +2);
+    // cout<<node->data.getDiscount()*100<<"%";
+    gotoXY(142, 33 +2 );
+    // cout<<"- "<<coupon.getDiscount();
+     gotoXY(110, 33 +4);
+    lineWidth(42, false, true);
+    gotoXY(110, 33 +6);
+    cout<<"Tổng cộng: ";
+    gotoXY(144, 33 +6);
+    cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
+    gotoXY(110, 33 +8);
+    lineWidth(42, true, false);
+
+}
+void CreditCardPayment::processPayment(Booking* booking)
+{       
+    layoutChooseMethod();
+    click=processInputEvents();
+    int x_click = click.X;
+    int y_click = click.Y;
+    if(isClickInRange(x_click,y_click,10,23,20,3)){
+        this->setPaymentMethod("Chuyển khoản");
+        system("cls");
+    }
+    else if(isClickInRange(x_click,y_click,10,11,20,2)){
+        this->setPaymentMethod("Tiền mặt");
+    }
+    gotoXY(5,5);
+    printQRCode(5,4);
+    layoutFinal(booking);
     int xPayment=115;
     int yPayment=10;
     // gotoXY(xPayment,yPayment);
@@ -146,10 +229,10 @@ void CreditCardPayment::processPayment(Booking* booking)
     // cout<<"Mã giao dịch: "<<booking->getBookingNumber();
     // gotoXY(xPayment,yPayment+22);
     // cout<<"QR Code: ở phía bên trái";
-    lineHeight(10,xPayment,yPayment);
-    lineHeight(10,xPayment+15,yPayment);
-    gotoXY(x,yPayment+10);
-    lineWidth(20,true,false);
+    // lineHeight(10,xPayment,yPayment);
+    // lineHeight(10,xPayment+15,yPayment);
+    // gotoXY(x,yPayment+10);
+    // lineWidth(20,true,false);
 
     gotoXY(0,0);
 }

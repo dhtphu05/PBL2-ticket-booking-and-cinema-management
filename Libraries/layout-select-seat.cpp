@@ -3,7 +3,8 @@
 // #include "Booking.cpp"
 #include "../Include/Show.h"
 #include "../Include/Booking.h"
-#include "getMouseClick.cpp"
+// #include "getMouseClick.cpp"
+#include "../Include/clickMouse.h"
 #include <iostream>
 #include <string>
 using namespace std;

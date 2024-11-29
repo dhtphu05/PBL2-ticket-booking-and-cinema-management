@@ -334,10 +334,12 @@ void Show::selectShow(Movie* movie, DoubleLinkedList<Screen> &screens){
     this->loadShowFromFile(showList, screens);
     // this->displayAllSimpleShow(showList);
     this->displayAllSimpleShowFollowMovie(showList, movie);
-    cin.ignore();
+    // cin.ignore();
     cout<<"Enter the ID of the show you want to select: ";
     string ID;
     getline(cin,ID);
+    system("cls");
+    // ID="S1";
     for(int i=0;i<showList.getSize();i++){
         
         string showID = showList[i].getID_Show();

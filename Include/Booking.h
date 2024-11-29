@@ -4,6 +4,7 @@
 #include "Seat.h"
 #include "Payment.h"
 #include "Combo.h"
+#include "Coupon.h"
 
 
 #ifndef BOOKING_H
@@ -14,6 +15,7 @@ enum BookingStatus{
     paymentTime,
     done
 };
+class Combo;
 class Seat;
 class Show;
 class Customer;

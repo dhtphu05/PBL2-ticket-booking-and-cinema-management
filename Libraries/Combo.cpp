@@ -302,10 +302,12 @@ void Combo::processCombo(Booking* booking){
     // click=processInputEvents();
     isEndBookCombo=isClickInRange(click.X, click.Y, 134, 46, 5, 2);
     }
+    
     gotoXY(130,20);
     for(Node<Combo>* node = combos.begin(); node != nullptr; node = node->next){
         if(node->data.getQuantityBuy()>0){
             booking->getCombos().push_back(node->data);
+            booking->setTotalPrice(booking->getTotalPrice()+node->data.getComboPrice()*node->data.getQuantityBuy());
         }
     }
 
