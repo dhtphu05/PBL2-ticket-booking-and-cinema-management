@@ -3,7 +3,7 @@ Tên đăng nhập: username1002
 Mật khẩu: 78
 Họ và tên: hihi
 Số điện thoại: 032467893
-Ngày sinh: 26/9/2005
+Ngày sinh: 26/09/2005
 Giới tính: Nữ
 
 #1005
@@ -35,7 +35,7 @@ Tên đăng nhập: user1012
 Mật khẩu: 78
 Họ và tên: Nguyễn Thị Màu
 Số điện thoại: 012345859
-Ngày sinh: 2/3/1954
+Ngày sinh: 02/03/1954
 Giới tính: Nam
 
 #1013
@@ -43,7 +43,7 @@ Tên đăng nhập: user1013
 Mật khẩu: 78
 Họ và tên: Nguyễn Thị Tâm
 Số điện thoại: 04528492
-Ngày sinh: 9/3/1998
+Ngày sinh: 09/03/1998
 Giới tính: Nữ
 
 #1014
@@ -59,7 +59,7 @@ Tên đăng nhập: user1015
 Mật khẩu: 78
 Họ và tên: Nguyễn Thị Thủy
 Số điện thoại: 291205
-Ngày sinh: 29/1/-5
+Ngày sinh: 29/01/2004
 Giới tính: Nữ
 
 #1019
@@ -208,10 +208,10 @@ Ngày sinh: 20/01/2002
 Giới tính: Nữ
 
 #1038
-Tên đăng nhập: 3
-Mật khẩu: Thuy123@
-Họ và tên: nguyên
-Số điện thoại: 3
-Ngày sinh: 3
-Giới tính: 4
+Tên đăng nhập: tpxinhdep
+Mật khẩu: T@phuong123
+Họ và tên: Nguyễn Thị Thu Phương
+Số điện thoại: 0961521940
+Ngày sinh: 4/10/2005
+Giới tính: Nữ
 

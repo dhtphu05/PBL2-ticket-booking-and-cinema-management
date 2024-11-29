@@ -71,11 +71,14 @@ void menuMovie()
     showString("Nội dung: ", 42, 25);
     lineWidth(100, 40, 26, false, false);
     showString("Đánh giá: ", 42, 27);
-    lineWidth(99, 40, 28, true, false);
-    lineHeight(9, 40, 11, false, false, false);
-    lineHeight(9, 140, 11, false, false, false);
-    lineHeight(8, 40, 12, true, false, false);
-    lineHeight(8, 140, 12, false, true, false);
+    lineWidth(100, 40, 26, false, false);
+    showString("File txt: ", 42, 29);
+    lineWidth(100, 40, 28, false, false);
+    lineWidth(99, 40, 30, true, false);
+    lineHeight(10, 40, 11, false, false, false);
+    lineHeight(10, 140, 11, false, false, false);
+    lineHeight(9, 40, 12, true, false, false);
+    lineHeight(9, 140, 12, false, true, false);
 }
 void view_detail_movie(Movie &movie)
 {
@@ -157,6 +160,11 @@ int getclick_addMovie()
     {
         return 12; // X
     }
+    // file txt
+    if (x_click >= 40 && x_click <= 140 && y_click >= 28 && y_click <= 30)
+    {
+        return 13; // danh gia
+    }
 
     return 0;
 }
@@ -227,6 +235,11 @@ void Movie::addMovie()
             gotoXY(52, 27);
             cout << left << setw(50) << " ";
             getString(newMovie.rating, 52, 27);
+            break;
+        case 13:
+            gotoXY(52, 29);
+            cout << left << setw(50) << " ";
+            getString(newMovie.fileImage, 52, 29);
             break;
         case 10:
             newMovie.saveToFile(0);
@@ -334,7 +347,7 @@ int getClick_editMovie()
         return 12; // X
     }
     // id
-    if (x_click >= 40 && x_click <= 50 && y_click >= 7 && y_click <= 9)
+    if (x_click >= 40 && x_click <= 140 && y_click >= 28 && y_click <= 30)
     {
         return 13;
     }

@@ -56,9 +56,12 @@ void showChartAgeCustomer(DoubleLinkedList<Customer> &customer)
     {
         for (int j = 0; j < customerSize; j++)
         {
-            if (age[j] >= Age[i] && age[j] < Age[i + 1])
+            if (i != ageGroupCount - 1)
             {
-                Count[i]++;
+                if (age[j] >= Age[i] && age[j] < Age[i + 1])
+                {
+                    Count[i]++;
+                }
             }
         }
     }
@@ -106,6 +109,7 @@ void showChartAgeCustomer(DoubleLinkedList<Customer> &customer)
         }
         else
         {
+
             std::cout << "" << Age[j] << "-" << Age[j + 1] << "";
         }
         std::cout << "     "; // Space between columns

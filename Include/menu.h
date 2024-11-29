@@ -137,7 +137,7 @@ int getClickAdmin_default()
         return 23; // Cai dat
     }
     // biểu đồ
-    if (x_click >= 3 && x_click <= 20 && y_click >= 17 && y_click <= 17)
+    if (x_click >= 3 && x_click <= 20 && y_click >= 16 && y_click <= 18)
     {
         return 24; // Bieu do
     }
