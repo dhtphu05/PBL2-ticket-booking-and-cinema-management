@@ -2,6 +2,7 @@
 #include "../Include/Payment.h"
 #include "Payment.cpp"
 #include "Combo.cpp"
+#include "Coupon.cpp"
 // #include "layout-select-seat.cpp"
 #define byte windows_byte
 #include <windows.h>

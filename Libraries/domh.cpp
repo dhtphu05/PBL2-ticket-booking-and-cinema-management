@@ -67,13 +67,11 @@ void GetMousePosWin(MOUSE_EVENT_RECORD mer)
 
     } while (!Captured);
 }
-void menu_InputData();
-void menu_main();
-void INTRO();
+
 int main()
 {
     SetConsoleCP(CP_UTF8);
-    INTRO();
+   
     DWORD cNumRead, fdwMode, i;
     INPUT_RECORD irInBuf[128];
     int counter = 0;

@@ -1,0 +1,6 @@
+1. làm chức năng regex
+2. quên mật khẩu
+hàm login thêm nút đăng nhập
+3. tô màu khi nhấn vào
+4. tên trường hiền thị phim
+5 xử lý endtime

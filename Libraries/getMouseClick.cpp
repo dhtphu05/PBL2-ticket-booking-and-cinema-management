@@ -1,3 +1,4 @@
+#pragma once
 #include <stdio.h>
 #define byte windows_byte
 #include <windows.h>
