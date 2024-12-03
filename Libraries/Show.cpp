@@ -164,8 +164,6 @@ void Show::displayShow(){
     displaySeatStatus();
     cout<<endl;
     cout<<"-----------------------------------"<<endl;
-
-
 }
 void Show::displayAllShow(const DoubleLinkedList<Show> &shows){
     Node<Show> *current = shows.begin();
@@ -336,19 +334,18 @@ void Show::selectShow(Movie* movie, DoubleLinkedList<Screen> &screens){
     this->loadShowFromFile(showList, screens);
     // this->displayAllSimpleShow(showList);
     this->displayAllSimpleShowFollowMovie(showList, movie);
-    cin.ignore();
+    // cin.ignore();
     cout<<"Enter the ID of the show you want to select: ";
     string ID;
     getline(cin,ID);
+    system("cls");
+    // ID="S1";
     for(int i=0;i<showList.getSize();i++){
         
         string showID = showList[i].getID_Show();
        
         if(showID==ID){
-            cout<<"wft"<<endl;
             *this = showList[i];
-            cout<<"heeee"<<endl;
-            cout<<"Show selected: "<<this->getID_Show()<<endl;
             return;
         }
     }
@@ -367,7 +364,6 @@ Show Show::getShowByID(string ID){
 }
 void Show::setShow(Show show){
     *this = show;
-    cout<<"hehehhehehheheee";
 }
 Show& Show::operator=(Show &show){
     if (this != &show) {
@@ -387,7 +383,7 @@ Show& Show::operator=(Show &show){
 }
 ShowSeat& Show::getSeatByRowColumn(string row, int column){
     Node<ShowSeat> *current = this->seats.begin();
-    current->data.displaySeat();
+    // current->data.displaySeat();
     int i=0;
     while(current!=nullptr){
         if(current->data.getSeatRow()==row && current->data.getSeatColumn()==column){
@@ -413,7 +409,7 @@ void editSeatStatusInFile(Show* show, DoubleLinkedList<Show>&shows, string ID, s
     //showInstance.displayAllShow(shows);
     ofstream file("../Databases/Show.txt");
     
-    
+   // showInstance.displayAllShow(shows);
    // showInstance.displayAllSimpleShow(shows);
     Node<Show> *current = shows.begin();
     while(current!=nullptr){

@@ -1,72 +1,32 @@
+#include <iostream>
+#include <cmath>
+#define byte windows_byte
 #include <windows.h>
+#undef byte
+void drawUTF8PieChart(int radius) {
+    // Các ký tự khác nhau để minh họa các phần của biểu đồ
+    const char* chars[] = {"█", "▓", "▒", "░"};
 
-// Hàm xử lý sự kiện của cửa sổ
-LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-    switch (uMsg) {
-        case WM_PAINT: {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hwnd, &ps);
-
-            // Đường dẫn đến file .ico
-            LPCWSTR iconPath = L"C:\\Users\\admin\\Downloads\\Screenshot 2024-07-14 225556.ico";
-            
-            // Tải biểu tượng từ file .ico
-            HICON hIcon = (HICON)LoadImage(NULL, iconPath, IMAGE_ICON, 64, 64, LR_LOADFROMFILE);
-            if (hIcon) {
-                // Vẽ biểu tượng lên cửa sổ tại tọa độ (50, 50)
-                DrawIcon(hdc, 50, 50, hIcon);
-                DestroyIcon(hIcon); // Giải phóng tài nguyên sau khi vẽ xong
+    for (int y = -radius; y <= radius; ++y) {
+        for (int x = -radius; x <= radius; ++x) {
+            double distance = std::hypot(x, y);
+            if (distance <= radius) {
+                // Tính góc để xác định phần của biểu đồ
+                double angle = std::atan2(y, x) + M_PI;
+                int section = static_cast<int>(angle / (2 * M_PI) * 4);
+                std::cout << chars[section];
             } else {
-                TextOut(hdc, 50, 50, L"Failed to load icon!", 18); // Hiển thị lỗi nếu không tải được
+                std::cout << " ";
             }
-
-            EndPaint(hwnd, &ps);
         }
-        break;
-
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            return 0;
+        std::cout << std::endl;
     }
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow) {
-    // Đăng ký lớp cửa sổ
-    const wchar_t CLASS_NAME[] = L"MyWindowClass";
+int main() {
+    SetConsoleOutputCP(65001);
 
-    WNDCLASS wc = {};
-    wc.lpfnWndProc = WindowProc;
-    wc.hInstance = hInstance;
-    wc.lpszClassName = CLASS_NAME;
-
-    RegisterClass(&wc);
-
-    // Tạo cửa sổ
-    HWND hwnd = CreateWindowEx(
-        0,
-        CLASS_NAME,
-        L"My ICO Viewer",
-        WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, 300, 200,
-        NULL,
-        NULL,
-        hInstance,
-        NULL
-    );
-
-    if (hwnd == NULL) {
-        return 0;
-    }
-
-    ShowWindow(hwnd, nCmdShow);
-
-    // Vòng lặp xử lý sự kiện
-    MSG msg = {};
-    while (GetMessage(&msg, NULL, 0, 0)) {
-        TranslateMessage(&msg);
-        DispatchMessage(&msg);
-    }
-
+    int radius = 10;  // Bạn có thể thay đổi bán kính theo ý muốn
+    drawUTF8PieChart(radius);
     return 0;
 }
