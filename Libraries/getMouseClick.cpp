@@ -3,6 +3,10 @@
 #define byte windows_byte
 #include <windows.h>
 #undef byte
+#include <string>
+#include <iostream>
+// #include "../Include/gotoXY.h"
+using namespace std;
 
 HANDLE hStdin;
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -80,16 +84,16 @@ bool isClickInRange(int xClick, int yClick, int x, int y, int width, int height)
     }
     return false;
 }
-void getStringInLine(string &str,int x, int y){
-    SetConsoleOutputCP(65001);
-    SetConsoleCP(65001);
-    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
-    SetConsoleMode(hStdin, ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT);
+// void getStringInLine(string &str,int x, int y){
+//     SetConsoleOutputCP(65001);
+//     SetConsoleCP(65001);
+//     HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+//     SetConsoleMode(hStdin, ENABLE_PROCESSED_INPUT | ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT);
     
-    // Clear buffers
-    FlushConsoleInputBuffer(hStdin);
-    cin.clear();
-    cin.sync();
-    gotoXY(x,y);
-    getline(cin,str);
-}
+//     // Clear buffers
+//     FlushConsoleInputBuffer(hStdin);
+//     cin.clear();
+//     cin.sync();
+//     gotoXY(x,y);
+//     getline(cin,str);
+// }

@@ -211,6 +211,10 @@ void layoutBillTemp(Booking* booking){
     int y=5;
     gotoXY(110,3);
     lineWidth(42,true,true);
+    gotoXY(110,23);
+    cout<<"├";
+    gotoXY(153,23);
+    cout<<"┤";
     lineHeight(35,110,4);
     lineHeight(35,153,4);
     gotoXY(110,23);
@@ -230,9 +234,10 @@ void layoutBillTemp(Booking* booking){
     cout<<"PHÒNG CHIẾU: "<<booking->getShow()->getScreen()->getID_screen();
     gotoXY(x,y+12);
     cout<<"GHẾ:";
-    gotoXY(x-1,y+14);
     int countVIP=0;
     int countNormal=0;
+    int countVIP_temp=0;
+    int countNormal_temp=0;
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
         if(node->data.convertSeatTypeToSimpleString()=="V"){
             countVIP++;
@@ -241,24 +246,42 @@ void layoutBillTemp(Booking* booking){
             countNormal++;
         }
     }
-    cout<<"x "<<countVIP<<" VIP: ";
+    countVIP_temp=countVIP;
+    countNormal_temp=countNormal;
+    double totalVIP=0;
+    
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){\
         
         if(node->data.convertSeatTypeToSimpleString()=="V"){
             gotoXY(x-1+6+countVIP*4,y+14);
+            totalVIP+=node->data.getPrice();
             countVIP--;
             cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
         }
     }
-    gotoXY(x-1,y+16);
-    cout<<"x "<<countNormal<<" THƯỜNG: ";
+
+    gotoXY(x-1,y+14);
+    if(totalVIP!=0){
+    cout<<"x "<<countVIP_temp<<" VIP: ";
+    gotoXY(144,y+14);
+    cout<<totalVIP;
+    }
+    double totalNormal=0;
+    
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
         
         if(node->data.convertSeatTypeToSimpleString()=="R"){
             gotoXY(x-1+9+countNormal*4,y+16);
+            totalNormal+=node->data.getPrice();
         countNormal--;
             cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
         }
+    }
+    if(totalNormal!=0){
+        gotoXY(x-1,y+16);
+    cout<<"x "<<countNormal_temp<<" THƯỜNG: ";
+    gotoXY(144,y+16);
+    cout<<totalNormal;
     }
 
 

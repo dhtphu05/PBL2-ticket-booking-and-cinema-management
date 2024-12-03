@@ -1,6 +1,7 @@
 #pragma once
 #include "../Include/Coupon.h"
 #include "layout-select-seat.cpp"
+#include <string>
 // #include "Booking.cpp"
 Coupon::Coupon()
 {
@@ -117,10 +118,16 @@ void layoutBillTempCoupon(Booking *booking){
     lineHeight(35,153,4);
     gotoXY(110,23);
     lineWidth(42,true,false);
+    //!copy o day
+    gotoXY(110,23);
+    cout<<"├";
+    gotoXY(153,23);
+    cout<<"┤";
+    //!end
     gotoXY(x,y);
     cout<<"THÔNG TIN ĐẶT VÉ";
     gotoXY(x,y+2);
-    cout<<"Mã vé: "<<booking->getBookingNumber();
+    cout<<"Mã vé: "<<BG_YELLOW<<booking->getBookingNumber()<<RESET;
     gotoXY(x,y+4);
     cout<<"Tên phim: "<<booking->getShow()->getMovie()->getTitle();
     gotoXY(x,y+6);
@@ -132,9 +139,10 @@ void layoutBillTempCoupon(Booking *booking){
     cout<<"PHÒNG CHIẾU: "<<booking->getShow()->getScreen()->getID_screen();
     gotoXY(x,y+12);
     cout<<"GHẾ:";
-    gotoXY(x-1,y+14);
     int countVIP=0;
     int countNormal=0;
+    int countVIP_temp=0;
+    int countNormal_temp=0;
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
         if(node->data.convertSeatTypeToSimpleString()=="V"){
             countVIP++;
@@ -143,24 +151,42 @@ void layoutBillTempCoupon(Booking *booking){
             countNormal++;
         }
     }
-    cout<<"x "<<countVIP<<" VIP: ";
+    countVIP_temp=countVIP;
+    countNormal_temp=countNormal;
+    double totalVIP=0;
+    
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){\
         
         if(node->data.convertSeatTypeToSimpleString()=="V"){
             gotoXY(x-1+6+countVIP*4,y+14);
+            totalVIP+=node->data.getPrice();
             countVIP--;
             cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
         }
     }
-    gotoXY(x-1,y+16);
-    cout<<"x "<<countNormal<<" THƯỜNG: ";
+
+    gotoXY(x-1,y+14);
+    if(totalVIP!=0){
+    cout<<"x "<<countVIP_temp<<" VIP: ";
+    gotoXY(144,y+14);
+    cout<<totalVIP;
+    }
+    double totalNormal=0;
+    
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
         
         if(node->data.convertSeatTypeToSimpleString()=="R"){
             gotoXY(x-1+9+countNormal*4,y+16);
+            totalNormal+=node->data.getPrice();
         countNormal--;
             cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
         }
+    }
+    if(totalNormal!=0){
+        gotoXY(x-1,y+16);
+    cout<<"x "<<countNormal_temp<<" THƯỜNG: ";
+    gotoXY(144,y+16);
+    cout<<totalNormal;
     }
     int idxCombo=0;
     for(Node<Combo>* node = booking->getCombos().begin(); node != nullptr; node = node->next){
@@ -168,18 +194,21 @@ void layoutBillTempCoupon(Booking *booking){
         idxCombo++;
     }
     gotoXY(110,y+26);
-    lineWidth(42,false,true);
+    cout<<"├";
+    lineWidth(43,false,true);
+    gotoXY(110+43,y+26);
+    cout<<"┤";
     gotoXY(x,y+28);
     cout<<"Tạm tính:           ";
     gotoXY(114+30,y+28);
     cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
     gotoXY(x+16,y+16);
 }
-void Coupon::processCoupon(Booking *booking)
+void Coupon::processCoupon(Booking *booking, Coupon* coupon)
 {
     DoubleLinkedList<Coupon> coupons;
-    Coupon coupon;
-    coupon.loadCouponFromFile(coupons);
+    Coupon couponObj;
+    couponObj.loadCouponFromFile(coupons);
     // coupon.displayAllCoupon(coupons);
     string couponCode;
     // cout << "Enter coupon code: ";
@@ -189,20 +218,27 @@ void Coupon::processCoupon(Booking *booking)
     int x_click = click.X;
     int y_click = click.Y;
     if(isClickInRange(x_click,y_click,10,12,20,2)){
-        getString(couponCode,12,13);
+        // Assuming getStringInLine is a function that reads a string from a specific line
+        // Define the function or include the appropriate header file
+        // For now, using a placeholder implementation
+        getString(couponCode, 12, 13);
     }
     
     // cin >> couponCode;
     double tienduocgiam=0;
     for (Node<Coupon> *node = coupons.begin(); node != nullptr; node = node->next)
-    {
+    {   
+
+        //!Conflic o trong nay nhe
         if (node->data.getCouponCode() == couponCode)
         {   
             tienduocgiam=booking->getTotalPrice()*node->data.getDiscount();
+            coupon->setCouponCode(to_string((int)(node->data.getDiscount()*100)));
+            coupon->setDiscount(booking->getTotalPrice());
             gotoXY(10, 17);
             cout<< "Nhập mã khuyến mãi: "<<couponCode<<" thành công.";
             gotoXY(10, 18);
-            cout<<"Giảm giá: " << node->data.getDiscount() * 100 << "%" << endl;
+            cout<<"Ưu đãi của bạn la: Giảm giá trên đơn  " << node->data.getDiscount() * 100 << "%" << endl;
             booking->setTotalPrice(booking->getTotalPrice() * (1 - node->data.getDiscount()));
             // cout << "Discount: " << node->data.getDiscount() * 100 << "%" << endl;
             // cout << "Total price after discount: " << booking->getTotalPrice() << endl;
@@ -215,11 +251,11 @@ void Coupon::processCoupon(Booking *booking)
             break;
         }
     }
+    
     // booking->setNumberOfSeats(tienduocgiam);
-    this->discount=tienduocgiam;
     gotoXY(110, 33 +4);
     lineWidth(42, false, true);
-    gotoXY(110, 33 +6);
+    gotoXY(115, 33 +6);
     cout<<"Tổng cộng: ";
     gotoXY(144, 33 +6);
     cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
