@@ -264,3 +264,27 @@ Số điện thoại: 098765432
 Ngày sinh: 23/11/2009
 Giới tính: Nam
 
+#1046
+Tên đăng nhập: thuyhi
+Mật khẩu: T@thuy123
+Họ và tên: Thúy
+Số điện thoại: 0334105228
+Ngày sinh: 02/06/2005
+Giới tính: Nữ
+
+#1047
+Tên đăng nhập: lannn
+Mật khẩu: T@thich123
+Họ và tên: lan
+Số điện thoại: 0334789303
+Ngày sinh: 2/3/2005
+Giới tính: Nữ
+
+#1048
+Tên đăng nhập: 
+Mật khẩu: 12345678
+Họ và tên: 
+Số điện thoại: 
+Ngày sinh: 
+Giới tính: 
+

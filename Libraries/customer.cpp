@@ -136,6 +136,9 @@ int getClick_resigter()
 
     return 0;
 }
+void checkUserName(string &userName){
+    
+}
 void Customer::resigter(Customer &customer)
 {
     string passwordTemp;
@@ -239,15 +242,6 @@ void Customer::resigter(Customer &customer)
                 gotoXY(80, 23);
                 cout << ("                                                            ");
             }
-            break;
-        case 8:
-            customer.savetoFile(false);
-            gotoXY(130, 25);
-            cout << "Thành công";
-            run = false;
-            this_thread::sleep_for(chrono::seconds(2));
-            gotoXY(130, 25);
-            cout << "               "; // Clear the success message
             break;
         }
     }

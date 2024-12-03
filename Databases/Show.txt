@@ -67,12 +67,12 @@ Seat: F 7 Regular 50000 Available
 Seat: F 8 Regular 50000 Available
 Seat: F 9 Regular 50000 Available
 Seat: G 0 Regular 50000 Available
-Seat: G 1 Regular 50000 Available
+Seat: G 1 Regular 50000 Booked
 Seat: G 2 Disable 50000 Available
 Seat: G 3 VIP 90000 Available
-Seat: G 4 VIP 90000 Available
+Seat: G 4 VIP 90000 Booked
 Seat: G 5 VIP 90000 Available
-Seat: G 6 VIP 90000 Available
+Seat: G 6 VIP 90000 Booked
 Seat: G 7 Regular 50000 Booked
 Seat: G 8 Regular 50000 Available
 Seat: G 9 Regular 50000 Available
@@ -85,7 +85,7 @@ Seat: H 5 VIP 90000 Available
 Seat: H 6 VIP 90000 Available
 Seat: H 7 Regular 50000 Available
 Seat: H 8 Regular 50000 Available
-Seat: H 9 Regular 50000 Available
+Seat: H 9 Regular 50000 Booked
 Seat: I 0 Regular 50000 Available
 Seat: I 1 Regular 50000 Available
 Seat: I 2 Disable 50000 Available
