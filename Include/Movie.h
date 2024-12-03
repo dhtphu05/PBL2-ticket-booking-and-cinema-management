@@ -29,7 +29,7 @@ public:
     void removeMovie();
     void readID(DoubleLinkedList<Movie> &);
     void viewMovie();
-    void searchMovie();
+    void searchMovie(string &line);
     void saveToFile(int i);
     void readFile(DoubleLinkedList<Movie> &);
     Movie *selectMovie(int ID);
@@ -48,7 +48,7 @@ public:
     void setLanguage();
     void setDescription();
     void Display();
-    void show(DoubleLinkedList<Movie> &movieList, int k);
+    void show(DoubleLinkedList<Movie> &movieList,int , int ,  int k);
     string getID_Movie();
     string getTitle();
     string *getTitlePointer();
@@ -72,6 +72,7 @@ public:
     friend void subSaveAgainFile(DoubleLinkedList<Movie> &movieList);
     friend void printMovie(Movie *m);
     void selectMovieToBooking(DoubleLinkedList<Movie> &movieList);
+    void subSaveAgainFile(DoubleLinkedList<Movie> &movieList);
     friend class User;
 };
 #endif

@@ -2,6 +2,7 @@
 #include "User.h"
 #include "Customer.h"
 #include <iostream>
+#include <cmath>
 using namespace std;
 #ifndef STAFF_H
 #define STAFF_H
@@ -14,7 +15,7 @@ public:
     void addCustomer();
     void editCustomer();
     void removeCustomer();
-    void showCustomer();
+    void showCustomer(DoubleLinkedList<Customer> &, int, int);
     void savetoFile();
     void Display();
     void readID(DoubleLinkedList<Staff> &);

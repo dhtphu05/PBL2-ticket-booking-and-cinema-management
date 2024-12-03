@@ -73,5 +73,6 @@ class ShowSeat: public Seat{
     void cancelSeat();
     void displaySeat()  override;
     string convertSeatTypeToSimpleString();
+    bool operator==(ShowSeat& seat) ;
 
 };

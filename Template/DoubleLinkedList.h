@@ -202,6 +202,27 @@ public:
     {
         return size;
     }
+    void remove(Type &data){
+        Node<Type> *current = head;
+        while(current!=nullptr){
+            if(current->data==data){
+                if(current==head){
+                    pop_front();
+                    return;
+                }
+                if(current==tail){
+                    pop_back();
+                    return;
+                }
+                current->prev->next = current->next;
+                current->next->prev = current->prev;
+                delete current;
+                this->size--;
+                return;
+            }
+            current = current->next;
+        }
+    }
 };
 
 #endif

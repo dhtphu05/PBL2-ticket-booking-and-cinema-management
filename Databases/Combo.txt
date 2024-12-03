@@ -1,0 +1,11 @@
+ID_Combo: 1
+ComboName: Combo Vui vẻ
+ComboPrice: 104000
+ComboDescription: Bao gồm 1 Bắp Ngọt nhỏ + 1 Nước ngọt
+Quantity: 200
+
+ID_Combo: 2
+ComboName: Combo Hẹn hò
+ComboPrice: 218000
+ComboDescription: Bao gồm 1 Bắp Rang Bơ Size lớn + 2 Nước Ngọt
+Quantity: 200
