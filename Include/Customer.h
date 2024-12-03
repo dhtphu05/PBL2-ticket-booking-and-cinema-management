@@ -1,6 +1,5 @@
 #pragma once
 #include "User.h"
-
 #include "gotoXY.h"
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
@@ -21,6 +20,7 @@ static int count;
     void editCustomer();
     friend istream &operator>>(istream &in, Customer &customer);
     friend ostream &operator<<(ostream &out, Customer &customer);
+    Customer* getCustomerByUsername(DoubleLinkedList<Customer> &customerList,string username);
 };
 #endif
 void forchar(int n, int x, int y, char ch)
