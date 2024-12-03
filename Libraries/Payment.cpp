@@ -105,8 +105,8 @@ void layoutChooseMethod(){
 
 
 }
-void layoutFinal(Booking *booking){
-     int x=115;
+void layoutFinal(Booking *booking, Coupon* coupon){
+    int x=115;
     int y=5;
     gotoXY(110,3);
     lineWidth(42,true,true);
@@ -114,10 +114,14 @@ void layoutFinal(Booking *booking){
     lineHeight(35,153,4);
     gotoXY(110,23);
     lineWidth(42,true,false);
+    gotoXY(110,23);
+    cout<<"├";
+    gotoXY(153,23);
+    cout<<"┤";
     gotoXY(x,y);
     cout<<"THÔNG TIN ĐẶT VÉ";
     gotoXY(x,y+2);
-    cout<<"Mã vé: "<<booking->getBookingNumber();
+    cout<<"Mã vé: "<<BG_YELLOW<<booking->getBookingNumber()<<RESET;
     gotoXY(x,y+4);
     cout<<"Tên phim: "<<booking->getShow()->getMovie()->getTitle();
     gotoXY(x,y+6);
@@ -129,9 +133,10 @@ void layoutFinal(Booking *booking){
     cout<<"PHÒNG CHIẾU: "<<booking->getShow()->getScreen()->getID_screen();
     gotoXY(x,y+12);
     cout<<"GHẾ:";
-    gotoXY(x-1,y+14);
     int countVIP=0;
     int countNormal=0;
+    int countVIP_temp=0;
+    int countNormal_temp=0;
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
         if(node->data.convertSeatTypeToSimpleString()=="V"){
             countVIP++;
@@ -140,24 +145,42 @@ void layoutFinal(Booking *booking){
             countNormal++;
         }
     }
-    cout<<"x "<<countVIP<<" VIP: ";
+    countVIP_temp=countVIP;
+    countNormal_temp=countNormal;
+    double totalVIP=0;
+    
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){\
         
         if(node->data.convertSeatTypeToSimpleString()=="V"){
             gotoXY(x-1+6+countVIP*4,y+14);
+            totalVIP+=node->data.getPrice();
             countVIP--;
             cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
         }
     }
-    gotoXY(x-1,y+16);
-    cout<<"x "<<countNormal<<" THƯỜNG: ";
+
+    gotoXY(x-1,y+14);
+    if(totalVIP!=0){
+    cout<<"x "<<countVIP_temp<<" VIP: ";
+    gotoXY(144,y+14);
+    cout<<totalVIP;
+    }
+    double totalNormal=0;
+    
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
         
         if(node->data.convertSeatTypeToSimpleString()=="R"){
             gotoXY(x-1+9+countNormal*4,y+16);
+            totalNormal+=node->data.getPrice();
         countNormal--;
             cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
         }
+    }
+    if(totalNormal!=0){
+        gotoXY(x-1,y+16);
+    cout<<"x "<<countNormal_temp<<" THƯỜNG: ";
+    gotoXY(144,y+16);
+    cout<<totalNormal;
     }
     int idxCombo=0;
     for(Node<Combo>* node = booking->getCombos().begin(); node != nullptr; node = node->next){
@@ -165,19 +188,22 @@ void layoutFinal(Booking *booking){
         idxCombo++;
     }
     gotoXY(110,y+26);
-    lineWidth(42,false,true);
+    cout<<"├";
+    lineWidth(43,false,true);
+    gotoXY(110+43,y+26);
+    cout<<"┤";
     gotoXY(x,y+28);
     cout<<"Tạm tính:           ";
     gotoXY(114+30,y+28);
-    cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
+    cout<<BG_GREEN<<coupon->getDiscount()<<RESET;
     gotoXY(x+16,y+16);
     gotoXY(115, 33 +2);
     cout<<"Giảm giá: ";
     gotoXY(126, 33 +2);
-    // cout<<node->data.getDiscount()*100<<"%";
+    cout<<coupon->getCouponCode()<<"%";
     gotoXY(142, 33 +2 );
-    // cout<<"- "<<coupon.getDiscount();
-     gotoXY(110, 33 +4);
+    cout<<"- "<<coupon->getDiscount()-booking->getTotalPrice();
+    gotoXY(110, 33 +4);
     lineWidth(42, false, true);
     gotoXY(110, 33 +6);
     cout<<"Tổng cộng: ";
@@ -202,9 +228,12 @@ void CreditCardPayment::processPayment(Booking* booking)
     }
     gotoXY(5,5);
     printQRCode(5,4);
-    layoutFinal(booking);
+    layoutFinal(booking, booking->getAppliedCoupon());
     int xPayment=115;
     int yPayment=10;
+    borderLineWithTextAndColor(100, 44, "VUI LÒNG CHUYỂN KHOẢN VỚI DÒNG TIN NHẮN SAU", BG_GREEN);
+    borderLineWithTextAndColor(100, 47, booking->getBookingNumber() , BG_GREEN);
+    
     // gotoXY(xPayment,yPayment);
     // lineWidth(20,true,true);
     // gotoXY(xPayment,yPayment+2);

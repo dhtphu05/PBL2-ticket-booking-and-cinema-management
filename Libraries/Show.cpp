@@ -470,3 +470,31 @@ void convertSeaTypeToSimpleString(SeatType type){
         cout<<"D";
     }
 }
+Show* selectShowByID(string ID){
+    DoubleLinkedList<Show> showList;
+    Show showInstance;
+    Show* show = new Show;
+    DoubleLinkedList<Screen> screens;
+    Screen screenInstance;  
+    screenInstance.loadScreenFromFile(screens);
+    showInstance.loadShowFromFile(showList, screens);
+    for(int i=0;i<showList.getSize();i++){
+        if(showList[i].getID_Show()==ID){
+            *show = showList[i];
+            return show;
+        }
+    }
+    return nullptr;
+}
+ShowSeat& getSeatByRowColumn(DoubleLinkedList<ShowSeat> seats,string row, int column){
+    Node<ShowSeat> *current = seats.begin();
+    // current->data.displaySeat();
+    int i=0;
+    while(current!=nullptr){
+        if(current->data.getSeatRow()==row && current->data.getSeatColumn()==column){
+            return current->data;
+        }
+        current = current->next;
+    }
+    throw runtime_error("Seat not found.");
+}
