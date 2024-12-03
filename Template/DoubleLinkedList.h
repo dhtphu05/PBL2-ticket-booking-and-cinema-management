@@ -223,6 +223,42 @@ public:
             current = current->next;
         }
     }
+    //! mowi them vo de fix loi customer
+    DoubleLinkedList(const DoubleLinkedList& other) : head(nullptr), tail(nullptr), size(0)
+    {
+        Node<Type>* current = other.head;
+        while (current != nullptr)
+        {
+            push_back(current->data);
+            current = current->next;
+        }
+    }
+
+    // Assignment operator
+    DoubleLinkedList& operator=(const DoubleLinkedList& other)
+    {
+        if (this != &other)
+        {
+            // Clear existing list
+            while (head != nullptr)
+            {
+                Node<Type>* temp = head;
+                head = head->next;
+                delete temp;
+            }
+            tail = nullptr;
+            size = 0;
+
+            // Copy from other list
+            Node<Type>* current = other.head;
+            while (current != nullptr)
+            {
+                push_back(current->data);
+                current = current->next;
+            }
+        }
+        return *this;
+    }
 };
 
 #endif
