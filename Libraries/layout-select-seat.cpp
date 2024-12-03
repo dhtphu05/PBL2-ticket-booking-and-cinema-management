@@ -21,6 +21,8 @@ const string BG_BLUE="\033[34m";
 const string BG_GREEN="\033[32m";
 const string BG_GRAY="\033[37m";
 const string RESET  ="\033[0m";
+const string BG_YELLOW="\033[33m";
+const string BG_CYAN="\033[36m";
 void lineWidth(int n,bool hasRadius,bool isTop){
     
     if(isTop){
@@ -147,6 +149,25 @@ void layoutBorderSeat(Show* show){
         current = current->next;
     }
     descriptionSeat();
+}
+void borderLineWithTextAndColor(int x, int y, string text, string color=RESET){
+    gotoXY(x,y);
+    cout<<color;
+    cout<<"╭";
+    for(int i=0;i<text.length();i++){
+        cout<<"─";
+    }
+    cout<<"╮";
+    gotoXY(x,y+1);
+    cout<<"│"<<text<<"│";
+    gotoXY(x,y+2);
+    cout<<"╰";
+    for(int i=0;i<text.length();i++){
+        cout<<"─";
+    }
+    cout<<"╯";
+    cout<<RESET;
+
 }
 
 void layoutBooking(Booking* booking){

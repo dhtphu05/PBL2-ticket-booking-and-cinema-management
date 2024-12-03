@@ -497,3 +497,14 @@ void Customer::saveAgainFile(DoubleLinkedList<Customer> &listCustomer)
     }
     out.close();
 }
+Customer* Customer::getCustomerByUsername(DoubleLinkedList<Customer>& customerList, string username)
+{   
+    for (int i = 0; i < customerList.getSize(); i++)
+    {
+        if (customerList[i].getUserName() == username)
+        {
+            return &customerList[i];
+        }
+    }
+    return nullptr;
+}

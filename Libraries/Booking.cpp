@@ -18,18 +18,24 @@ Booking::Booking()
     this->bookingNumber = "";
     this->numberOfSeats = 0;
     this->bookingTime = "";
-    this->customer = nullptr;
     this->show = nullptr;
     this->totalPrice = 0;
     this->status = bookingSeat;
     this->payment = nullptr;
-
+    this->appliedCoupon = new Coupon();
+    this->customer = new Customer("Guest","");
+    this->staff = nullptr;
+    this->admin = nullptr;
 }
 Booking::Booking(string bookingNumber, int numberOfSeats, string bookingTime, Customer *customer, Show *show, DoubleLinkedList<ShowSeat> seats, double totalPrice, BookingStatus status, Payment *payment)
-    : bookingNumber(bookingNumber), numberOfSeats(numberOfSeats), bookingTime(bookingTime), customer(customer), show(show), seats(seats), totalPrice(totalPrice)
+    : bookingNumber(bookingNumber), numberOfSeats(numberOfSeats), bookingTime(bookingTime), show(show), seats(seats), totalPrice(totalPrice)
 {
     this->status = bookingSeat;
     this->payment = payment;
+    this->customer = customer;
+    this->staff = nullptr;
+    this->admin = nullptr;
+
 }
 string Booking::getBookingNumber()
 {
@@ -43,10 +49,10 @@ string Booking::getBookingTime()
 {
     return this->bookingTime;
 }
-Customer *Booking::getCustomer()
-{
-    return this->customer;
-}
+// Customer *Booking::getCustomer()
+// {
+//     return this->customer;
+// }
 Show *Booking::getShow()
 {
     return this->show;
@@ -75,10 +81,10 @@ void Booking::setBookingTime(string bookingTime)
 {
     this->bookingTime = bookingTime;
 }
-void Booking::setCustomer(Customer *customer)
-{
-    this->customer = customer;
-}
+// void Booking::setCustomer(Customer *customer)
+// {
+//     this->customer = customer;
+// }
 void Booking::setShow(Show *show)
 {
     this->show = show;
@@ -99,9 +105,47 @@ void Booking::setPayment(Payment *payment)
 {
     this->payment = payment;
 }
+Coupon *Booking::getAppliedCoupon()
+{
+    return this->appliedCoupon;
+}
+void Booking::setCustomer(Customer *user)
+{
+    this->customer = user;
+}
+void Booking::setStaff(Staff *user)
+{
+    this->staff = user;
+}
+void Booking::setAdmin(Admin *user)
+{
+    this->admin = user;
+}
+Customer *Booking::getCustomer()
+{
+    return this->customer;
+}
+Staff *Booking::getStaff()
+{
+    return this->staff;
+}
+Admin *Booking::getAdmin()
+{
+    return this->admin;
+}
+void Booking::setCombos(DoubleLinkedList<Combo>& combos)
+{
+    this->combos = combos;
+}
+void Booking::setAppliedCoupon(Coupon *coupon)
+{
+    this->appliedCoupon = coupon;
+}
+
 //!TODO: 1 hóa đơn là tạo 1 file
 void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> &screens,DoubleLinkedList<Movie> &movies)
 {   system("cls");
+    borderLineWithTextAndColor(120,1,"Khách hàng: "+this->getCustomer()->getFullName(),BG_CYAN);
     Movie movieInstance;
     Movie* movie= &movieInstance;
     movie->selectMovieToBooking(movies);
@@ -221,7 +265,7 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
     combo.processCombo(this); 
     system("cls");
     Coupon coupon;
-    coupon.processCoupon(this);
+    coupon.processCoupon(this,this->getAppliedCoupon());
     // gotoXY(122,39);
     // cout<<"Chọn phương thức thanh toán";
     // gotoXY(122,41);
@@ -236,8 +280,7 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
         this->getPayment()->processPayment(this);
     
 
-    ofstream file("../Databases/Booking.txt", ios::app);
-
+    this->saveBookingToFile();
     //calculate total price
     // cout<<"Total price: "<<totalPrice<<endl;
     // cout<<"Confirm booking? 1.Yes 2.No"<<endl;
@@ -293,3 +336,170 @@ DoubleLinkedList<Combo>& Booking::getCombos()
     return this->combos;
 }
 
+void Booking::saveBookingToFile()
+{
+    ofstream file("../Databases/Booking.txt", ios::app);
+    file << "Mã vé: " << this->bookingNumber << endl;
+    file << "Thời gian đặt vé: " << this->bookingTime << endl;
+    file << "Khách hàng: " << this->customer->getUserName() << endl;
+    file << "Mã suất chiếu: " << this->show->getID_Show() << endl;
+    file << "Tên phim:"<<this->show->getMovie()->getTitle()<<endl;
+    file << "Thời gian chiếu: " << this->show->getStartTime() << " - " << this->show->getEndTime() << " " << this->show->getDate() << endl;
+    file << "Danh sách ghế: ";
+    for(Node<ShowSeat>* node = this->seats.begin(); node != nullptr; node = node->next){
+        file << node->data.getSeatRow() << node->data.getSeatColumn() << " ";
+    }
+    file<<endl;
+    file << "Danh sách các combo: "<<endl;
+    for(Node<Combo>* node = this->combos.begin(); node != nullptr; node = node->next){
+        file <<node->data.getQuantityBuy()<<"x" <<node->data.getComboName();
+        file<<endl;
+    }
+    file<<"/"<<endl;
+    file << "Mã giảm giá: " << this->appliedCoupon->getCouponCode() << endl;
+    file << "Phương thức thanh toán: " << this->payment->getPaymentMethod() << endl;
+    file << "Tổng cộng: " << this->totalPrice << endl;
+    // file << "BookingStatus: " << this->status << endl;
+    file << "--------------------------------" << endl;
+    file.close();
+}
+void Booking::loadBookingFromFile(DoubleLinkedList<Booking>& bookings,DoubleLinkedList<Customer>& customers)
+{
+    ifstream file("../Databases/Booking.txt");
+    string line;
+    Booking* booking = nullptr;
+    string lineCoupon;
+    while (getline(file, line))
+    {   
+        istringstream ss(line);
+        string key;
+
+        if (line.find("Mã vé: ",0) == 0)
+        {   
+            if(booking!=nullptr){
+                bookings.push_back(*booking);
+            }
+            booking = new Booking();
+            booking->setBookingNumber(line.substr(9));
+            
+        }
+        else if (line.find("Thời gian đặt vé: ") != string::npos)
+        {
+            booking->setBookingTime(line.substr(24));
+        }
+        else if (line.find("Khách hàng: ") != string::npos)
+        {
+            Customer* customer;
+            // customer.selectCustomer();
+            booking->setCustomer(customer->getCustomerByUsername(customers,line.substr(14)));
+        }
+        ///! fix được tới đay rồi
+        //!lỗi do mấy cái hàm line bị sai thôi
+        else if (line.find("Mã suất chiếu: ") != string::npos)
+        {
+            Show show;
+            Show* showTemp = selectShowByID(line.substr(20));
+            booking->setShow(showTemp);
+            
+        }
+        else if (line.find("Thời gian chiếu: ") != string::npos)
+        {
+            string time = line.substr(21);
+            string startTime = time.substr(0, 5);
+            string endTime = time.substr(8, 5);
+            string date = time.substr(14);
+            booking->getShow()->setStartTime(startTime);
+            booking->getShow()->setEndTime(endTime);
+            booking->getShow()->setDate(date);
+        }
+        else if (line.find("Danh sách ghế: ") != string::npos)
+        {
+            string seats = line.substr(18);
+            for(int i=0;i<seats.size();i+=3){
+                string seatRow = seats.substr(i,1);
+                int seatColumn = stoi(seats.substr(i+1,1));
+                ShowSeat seat = booking->getShow()->getSeatByRowColumn(seatRow,seatColumn);
+                booking->getSeats().push_back(seat);
+            }
+            cout<<"huhuhu"<<endl;
+            cout<<booking->getSeats().getSize()<<endl;
+        }
+        else if (line.find("Danh sách các combo: ") != string::npos)
+        {
+            //Danh sách các combo: 
+            //1x Combo Vui vẻ
+            //1x Combo Hẹn hò
+            string linee="d";
+            DoubleLinkedList<Combo> comboList;
+            Combo comboInstance;
+            comboInstance.loadComboFromFile(comboList);
+            streampos pos;
+            while(!linee.empty()){
+                pos = file.tellg();
+
+                getline(file,linee);
+
+                if(linee.find("/") != string::npos ){
+                    // file.seekg(pos);
+                    
+                    break;
+                }
+                cout<<linee<<endl;
+                string quantity;
+                string comboName;
+                quantity = linee.substr(0,1);
+                cout<<quantity<<endl;
+                comboName = linee.substr(3);
+                cout<<comboName<<endl;
+                
+                Combo combo;
+                for(int i=0;i<comboList.getSize();i++){
+                    string name = comboList[i].getComboName().substr(1);
+                    if(comboList[i].getComboName()==comboName){
+                        combo = comboList[i];
+                        break;
+                    }
+                }
+                combo.setQuantityBuy(stoi(quantity));
+                booking->getCombos().push_back(combo);
+                cout<<booking->getCombos().getSize()<<endl;
+                
+
+            }
+            cout<<"combo size: "<<booking->getCombos().getSize()<<endl;
+        }
+        /////! fix được tới đây rồi
+        else if(line.find("Mã giảm giá: ") != string::npos)
+        {   
+            string couponCode = line.substr(17);
+            Coupon* coupon = new Coupon();
+            coupon->setCouponCode(couponCode);
+            booking->setAppliedCoupon(coupon);
+            
+        }
+        else if (line.find("Phương thức thanh toán: ") != string::npos)
+        {
+            string paymentMethod = line.substr(29);
+            cout<<paymentMethod<<endl;
+            if (paymentMethod == "Chuyển khoản")
+            {   
+                booking->setPayment(new CreditCardPayment());
+            }
+            else if (paymentMethod == "Tiền mặt")
+            {
+                booking->setPayment(new CashPayment());
+            }
+            cout<<booking->getPayment()->getPaymentMethod()<<endl;
+        }
+        else if (line.find("Tổng cộng: ") != string::npos)
+        {   
+            cout<<line.substr(15)<<endl;
+            booking->setTotalPrice(stod(line.substr(15)));
+            cout<<booking->getTotalPrice()<<endl;
+        }
+        
+    }
+    if(booking!=nullptr){
+        bookings.push_back(*booking);
+    }
+}

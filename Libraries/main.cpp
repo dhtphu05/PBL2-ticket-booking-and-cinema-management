@@ -64,7 +64,7 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
         menuLogin("🧑" + customer->getUserName(), "Đăng xuất");
         
         // int a;cin>>a;
-        return;
+        // return;
         // Lấy lựa chọn từ người dùng
         choice = getMouseDashBoardCustomer();
 
@@ -77,8 +77,8 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
             menu_header("🧑" + customer->getUserName(), "Quay lại");
             // choice = getMouseDashBoardCustomer();
             profilePage(customer, customerList); // hàm này ở menu.h nhé
+            //!chui vo day
             break;
-
         case 4:
             // Thêm chức năng khác, ví dụ: Xem dịch vụ
             system("cls");
