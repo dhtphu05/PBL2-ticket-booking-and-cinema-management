@@ -150,11 +150,27 @@ void layoutBorderSeat(Show* show){
     }
     descriptionSeat();
 }
+int getTextWidth(const string& text) {
+    int width = 0;
+    for (size_t i = 0; i < text.length();) {
+        if ((unsigned char)text[i] < 0x80) {
+            width += 1;
+            i += 1;
+        } else {
+            width += 1;  // Most Vietnamese characters take up one display width
+            i += 2;  // Skip the UTF-8 bytes
+        }
+    }
+    return width;
+}
+
 void borderLineWithTextAndColor(int x, int y, string text, string color=RESET){
+    SetConsoleCP(65001);
+    int textWidth = getTextWidth(text);
     gotoXY(x,y);
     cout<<color;
     cout<<"╭";
-    for(int i=0;i<text.length();i++){
+    for(int i=0;i<textWidth;i++){
         cout<<"─";
     }
     cout<<"╮";
@@ -162,12 +178,11 @@ void borderLineWithTextAndColor(int x, int y, string text, string color=RESET){
     cout<<"│"<<text<<"│";
     gotoXY(x,y+2);
     cout<<"╰";
-    for(int i=0;i<text.length();i++){
+    for(int i=0;i<textWidth;i++){
         cout<<"─";
     }
     cout<<"╯";
     cout<<RESET;
-
 }
 
 void layoutBooking(Booking* booking){
@@ -252,6 +267,40 @@ int convertRowandColToInt(string row, int col){
     int rowInt= (char)row[0]-'A';
     int colTemp=col+1;
     return rowInt*10+colTemp;
+}
+string convertMoney(double money){
+    // chuyen thanh VND có cach moi 3 chu so
+    string str=to_string(money);
+    //delete .00000
+    str=str.substr(0,str.find("."));
+    string result="";
+    int count=0;
+    for(int i=str.length()-1;i>=0;i--){
+        count++;
+        result=str[i]+result;
+        if(count%3==0 && i!=0){
+            result=" "+result;
+        }
+    }
+    return result;
+}
+string convertDateDefalutToSimple (string date){
+    //Sun Dec 20 00:00:00 2020 to 00:00:00 20/12/2020
+    //it don't convert Dec to 12 ??
+    string result="";
+    string months[] = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+    string monthNumber[] = {"01","02","03","04","05","06","07","08","09","10","11","12"};
+    string day = date.substr(8,2);
+    string month = date.substr(4,3);
+    string year = date.substr(20,4);
+    for(int i=0;i<12;i++){
+        if(month==months[i]){
+            month = monthNumber[i];
+            break;
+        }
+    }
+    result = date.substr(11,8)+" "+day+"/"+month+"/"+year;
+    return result;
 }
 
 

@@ -52,7 +52,7 @@ int getMouseDashBoardCustomer()
     }
     return 0;
 }
-void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customerList)
+void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customerList,DoubleLinkedList<Booking> &bookingList)
 {
     bool loggedIn = true;
     int choice;
@@ -76,7 +76,7 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
             system("cls");
             menu_header("🧑" + customer->getUserName(), "Quay lại");
             // choice = getMouseDashBoardCustomer();
-            profilePage(customer, customerList); // hàm này ở menu.h nhé
+            profilePage(customer, customerList,bookingList); // hàm này ở menu.h nhé
             //!chui vo day
             break;
         case 4:
@@ -117,6 +117,7 @@ int main()
     DoubleLinkedList<Staff> staffList;
     DoubleLinkedList<Customer> customerList;
     DoubleLinkedList<Movie> movieList;
+    DoubleLinkedList<Booking> bookingList;
     int k;
     User *user = new User();
     SetConsoleOutputCP(65001);
@@ -131,6 +132,7 @@ int main()
     DoubleLinkedList<Show> shows;
     Show show;
     show.loadShowFromFile(shows,screens);
+
     // booking.sellTicket(shows,screens,movieList);
 
     // show.displayAllShow(shows);
@@ -176,9 +178,9 @@ dashboard_main:
     }
     else if (log == 3)
     {
-
+        
         Customer *customerPtr = &customerList[k];
-        dashBoard_customer(customerPtr, customerList);
+        dashBoard_customer(customerPtr, customerList, bookingList);
         system("cls");
 
         goto dashboard_main; 
@@ -187,7 +189,7 @@ dashboard_main:
     {
 
         Customer *customer = &customerList[customerList.getSize() - 1];
-        dashBoard_customer(customer, customerList);
+        dashBoard_customer(customer, customerList, bookingList);
         // system("cls");
         click=processInputEvents();
     int xclick,yclick;
