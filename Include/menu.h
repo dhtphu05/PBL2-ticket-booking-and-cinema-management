@@ -523,6 +523,7 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                 system("cls");
                 menuAdmin_default(*admin);
                 showChartAgeCustomer(customerList);
+                system("cls");
                 goto dashBoard_admin;
                 break;
             }
