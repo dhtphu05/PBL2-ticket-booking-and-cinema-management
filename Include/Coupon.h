@@ -1,6 +1,6 @@
 #pragma once
 #include "Booking.h"
-
+#include "Coupon.h"
 class Coupon{
     protected:
     string couponCode;
@@ -15,5 +15,5 @@ class Coupon{
     void loadCouponFromFile(DoubleLinkedList<Coupon> &coupons);
     void displayCoupon();
     void displayAllCoupon(DoubleLinkedList<Coupon> &coupons);
-    void processCoupon(Booking* booking);
+    void processCoupon(Booking* booking,Coupon* coupon);
 };

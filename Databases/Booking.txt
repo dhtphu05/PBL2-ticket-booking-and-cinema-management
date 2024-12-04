@@ -1,0 +1,64 @@
+Mã vé: dQ1R7F4lfL
+Thời gian đặt vé: Sun Dec 01 15:20:04 2024
+
+Khách hàng: user1010
+Mã suất chiếu: S2
+Tên phim:Thám Tử Lừng Danh Conan
+Thời gian chiếu: 20:00 - 21:30 2024-11-28
+Danh sách ghế: A1 B1 
+Danh sách các combo: 
+1x Combo Vui vẻ
+1x Combo Hẹn hò
+/
+Mã giảm giá: 20
+Phương thức thanh toán: Chuyển khoản
+Tổng cộng: 257616
+--------------------------------
+Mã vé: MNfA004Npp
+Thời gian đặt vé: Sun Dec 01 15:36:46 2024
+
+Khách hàng: user1010
+Mã suất chiếu: S2
+Tên phim:Thám Tử Lừng Danh Conan
+Thời gian chiếu: 20:00 - 21:30 2024-11-28
+Danh sách ghế: A7 B7 
+Danh sách các combo: 
+1x Combo Vui vẻ
+1x Combo Hẹn hò
+/
+Mã giảm giá: 20
+Phương thức thanh toán: Chuyển khoản
+Tổng cộng: 257616
+--------------------------------
+Mã vé: PaUTr2Ypxa
+Thời gian đặt vé: Tue Dec 03 16:24:53 2024
+
+Khách hàng: user1010
+Mã suất chiếu: S2
+Tên phim:Thám Tử Lừng Danh Conan
+Thời gian chiếu: 20:00 - 21:30 2024-11-28
+Danh sách ghế: E5 E4 E3 E2 G2 G3 
+Danh sách các combo: 
+1x Combo Vui vẻ
+2x Combo Hẹn hò
+/
+Mã giảm giá: 20
+Phương thức thanh toán: Chuyển khoản
+Tổng cộng: 432048
+--------------------------------
+Mã vé: UakYVIHVV4
+Thời gian đặt vé: Tue Dec 03 17:48:48 2024
+
+Khách hàng: user1010
+Mã suất chiếu: S2
+Tên phim:Thám Tử Lừng Danh Conan
+Thời gian chiếu: 20:00 - 21:30 2024-11-28
+Danh sách ghế: C7 A8 G5 
+Danh sách các combo: 
+1x Combo Vui vẻ
+2x Combo Hẹn hò
+/
+Mã giảm giá: 20
+Phương thức thanh toán: Chuyển khoản
+Tổng cộng: 432024
+--------------------------------

@@ -61,6 +61,7 @@ int getClick_addstaff()
     }
     return 0;
 }
+// todo tự nhiên nhấn xong name là bắt thoát rồi- xí xem lại- đi nấu cơm đã-done
 void Admin::addStaff()
 {
     Staff staff;
@@ -89,6 +90,7 @@ void Admin::addStaff()
     showString("┬", 93, 20);
     showString("┴", 93, 22);
     int choice;
+    bool name = false, phone = false, dob = false, gender = false, username = false, password = false;
     bool run = true;
     while (run)
     {
@@ -96,35 +98,93 @@ void Admin::addStaff()
         switch (choice)
         {
         case 1:
+            gotoXY(54, 8);
+            cout << left << setw(25) << " ";
             getString(staff.getFullName(), 54, 8);
+            name = true;
             break;
         case 2:
+            gotoXY(60, 10);
+            cout << left << setw(25) << " ";
             getString(staff.getPhoneNumber(), 60, 10);
+
+            while (!_regexPhoneNumber(staff.getPhoneNumber()))
+            {
+                gotoXY(80, 23);
+                cout << "Số điện thoại không hợp lệ";
+                gotoXY(60, 10);
+                cout << "                              ";
+                gotoXY(60, 10);
+                getString(staff.getPhoneNumber(), 60, 10);
+                gotoXY(80, 23);
+                cout << "                                 ";
+            }
+            phone = true;
             break;
         case 3:
+            gotoXY(54, 12);
+            cout << left << setw(25) << " ";
             getString(staff.getDOB(), 54, 12);
+
+            while (!_regexDOB(staff.getDOB()))
+            {
+                gotoXY(80, 23);
+                cout << "Ngày sinh không hợp lệ";
+                gotoXY(54, 12);
+                cout << "                          ";
+                gotoXY(54, 12);
+                getString(staff.getDOB(), 54, 12);
+                gotoXY(80, 23);
+                cout << "                                 ";
+            }
+            dob = true;
             break;
         case 4:
+            gotoXY(54, 14);
+            cout << left << setw(25) << " ";
             getString(staff.getGender(), 54, 14);
+            gender = true;
+
             break;
         case 5:
+            gotoXY(57, 16);
+            cout << left << setw(25) << " ";
             getString(staff.getUserName(), 57, 16);
+            username = true;
             break;
         case 6:
+            gotoXY(52, 18);
+            cout << left << setw(25) << " ";
             getString(staff.getPassword(), 57, 18);
+            while (!_isValidPassword(staff.getPassword()))
+            {
+                gotoXY(50, 23);
+                cout << "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt";
+                gotoXY(57, 18);
+                cout << "                            ";
+                gotoXY(57, 18);
+                getString(staff.getPassword(), 57, 18);
+                gotoXY(50, 23);
+                cout << "                                                                                             ";
+            }
+            phone = true;
+
             break;
         case 7:
-            staff.savetoFile();
-            gotoXY(130, 25);
-            cout << "Thành công";
-            run = false;
-            this_thread::sleep_for(chrono::seconds(2));
-            gotoXY(130, 25);
-            cout << "               "; // Clear the success message
-            break;
-        case 8:
-            run = false;
-            break;
+            if (name && phone && dob && gender && username && password)
+            {
+                staff.savetoFile();
+                gotoXY(130, 25);
+                cout << "Thành công";
+                run = false;
+                this_thread::sleep_for(chrono::seconds(2));
+                gotoXY(130, 25);
+                cout << "               "; // Clear the success message
+                break;
+            case 8:
+                run = false;
+                break;
+            }
         }
     }
     gotoXY(130, 5);
@@ -169,7 +229,7 @@ int getclick_editStaff()
     x_click = click.X;
     y_click = click.Y;
 
-    if (x_click >= 40 && x_click <= 120 && y_click >= 10 && y_click <12)
+    if (x_click >= 40 && x_click <= 120 && y_click >= 10 && y_click < 12)
     {
         return 1; // ho ten
     }
@@ -177,7 +237,7 @@ int getclick_editStaff()
     {
         return 2; // so dien thoai
     }
-    if (x_click >= 40 && x_click <= 120 && y_click >= 14 && y_click <16)
+    if (x_click >= 40 && x_click <= 120 && y_click >= 14 && y_click < 16)
     {
         return 3; // ngay sinh
     }
@@ -197,7 +257,7 @@ int getclick_editStaff()
     {
         return 7; // luu
     }
-    if (x_click >= 93 && x_click <= 111 && y_click >= 24 && y_click <=26)
+    if (x_click >= 93 && x_click <= 111 && y_click >= 24 && y_click <= 26)
     {
         return 8; // huy
     }
@@ -529,7 +589,6 @@ void Admin::showStaff(DoubleLinkedList<Staff> &staffList, int currentPage, int s
     cout << "┴";
     gotoXY(139, x + end - start);
     cout << "┴";
-    
 }
 void Admin::savetoFile()
 {

@@ -264,3 +264,11 @@ Số điện thoại: 098765432
 Ngày sinh: 23/11/2009
 Giới tính: Nam
 
+#1046
+Tên đăng nhập: thanhht
+Mật khẩu: Thanh@123
+Họ và tên: Nguyễn Thị Thanh
+Số điện thoại: 0334105228
+Ngày sinh: 22/01/2005
+Giới tính: Nữ
+

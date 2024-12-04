@@ -1,9 +1,9 @@
 #pragma once
 #include "User.h"
-
 #include "gotoXY.h"
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
+#include <ctime>
 class Customer : public User
 {
 public:
@@ -17,34 +17,31 @@ static int count;
     void saveAgainFile(DoubleLinkedList<Customer> &);
     void Display();
     void readID(DoubleLinkedList<Customer> &); 
-    void resigter(Customer &customer);
+    bool resigter(Customer &customer);
     void editCustomer();
     friend istream &operator>>(istream &in, Customer &customer);
     friend ostream &operator<<(ostream &out, Customer &customer);
+    Customer* getCustomerByUsername(DoubleLinkedList<Customer> &customerList,string username);
 };
 #endif
-void forchar(int n, int x, int y, char ch)
+int getYear()
 {
-    gotoXY(x, y);
-    if (ch != ' ')
-        ;
-    cout << "+";
-    for (int i = 0; i < n; i++)
-    {
-        if (ch != ' ')
-        {
-            gotoXY(x + 1, y);
-        }
-        else
-            gotoXY(x, y);
-        cout << ch;
-        x++;
-    }
-    if (ch != ' ')
-    {
-        gotoXY(x, y);
-        cout << "+";
-    }
-    else
-        cout << "|";
+    // Lấy thời gian hiện tại
+    std::time_t now = std::time(nullptr);
+    std::tm *localTime = std::localtime(&now); // Lấy thời gian local
+    return 1900 +  localTime->tm_year;          // tm_year là số năm tính từ 1900
+}
+int getMonth()
+{
+    // Lấy thời gian hiện tại
+    std::time_t now = std::time(nullptr);
+    std::tm *localTime = std::localtime(&now); // Lấy thời gian local
+    return  1+localTime->tm_mon;          //
+}
+int getDay()
+{
+    // Lấy thời gian hiện tại
+    std::time_t now = std::time(nullptr);
+    std::tm *localTime = std::localtime(&now); // Lấy thời gian local
+    return localTime->tm_mday;          // 
 }

@@ -162,6 +162,7 @@ int getclick_addMovie()
 
     return 0;
 }
+// TODO: phải điền hết thông tin mới cho addMovie
 void Movie::addMovie()
 {
     Movie newMovie;
@@ -1195,16 +1196,16 @@ void Movie::selectMovieToBooking(DoubleLinkedList<Movie> &movieList)
     // {
     //     cout << movieList[i].ID_Movie << ". " << movieList[i].title << endl;
     // }
-    //cout << "Nhập ID phim bạn muốn chọn: ";
+    // cout << "Nhập ID phim bạn muốn chọn: ";
     int ID;
     // cin >> ID;
-    ID=2002;
+    ID = 2002;
     for (int i = 0; i < movieList.getSize(); i++)
     {
         if (movieList[i].ID_Movie == ID)
         {
             *this = movieList[i];
-            //cout << "Phim đã đặt: " << this->title << endl;
+            // cout << "Phim đã đặt: " << this->title << endl;
             return;
         }
     }

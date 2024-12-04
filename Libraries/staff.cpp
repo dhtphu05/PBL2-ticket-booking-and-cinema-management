@@ -53,6 +53,8 @@ int getClick_addCustomer()
     }
     return 0;
 }
+// todo : kiểm tra tính hợp lệ của mật khẩu, sdt, ngaỳ sinh
+// todo : hướng phát triển cho hàm nhập: khi nhập xong một trường, nếu click chuột lại trường đó thì nội dung k bị xóa chỉ khi nào nguwoif dùng gõ nội dung mới thì mới xóa nội dung cũ
 void Staff::addCustomer()
 {
     Customer customer;
@@ -85,7 +87,7 @@ void Staff::addCustomer()
     showString("┬", 94, 17);
     showString("┴", 94, 19);
 
-    bool running = true;
+    bool running = true, name = false, phone = false, dob = false, gender = false;
     int choice;
     string str;
     while (running)
@@ -95,38 +97,73 @@ void Staff::addCustomer()
         {
         case 1:
         {
+            gotoXY(53, 8);
+            cout << left << setw(25) << " ";
             getString(str, 53, 8);
             customer.setFullName(str);
+            name = true;
             break;
         }
         case 2:
         {
+            gotoXY(57, 10);
+            cout << left << setw(25) << " ";
             getString(str, 57, 10);
             customer.setPhoneNumber(str);
+            while (!isPhone(customer.getPhoneNumber()))
+            {
+                gotoXY(80, 23);
+                cout << "Số điện thoại không hợp lệ";
+                gotoXY(57, 10);
+                cout << "                              ";
+                gotoXY(57, 10);
+                getString(str, 57, 10);
+                gotoXY(80, 23);
+                cout << "                                 ";
+            }
+            phone = true;
             break;
         }
         case 3:
         {
+            gotoXY(53, 12);
+            cout << left << setw(25) << " ";
             getString(str, 53, 12);
             customer.setDOB(str);
+            while (!isDOB(customer.getDOB()))
+            {
+                gotoXY(80, 23);
+                cout << "Ngày sinh không hợp lệ";
+                gotoXY(53, 12);
+                cout << "                          ";
+                gotoXY(53, 12);
+                getString(str, 53, 12);
+                gotoXY(80, 23);
+                cout << "                                 ";
+            }
+            dob = true;
             break;
         }
         case 4:
         {
             getString(str, 53, 14);
             customer.setGender(str);
+            gender = true;
             break;
         }
         case 5:
         {
-            customer.savetoFile(true);
-            gotoXY(130, 25);
-            cout << "Thêm thành công";
-            this_thread::sleep_for(chrono::seconds(2));
-            gotoXY(130, 25);
-            cout << "               "; // Clear the success message
-            running = false;
-            break;
+            if (name && phone && dob && gender)
+            {
+                customer.savetoFile(true);
+                gotoXY(130, 25);
+                cout << "Thêm thành công";
+                this_thread::sleep_for(chrono::seconds(2));
+                gotoXY(130, 25);
+                cout << "               "; // Clear the success message
+                running = false;
+                break;
+            }
         }
         case 6:
         {
@@ -234,7 +271,6 @@ void Staff::showCustomer(DoubleLinkedList<Customer> &listCustomer, int currentPa
     showString("┴", 82, x + end - start);
     showString("┴", 97, x + end - start);
     showString("┴", 113, x + end - start);
-    
 }
 void Staff::savetoFile()
 {
