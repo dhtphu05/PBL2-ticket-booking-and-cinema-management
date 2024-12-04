@@ -20,7 +20,7 @@
 #include <windows.h>
 #undef byte
 using namespace std;
-
+//todo: còn task kiểm tra usename có tồn tại hay chưa nữa--chiều làm
 int getMouseDashBoardCustomer()
 {
     click = processInputEvents();
@@ -110,6 +110,10 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
         }
     }
 }
+// số hộ chiếu: C9589031
+// ngày xuất : 29/5/2022
+// ngay sinh: 10/11/200
+// noi lam viec: SISIOGA nhẬT BẢN
 
 int main()
 {

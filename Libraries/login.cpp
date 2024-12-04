@@ -27,8 +27,6 @@ int click_login()
     }
 }
 
-
-
 void getPassword(string &password)
 {
     char ch;
@@ -179,35 +177,46 @@ int getclick_login()
     click = processInputEvents();
     x_click = click.X;
     y_click = click.Y;
-    if (x_click >= 52 && x_click <= 93 && y_click >= 16 && y_click <= 19)
+    if (x_click >= 52 && x_click <= 93 && y_click >= 16 && y_click <= 18)
     {
-        return 1;
+        return 1; // ten dang nhap
     }
     if (x_click >= 52 && x_click <= 93 && y_click >= 18 && y_click <= 20)
     {
-        return 2;
+        return 2; // mat khau
     }
     if (x_click >= 64 && x_click <= 79 && y_click >= 21 && y_click <= 23)
     {
-        return 3;
+        return 3; // dang nhap
     }
-    if (x_click >= 66 && x_click <= 79 && y_click >= 23 && y_click <= 25)
+    if (x_click >= 66 && x_click <= 79 && y_click >= 24 && y_click <= 24)
     {
-        return 4;
+        return 4; // quen mat khau
     }
-    if(x_click >= 81 && x_click <= 90 && y_click >= 26 && y_click <= 26)
+    if (x_click >= 81 && x_click <= 90 && y_click >= 26 && y_click <= 26)
     {
-        return 5;
+        return 5; // dang ky
     }
+    if (x_click >= 130 && x_click <= 140 && y_click >= 5 && y_click <= 7)
+    {
+        return 6; // thoat
+    }
+    return 0;
 }
+// todo: ngày 4/12 thêm vào phần đăng nhập "thoat" và click chuột vào "đăng ký"
+// todo : còn phần "quên mật khẩu " chưa tác động
+// todo: chưa check sai mật khâu nè huhuhuhu- do sửa lại nên bị xóa mà k để ý - thoi ăn cơm đã hêhehe
 int logIn(DoubleLinkedList<Admin> &adminList, DoubleLinkedList<Staff> &staffList, DoubleLinkedList<Customer> &customerList, int &k)
 {
-    menuLogin("Đăng nhập", "Đăng kí");
-    int choice = click_login();
+dashBoard_login:
 
     bool running = true;
+
     while (running)
     {
+        menuLogin("Đăng nhập", "Đăng kí");
+        int choice = click_login();
+    dashBoard_choice:
         switch (choice)
         {
         case 1:
@@ -215,6 +224,9 @@ int logIn(DoubleLinkedList<Admin> &adminList, DoubleLinkedList<Staff> &staffList
             system("cls");
             string userName;
             string password;
+            lineWidth(8, 130, 5, true, true);
+            showString("│ Thoát  │", 130, 6);
+            lineWidth(8, 130, 7, true, false);
             lineWidth(41, 52, 14, true, true);
             showString("Đăng nhập", 70, 15);
             lineWidth(42, 52, 16, false, false);
@@ -235,71 +247,105 @@ int logIn(DoubleLinkedList<Admin> &adminList, DoubleLinkedList<Staff> &staffList
             cout << "\033[4mQuên mật khẩu\033[0m" << endl;
             gotoXY(60, 26);
             cout << "Bạn chưa có tài khoản?" << "\033[4mĐăng ký\033[0m" << endl;
-            gotoXY(69, 17);
-            cin >> userName;
-            wchar_to_utf8(userName);
-            gotoXY(63, 19);
-            getPassword(password);
-            wchar_to_utf8(password);
-            // int choice = getclick_login();
-            // bool run = true;
-            // while(run){
-            //     switch(choice){
-            //         case 1: 
-            //         run = false;
-            //         break;
-            //         case 2:
-                    
-            //     }
-            // }
-            readFileManagement(1, adminList, staffList, customerList);
-            readFileManagement(2, adminList, staffList, customerList);
-            readFileManagement(3, adminList, staffList, customerList);
-            gotoXY(100, 31);
-            cout << adminList.getSize() << " " << staffList.getSize() << " " << customerList.getSize() << endl;
-            bool run = true;
-            while (run)
+            // gotoXY(69, 17);
+            // cin >> userName;
+            // wchar_to_utf8(userName);
+            // gotoXY(63, 19);
+            // getPassword(password);
+            // wchar_to_utf8(password);
+
+            bool running = true, _username = false, _password = false, _run = false;
+            while (running)
             {
-                if (checkUser(adminList, userName, password, k))
+                int choicee = getclick_login();
+                switch (choicee)
                 {
-                    system("cls");
-                    run = false;
-                    return 1;
-                }
-                else if (checkUser(staffList, userName, password, k))
-                {
-                    gotoXY(130, 1);
-                    cout << staffList[k].getFullName() << "<>" << endl;
-                    run = false;
-                    return 2;
-                }
-                else if (checkUser(customerList, userName, password, k))
-                {
-                    gotoXY(130, 1);
-                    cout << customerList[k].getFullName() << "<>" << endl;
-                    run = false;
-                    return 3;
-                }
-                else
-                {
-                    cin.ignore();
-                    gotoXY(50, 22);
-                    cout << "Tên đăng nhập hoặc mật khẩu không đúng" << endl;
-                    gotoXY(68, 17);
+                case 1:
+                    gotoXY(69, 17);
                     cout << "                   ";
-                    gotoXY(68, 17);
-                    userName = "";
-                    cin >> userName;
-                    wchar_to_utf8(userName);
-                    gotoXY(63, 19);
+                    getString(userName, 69, 17);
+                    _username = true;
+                    break;
+                case 2:
+                    gotoXY(69, 19);
                     cout << "                   ";
-                    gotoXY(63, 19);
-                    password = "";
+                    gotoXY(69, 19);
                     getPassword(password);
-                    wchar_to_utf8(password);
+                    _password = true;
+                    break;
+                case 3:
+                    if (_username && _password)
+                    {
+                        running = false;
+                        _run = true;
+                        break;
+                    }
+
+                case 5:
+                    system("cls");
+                    running = false;
+                    choice = 2;
+                    break;
+                case 6:
+                    system("cls");
+                    running = false;
+                    goto dashBoard_login;
+                    break;
                 }
             }
-            break;
+            if (_run)
+            {
+                readFileManagement(1, adminList, staffList, customerList);
+                readFileManagement(2, adminList, staffList, customerList);
+                readFileManagement(3, adminList, staffList, customerList);
+                bool run = true;
+                while (run)
+                {
+                    if (checkUser(adminList, userName, password, k))
+                    {
+                        system("cls");
+                        run = false;
+                        return 1;
+                    }
+                    else if (checkUser(staffList, userName, password, k))
+                    {
+                        gotoXY(130, 1);
+                        cout << staffList[k].getFullName() << "<>" << endl;
+                        run = false;
+                        return 2;
+                    }
+                    else if (checkUser(customerList, userName, password, k))
+                    {
+                        gotoXY(130, 1);
+                        cout << customerList[k].getFullName() << "<>" << endl;
+                        run = false;
+                        return 3;
+                    }
+                    else
+                    {
+                        gotoXY(50, 27);
+                        cout << "Tên đăng nhập hoặc mật khẩu không đúng" << endl;
+                        gotoXY(68, 17);
+                        cout << "                   ";
+                        gotoXY(68, 17);
+                        userName = "";
+                        getString(userName, 68, 17);
+                        wchar_to_utf8(userName);
+                        gotoXY(63, 19);
+                        cout << "                   ";
+                        gotoXY(63, 19);
+                        password = "";
+                        getPassword(password);
+                        wchar_to_utf8(password);
+                    }
+                }
+                break;
+            }
+            else
+            {
+                goto dashBoard_choice;
+                break;
+            }
         }
 
         case 2:
@@ -308,16 +354,21 @@ int logIn(DoubleLinkedList<Admin> &adminList, DoubleLinkedList<Staff> &staffList
             system("cls");
             gotoXY(50, 4);
             cout << "Đăng ký";
-            customer.resigter(customer);
-            // customer.savetoFile();
-            for (int i = customerList.getSize() - 1; i >= 0; i--)
-            {
-                customerList.earse(i);
-            }
-            customer.readfromFile(customerList);
 
-            system("cls");
-            return 4;
+            if (customer.resigter(customer))
+            {
+                // customer.savetoFile();
+                for (int i = customerList.getSize() - 1; i >= 0; i--)
+                {
+                    customerList.earse(i);
+                }
+                customer.readfromFile(customerList);
+                system("cls");
+                return 4;
+            }
+            else
+                goto dashBoard_login;
+
             break;
         }
         case 3:

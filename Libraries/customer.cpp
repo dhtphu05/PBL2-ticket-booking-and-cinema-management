@@ -133,12 +133,74 @@ int getClick_resigter()
     {
         return 8; // luu
     }
+    if (x_click >= 130 && x_click <= 140 && y_click >= 5 && y_click <= 7)
+    {
+        return 9;
+    }
 
     return 0;
 }
-void Customer::resigter(Customer &customer)
+///// todo phải nhập hết thông tin rồi mới cho nhấn đăng ký thành công -done
+
+// todo nhập số điện thoại theo format
+bool regexPhoneNumber(string &phone)
+{
+
+    std::regex patter(R"(^0(3|5|7|8|9)\d{8}$)");
+
+    return std::regex_match(phone, patter) ? true : false;
+}
+bool regexDOB(string &DOB)
+{
+
+    std::regex patter("\\d{2}[/]\\d{2}[/]\\d{4}");
+
+    if (std::regex_match(DOB, patter))
+    {
+        string day = DOB.substr(0, 2);
+        string month = DOB.substr(3, 2);
+        string year = DOB.substr(6, 4);
+        if (stoi(year) > getYear())
+            return false;
+        else if (stoi(year) == getYear())
+        {
+            if (stoi(month) > getMonth())
+            {
+                return false;
+            }
+            else if (stoi(month) == getMonth())
+            {
+                if (stoi(day) > getDay())
+                {
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            if (stoi(month) > 12)
+                return false;
+            else
+            {
+                if (stoi(day) > 31)
+                    return false;
+            }
+        }
+        return true;
+    }
+    else
+        return false;
+}
+// todo còn lại chọn giới tính cho tích chọn nữ hay nam
+bool Customer::resigter(Customer &customer)
 {
     string passwordTemp;
+    // todo thêm thoát
+    lineWidth(8, 130, 5, true, true);
+    showString("│ Thoát  │", 130, 6);
+    lineWidth(8, 130, 7, true, false);
+
+    ///////////////////////////////
     lineWidth(79, 40, 7, true, true);
     showString("Họ và tên: ", 42, 8);
     lineWidth(80, 40, 9, false, false);
@@ -162,8 +224,8 @@ void Customer::resigter(Customer &customer)
     showString("🔒 Đăng kí", 42, 23);
     lineWidth(15, 40, 24, true, false);
     lineHeight(1, 40, 23, false, false, false);
-    lineHeight(1, 57, 23, false, false, false);
-
+    lineHeight(1, 56, 23, false, false, false);
+    bool fullname = false, phoneNumber = false, dateOfBirth = false, gender = false, username = false, password = false, _passwordTemp = false;
     int choice;
     bool run = true;
     bool check = false;
@@ -176,27 +238,54 @@ void Customer::resigter(Customer &customer)
             gotoXY(54, 8);
             cout << left << setw(25) << " ";
             getString(customer.fullName, 54, 8);
+            fullname = true;
             break;
         case 2:
 
             gotoXY(57, 10);
             cout << left << setw(25) << " ";
             getString(customer.phoneNumber, 57, 10);
+            while (!regexPhoneNumber(customer.phoneNumber))
+            {
+                gotoXY(70, 23);
+                cout << "Số điện thoại không hợp lệ";
+                gotoXY(57, 10);
+                cout << "                            ";
+                gotoXY(57, 10);
+                getString(customer.phoneNumber, 57, 10);
+                gotoXY(70, 23);
+                cout << "                                ";
+            }
+            phoneNumber = true;
             break;
         case 3:
-            gotoXY(58, 12);
+            gotoXY(54, 12);
             cout << left << setw(25) << " ";
             getString(customer.dateOfBirth, 54, 12);
+            while (!regexDOB(customer.dateOfBirth))
+            {
+                gotoXY(50, 25);
+                cout << "Ngày sinh không hợp lệ hoặc không đúng định dạng, định dạng ngày sinh là dd/mm/yyyy";
+                gotoXY(54, 12);
+                cout << "                                                 ";
+                gotoXY(54, 12);
+                getString(customer.dateOfBirth, 54, 12);
+                gotoXY(50, 25);
+                cout << "                                                                                                    ";
+            }
+            dateOfBirth = true;
             break;
         case 4:
             gotoXY(54, 14);
             cout << left << setw(25) << " ";
             getString(customer.gender, 54, 14);
+            gender = true;
             break;
         case 5:
             gotoXY(57, 16);
             cout << left << setw(25) << " ";
             getString(customer.username, 57, 16);
+            username = true;
             break;
         case 6:
             gotoXY(51, 18);
@@ -215,6 +304,7 @@ void Customer::resigter(Customer &customer)
                 cout << ("                                                                                                ");
             }
             check = true;
+            password = true;
             break;
         case 7:
             if (check == false)
@@ -239,18 +329,35 @@ void Customer::resigter(Customer &customer)
                 gotoXY(80, 23);
                 cout << ("                                                            ");
             }
+            _passwordTemp = true;
             break;
         case 8:
-            customer.savetoFile(false);
-            gotoXY(130, 25);
-            cout << "Thành công";
-            run = false;
-            this_thread::sleep_for(chrono::seconds(2));
-            gotoXY(130, 25);
-            cout << "               "; // Clear the success message
+            if (fullname && phoneNumber && dateOfBirth && gender && username && password && _passwordTemp)
+            {
+                customer.savetoFile(false);
+                gotoXY(130, 25);
+                cout << "Thành công";
+                run = false;
+                this_thread::sleep_for(chrono::seconds(1));
+                gotoXY(130, 25);
+                cout << "               "; // Clear the success message
+            }
+            else
+            {
+                gotoXY(50, 25);
+                cout << "Bạn chưa điền đầy đủ thông tin";
+                this_thread::sleep_for(chrono::seconds(1));
+                gotoXY(50, 25);
+                cout << "                                              "; // Clear the success message
+            }
+            break;
+        case 9:
+            system("cls");
+            return false;
             break;
         }
     }
+    return true;
 }
 void Customer::editCustomer()
 {
@@ -497,8 +604,8 @@ void Customer::saveAgainFile(DoubleLinkedList<Customer> &listCustomer)
     }
     out.close();
 }
-Customer* Customer::getCustomerByUsername(DoubleLinkedList<Customer>& customerList, string username)
-{   
+Customer *Customer::getCustomerByUsername(DoubleLinkedList<Customer> &customerList, string username)
+{
     for (int i = 0; i < customerList.getSize(); i++)
     {
         if (customerList[i].getUserName() == username)
