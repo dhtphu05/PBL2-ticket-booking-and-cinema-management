@@ -18,9 +18,11 @@
 #include "Booking.cpp"
 #define byte windows_byte
 #include <windows.h>
-#undef byte
+#undef by
 using namespace std;
-//todo: còn task kiểm tra usename có tồn tại hay chưa nữa--chiều làm
+//todo: chỉnh sửa excepyion ở movie và thêm events nữa với làm báo cáo nữa chứ sắp hết time ôn thi rồi huhuh
+//todo: còn cái kiểm tra username tồn tại hay chưa nữa, à và cái regex cho them file chỗ phim nữa
+
 int getMouseDashBoardCustomer()
 {
     click = processInputEvents();
@@ -52,7 +54,7 @@ int getMouseDashBoardCustomer()
     }
     return 0;
 }
-void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customerList)
+void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customerList,DoubleLinkedList<Booking> &bookingList)
 {
     bool loggedIn = true;
     int choice;
@@ -76,7 +78,7 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
             system("cls");
             menu_header("🧑" + customer->getUserName(), "Quay lại");
             // choice = getMouseDashBoardCustomer();
-            profilePage(customer, customerList); // hàm này ở menu.h nhé
+            profilePage(customer, customerList,bookingList); // hàm này ở menu.h nhé
             //!chui vo day
             break;
         case 4:
@@ -110,10 +112,6 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
         }
     }
 }
-// số hộ chiếu: C9589031
-// ngày xuất : 29/5/2022
-// ngay sinh: 10/11/200
-// noi lam viec: SISIOGA nhẬT BẢN
 
 int main()
 {
@@ -121,6 +119,7 @@ int main()
     DoubleLinkedList<Staff> staffList;
     DoubleLinkedList<Customer> customerList;
     DoubleLinkedList<Movie> movieList;
+    DoubleLinkedList<Booking> bookingList;
     int k;
     User *user = new User();
     SetConsoleOutputCP(65001);
@@ -135,6 +134,7 @@ int main()
     DoubleLinkedList<Show> shows;
     Show show;
     show.loadShowFromFile(shows,screens);
+
     // booking.sellTicket(shows,screens,movieList);
 
     // show.displayAllShow(shows);
@@ -180,9 +180,9 @@ dashboard_main:
     }
     else if (log == 3)
     {
-
+        
         Customer *customerPtr = &customerList[k];
-        dashBoard_customer(customerPtr, customerList);
+        dashBoard_customer(customerPtr, customerList, bookingList);
         system("cls");
 
         goto dashboard_main; 
@@ -191,7 +191,7 @@ dashboard_main:
     {
 
         Customer *customer = &customerList[customerList.getSize() - 1];
-        dashBoard_customer(customer, customerList);
+        dashBoard_customer(customer, customerList, bookingList);
         // system("cls");
         click=processInputEvents();
     int xclick,yclick;

@@ -94,7 +94,10 @@ void Admin::addStaff()
     bool run = true;
     while (run)
     {
+
         choice = getClick_addstaff();
+        gotoXY(50, 23);
+        cout << "                                                     ";
         switch (choice)
         {
         case 1:
@@ -108,36 +111,32 @@ void Admin::addStaff()
             cout << left << setw(25) << " ";
             getString(staff.getPhoneNumber(), 60, 10);
 
-            while (!_regexPhoneNumber(staff.getPhoneNumber()))
+            if (!_regexPhoneNumber(staff.getPhoneNumber()))
             {
-                gotoXY(80, 23);
-                cout << "Số điện thoại không hợp lệ";
+                gotoXY(50, 23);
+                cout << "\033[31mSố điện thoại không hợp lệ\033[0m";
                 gotoXY(60, 10);
                 cout << "                              ";
-                gotoXY(60, 10);
-                getString(staff.getPhoneNumber(), 60, 10);
-                gotoXY(80, 23);
-                cout << "                                 ";
+                break;
             }
-            phone = true;
+            else
+                phone = true;
             break;
         case 3:
             gotoXY(54, 12);
             cout << left << setw(25) << " ";
             getString(staff.getDOB(), 54, 12);
 
-            while (!_regexDOB(staff.getDOB()))
+            if (!_regexDOB(staff.getDOB()))
             {
-                gotoXY(80, 23);
-                cout << "Ngày sinh không hợp lệ";
+                gotoXY(50, 23);
+                cout << "\033[31mNgày sinh không hợp lệ\033[0m";
                 gotoXY(54, 12);
-                cout << "                          ";
-                gotoXY(54, 12);
-                getString(staff.getDOB(), 54, 12);
-                gotoXY(80, 23);
-                cout << "                                 ";
+                cout << "                              ";
+                break;
             }
-            dob = true;
+            else
+                dob = true;
             break;
         case 4:
             gotoXY(54, 14);
@@ -156,18 +155,16 @@ void Admin::addStaff()
             gotoXY(52, 18);
             cout << left << setw(25) << " ";
             getString(staff.getPassword(), 57, 18);
-            while (!_isValidPassword(staff.getPassword()))
+            if (!_isValidPassword(staff.getPassword()))
             {
                 gotoXY(50, 23);
-                cout << "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt";
+                cout << "\033[31mMật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt\033[0m";
                 gotoXY(57, 18);
-                cout << "                            ";
-                gotoXY(57, 18);
-                getString(staff.getPassword(), 57, 18);
-                gotoXY(50, 23);
-                cout << "                                                                                             ";
+                cout << "                              ";
+                break;
             }
-            phone = true;
+            else
+                phone = true;
 
             break;
         case 7:
@@ -179,12 +176,19 @@ void Admin::addStaff()
                 run = false;
                 this_thread::sleep_for(chrono::seconds(2));
                 gotoXY(130, 25);
-                cout << "               "; // Clear the success message
-                break;
-            case 8:
-                run = false;
+                cout << "               ";
+                run = false; // Clear the success message
                 break;
             }
+            else
+            {
+                gotoXY(50, 23);
+                cout << "\033[31mVui lòng nhập đầy đủ thông tin!\033[0m";
+                break;
+            }
+        case 8: // Hủy
+            run = false;
+            break;
         }
     }
     gotoXY(130, 5);
@@ -225,9 +229,9 @@ void menu(Staff &staff)
 }
 int getclick_editStaff()
 {
-    click = processInputEvents();
-    x_click = click.X;
-    y_click = click.Y;
+    COORD click = processInputEvents();
+    int x_click = click.X;
+    int y_click = click.Y;
 
     if (x_click >= 40 && x_click <= 120 && y_click >= 10 && y_click < 12)
     {
@@ -261,7 +265,7 @@ int getclick_editStaff()
     {
         return 8; // huy
     }
-    if (x_click >= 40 && x_click <= 50 && y_click >= 6 && y_click < 8)
+    if (x_click >= 40 && x_click <= 50 && y_click >= 6 && y_click <= 8)
     {
         return 9; // Xoa
     }
@@ -271,6 +275,7 @@ int getclick_editStaff()
     }
     return 0;
 }
+// todo xu ly exception
 void Admin::editStaff()
 {
 
@@ -287,14 +292,50 @@ void Admin::editStaff()
     cout << "│          │" << endl;
     lineWidth(10, 40, 8, true, false);
     bool find = false;
-    string str;
-    int choice = getclick_editStaff();
-    while (choice != 9)
+    string str = "";
+    int choice;
+
+    bool validInput = false;
+    while (!validInput)
     {
-        choice = getclick_editStaff();
+
+        try
+        {
+
+            choice = getclick_editStaff();
+            while (choice != 9)
+            {
+                // gotoXY(50, 25);
+                // cout << "Bị lỗi có chạy vô đây không";
+                choice = getclick_editStaff();
+            }
+            gotoXY(40, 9);
+            cout << "                          ";
+            gotoXY(42, 7);
+            cout << "         ";
+            getString(str, 42, 7); // Lấy chuỗi từ người dùng
+            if (std::all_of(str.begin(), str.end(), ::isdigit))
+            {
+                ID = stoi(str);
+            }
+            else
+            {
+                throw std::invalid_argument("Lỗi: Vui lòng chỉ nhập số!");
+            } //     // Chuyển đổi chuỗi sang số
+            validInput = true; // Nếu thành công, thoát vòng lặp
+        }
+        catch (const std::invalid_argument &e)
+        {
+            gotoXY(40, 9); // Hiển thị thông báo lỗi tại vị trí thích hợp
+            cout << "\033[31mVui lòng nhập số hợp lệ!\033[0m";
+        }
+        catch (const std::out_of_range &e)
+        {
+            gotoXY(40, 9);
+            cout << "Số nhập quá lớn!";
+        }
     }
-    getString(str, 42, 7);
-    ID = stoi(str);
+
     int k;
     Staff staffTemp;
     for (int i = 0; i < staffList.getSize(); i++)
@@ -315,6 +356,8 @@ void Admin::editStaff()
             bool run = true;
             while (run)
             {
+                gotoXY(50, 23);
+                cout << "                                 ";
                 string str_temp;
                 choicee = getclick_editStaff();
                 switch (choicee)
@@ -336,7 +379,16 @@ void Admin::editStaff()
                     gotoXY(53, 15);
                     cout << left << setw(25) << " ";
                     getString(str_temp, 53, 15);
-                    staffList[i].setDOB(str_temp);
+                    if (!_regexDOB(str_temp))
+                    {
+                        gotoXY(50, 23);
+                        cout << "\033[31mNgày sinh không hợp lệ\033[0m";
+                        gotoXY(53, 15);
+                        cout << "                              ";
+                        break;
+                    }
+                    else
+                        staffList[i].setDOB(str_temp);
                     break;
                 case 4:
                     gotoXY(53, 17);
@@ -354,7 +406,17 @@ void Admin::editStaff()
                     gotoXY(52, 21);
                     cout << left << setw(25) << " ";
                     getString(str_temp, 52, 21);
-                    staffList[i].setPassword(str_temp);
+                    if (!_isValidPassword(str_temp))
+                    {
+                        gotoXY(50, 23);
+                        cout << "\033[31mMật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt\033[0m";
+                        gotoXY(57, 18);
+                        cout << "                              ";
+                        break;
+                    }
+                    else
+                        staffList[i].setPassword(str_temp);
+
                     break;
                 case 7:
                     staffList[i].saveAgainFile(staffList);
@@ -369,6 +431,9 @@ void Admin::editStaff()
 
                     run = false;
                     break;
+                default:
+                    run = false;
+                    break;
                 }
             }
         }
@@ -376,7 +441,7 @@ void Admin::editStaff()
     if (find == false)
     {
         gotoXY(50, 10);
-        cout << "Không tìm thấy thông tin!" << endl;
+        cout << "\033[31mKhông tìm thấy thông tin!\033[0m" << endl;
     }
     gotoXY(130, 5);
     cout << "❌";
@@ -427,12 +492,43 @@ void Admin::removeStaff()
     gotoXY(40, 7);
     cout << "│          │" << endl;
     lineWidth(10, 40, 8, true, false);
-    int choice = getClick_removeStaff();
-    if (choice == 1)
+    int choice;
+    bool validInput = false;
+    while (!validInput)
     {
-        getString(str, 42, 7);
+        try
+        {
+            choice = getClick_removeStaff();
+            while (choice != 1)
+            {
+                choice = getClick_removeStaff();
+            }
+            gotoXY(40, 9);
+            cout << "                          ";
+            gotoXY(42, 7);
+            cout << "         ";
+            getString(str, 42, 7); // Lấy chuỗi từ người dùng
+            if (std::all_of(str.begin(), str.end(), ::isdigit))
+            {
+                ID = stoi(str);
+            }
+            else
+            {
+                throw std::invalid_argument("Lỗi: Vui lòng chỉ nhập số!");
+            } // Chuyển đổi chuỗi sang số
+            validInput = true; // Nếu thành công, thoát vòng lặp
+        }
+        catch (const std::invalid_argument &e)
+        {
+            gotoXY(40, 9); // Hiển thị thông báo lỗi tại vị trí thích hợp
+            cout << "\033[31mVui lòng nhập số hợp lệ!\033[0m";
+        }
+        catch (const std::out_of_range &e)
+        {
+            gotoXY(40, 9);
+            cout << "\033[31mSố nhập quá lớn!\033[0m";
+        }
     }
-    ID = stoi(str);
     for (int i = 0; i < staffList.getSize(); i++)
     {
         if (staffList[i].returnID() == ID)
@@ -463,7 +559,7 @@ void Admin::removeStaff()
     if (count == false)
     {
         gotoXY(50, 10);
-        cout << "Không tìm thấy thông tin" << endl;
+        cout << "\033[31mKhông tìm thấy thông tin\033[0m" << endl;
     }
     staff.saveAgainFile(staffList);
     gotoXY(130, 5);
@@ -476,31 +572,7 @@ void Admin::removeStaff()
     system("cls");
     menuAdmin_default(*this);
 }
-void ForChar(int n, int x, int y, char ch)
-{
-    gotoXY(x, y);
-    if (ch != ' ')
-        ;
-    cout << "+";
-    for (int i = 0; i < n; i++)
-    {
-        if (ch != ' ')
-        {
-            gotoXY(x + 1, y);
-        }
-        else
-            gotoXY(x, y);
-        cout << ch;
-        x++;
-    }
-    if (ch != ' ')
-    {
-        gotoXY(x, y);
-        cout << "+";
-    }
-    else
-        cout << "|";
-}
+
 int getClick_showStaff()
 {
     click = processInputEvents();
@@ -622,47 +694,55 @@ void Admin::readfromFile(DoubleLinkedList<Admin> &admins)
 {
 
     ifstream in;
-    in.open("../Databases/AdminList.txt");
-    if (!in.is_open())
+    try
     {
-        throw runtime_error("Lỗi không thể mở file");
+        in.open("../Databases/AdminList.txt");
+        if (!in.is_open())
+        {
+            throw runtime_error("Lỗi không thể mở file");
+        }
+        string line;
+        Admin admin;
+        while (getline(in, line))
+        {
+            if (!line.empty() && line[0] == '#')
+            {
+                admin.ID = stoi(line.substr(1));
+            }
+            else if (line.find("Tên đăng nhập: ") == 0)
+            {
+                admin.username = Mytrim(line.substr(20));
+            }
+            else if (line.find("Mật khẩu: ") == 0)
+            {
+                admin.password = Mytrim(line.substr(13));
+            }
+            else if (line.find("Họ và tên: ") == 0)
+            {
+                admin.fullName = Mytrim(line.substr(15));
+            }
+            else if (line.find("Số điện thoại: ") == 0)
+            {
+                admin.phoneNumber = Mytrim(line.substr(22));
+            }
+            else if (line.find("Ngày sinh: ") == 0)
+            {
+                admin.dateOfBirth = Mytrim(line.substr(13));
+            }
+            else if (line.find("Giới tính: ") == 0)
+            {
+                admin.gender = Mytrim(line.substr(13));
+                admins.push_back(admin);
+                admin = Admin();
+            }
+        }
+        in.close();
     }
-    string line;
-    Admin admin;
-    while (getline(in, line))
+    catch (...)
     {
-        if (!line.empty() && line[0] == '#')
-        {
-            admin.ID = stoi(line.substr(1));
-        }
-        else if (line.find("Tên đăng nhập: ") == 0)
-        {
-            admin.username = Mytrim(line.substr(20));
-        }
-        else if (line.find("Mật khẩu: ") == 0)
-        {
-            admin.password = Mytrim(line.substr(13));
-        }
-        else if (line.find("Họ và tên: ") == 0)
-        {
-            admin.fullName = Mytrim(line.substr(15));
-        }
-        else if (line.find("Số điện thoại: ") == 0)
-        {
-            admin.phoneNumber = Mytrim(line.substr(22));
-        }
-        else if (line.find("Ngày sinh: ") == 0)
-        {
-            admin.dateOfBirth = Mytrim(line.substr(13));
-        }
-        else if (line.find("Giới tính: ") == 0)
-        {
-            admin.gender = Mytrim(line.substr(13));
-            admins.push_back(admin);
-            admin = Admin();
-        }
+        gotoXY(100, 4);
+        cout << "\033[31mKhông thể đọc file ADMIN! Hãy kiểm tra lại!\033[0m" << endl;
     }
-    in.close();
 }
 void Admin::saveAgainFile(DoubleLinkedList<Staff> &)
 {

@@ -231,6 +231,8 @@ bool Customer::resigter(Customer &customer)
     bool check = false;
     while (run)
     {
+        gotoXY(50, 25);
+        cout << "                                                                       ";
         choice = getClick_resigter();
         switch (choice)
         {
@@ -245,35 +247,31 @@ bool Customer::resigter(Customer &customer)
             gotoXY(57, 10);
             cout << left << setw(25) << " ";
             getString(customer.phoneNumber, 57, 10);
-            while (!regexPhoneNumber(customer.phoneNumber))
+            if (!regexPhoneNumber(customer.phoneNumber))
             {
-                gotoXY(70, 23);
-                cout << "Số điện thoại không hợp lệ";
+                gotoXY(50, 25);
+                cout << "\033[31mSố điện thoại không hợp lệ\033[0m";
                 gotoXY(57, 10);
-                cout << "                            ";
-                gotoXY(57, 10);
-                getString(customer.phoneNumber, 57, 10);
-                gotoXY(70, 23);
-                cout << "                                ";
+                cout << "                              ";
+                break;
             }
-            phoneNumber = true;
+            else
+                phoneNumber = true;
             break;
         case 3:
             gotoXY(54, 12);
             cout << left << setw(25) << " ";
             getString(customer.dateOfBirth, 54, 12);
-            while (!regexDOB(customer.dateOfBirth))
+            if (!regexDOB(customer.dateOfBirth))
             {
                 gotoXY(50, 25);
-                cout << "Ngày sinh không hợp lệ hoặc không đúng định dạng, định dạng ngày sinh là dd/mm/yyyy";
+                cout << "\033[31mNgày sinh không hợp lệ hoặc không đúng định dạng, định dạng ngày sinh là (dd/mm/yyyy)\033[0m";
                 gotoXY(54, 12);
-                cout << "                                                 ";
-                gotoXY(54, 12);
-                getString(customer.dateOfBirth, 54, 12);
-                gotoXY(50, 25);
-                cout << "                                                                                                    ";
+                cout << "                              ";
+                break;
             }
-            dateOfBirth = true;
+            else
+                dateOfBirth = true;
             break;
         case 4:
             gotoXY(54, 14);
@@ -292,25 +290,23 @@ bool Customer::resigter(Customer &customer)
             cout << left << setw(25) << " ";
             gotoXY(51, 18);
             GetPassword(customer.password);
-            while (!isValidPassword(customer.password))
+            if (!isValidPassword(customer.password))
             {
-                gotoXY(70, 23);
+                gotoXY(50, 25);
                 cout << ("Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt");
                 gotoXY(51, 18);
-                cout << "                            ";
-                gotoXY(51, 18);
-                GetPassword(customer.password);
-                gotoXY(70, 23);
-                cout << ("                                                                                                ");
+                cout << "                              ";
+                break;
             }
-            check = true;
+            else
+                check = true;
             password = true;
             break;
         case 7:
             if (check == false)
             {
                 gotoXY(70, 23);
-                cout << "Mật khẩu chưa được nhập";
+                cout << "\033[31mMật khẩu chưa được nhập\033[0m";
                 this_thread::sleep_for(chrono::seconds(2));
                 break;
             }
@@ -318,18 +314,16 @@ bool Customer::resigter(Customer &customer)
             cout << left << setw(25) << " ";
             gotoXY(63, 20);
             GetPassword(passwordTemp);
-            while (customer.password != passwordTemp)
+            if (customer.password != passwordTemp)
             {
-                gotoXY(80, 23);
-                cout << ("Mật khẩu không khớp! Vui lòng nhập lại");
+                gotoXY(50, 25);
+                cout << ("\033[31mMật khẩu không khớp! Vui lòng nhập lại\033[0m");
                 gotoXY(63, 20);
-                cout << "                            ";
-                gotoXY(63, 20);
-                GetPassword(passwordTemp);
-                gotoXY(80, 23);
-                cout << ("                                                            ");
+                cout << "                              ";
+                break;
             }
-            _passwordTemp = true;
+            else
+                _passwordTemp = true;
             break;
         case 8:
             if (fullname && phoneNumber && dateOfBirth && gender && username && password && _passwordTemp)
@@ -345,10 +339,9 @@ bool Customer::resigter(Customer &customer)
             else
             {
                 gotoXY(50, 25);
-                cout << "Bạn chưa điền đầy đủ thông tin";
-                this_thread::sleep_for(chrono::seconds(1));
-                gotoXY(50, 25);
-                cout << "                                              "; // Clear the success message
+                cout << "\033[31mBạn chưa điền đầy đủ thông tin\033[0m";
+
+                // Clear the success message
             }
             break;
         case 9:
@@ -441,35 +434,43 @@ void Customer::savetoFile(bool yesAutoSaveUsername)
 {
     DoubleLinkedList<Customer> customers;
     readID(customers);
-    this->ID = count;
-    if (yesAutoSaveUsername)
+    try
     {
-        this->username = "user" + to_string(count);
-    }
-    ofstream out;
-    if (0)
-    {
-        out.open("../Databases/CustomerList.txtList.txt"); // Mở file để ghi (ghi đè)
-    }
-    else
-    {
-        out.open("../Databases/CustomerList.txt", std::ios::app); // Mở file để ghi thêm (append)
-    }
+        this->ID = count;
+        if (yesAutoSaveUsername)
+        {
+            this->username = "user" + to_string(count);
+        }
+        ofstream out;
+        if (0)
+        {
+            out.open("../Databases/CustomerList.txtList.txt"); // Mở file để ghi (ghi đè)
+        }
+        else
+        {
+            out.open("../Databases/CustomerList.txt", std::ios::app); // Mở file để ghi thêm (append)
+        }
 
-    if (!out.is_open())
-    {
-        throw runtime_error("Error opening file");
-    }
+        if (!out.is_open())
+        {
+            throw runtime_error("Error opening file");
+        }
 
-    out << "#" << this->ID << endl;
-    out << "Tên đăng nhập: " << this->username << endl;
-    out << "Mật khẩu: " << this->password << endl;
-    out << "Họ và tên: " << this->fullName << endl;
-    out << "Số điện thoại: " << this->phoneNumber << endl;
-    out << "Ngày sinh: " << this->dateOfBirth << endl;
-    out << "Giới tính: " << this->gender << endl;
-    out << endl;
-    out.close();
+        out << "#" << this->ID << endl;
+        out << "Tên đăng nhập: " << this->username << endl;
+        out << "Mật khẩu: " << this->password << endl;
+        out << "Họ và tên: " << this->fullName << endl;
+        out << "Số điện thoại: " << this->phoneNumber << endl;
+        out << "Ngày sinh: " << this->dateOfBirth << endl;
+        out << "Giới tính: " << this->gender << endl;
+        out << endl;
+        out.close();
+    }
+    catch (...)
+    {
+        gotoXY(100, 3);
+        cout << "\033[31mKhông thể mở file để lưu customer! Hãy kiểm tra lại!\033[0m" << endl;
+    }
 }
 bool is_whitespace_utf8_c(char c)
 {
@@ -498,84 +499,99 @@ std::string c_trim(const std::string &str)
 
 void Customer::readfromFile(DoubleLinkedList<Customer> &listCustomer)
 {
-
-    ifstream in;
-    in.open("../Databases/CustomerList.txt");
-    if (!in.is_open())
+    try
     {
-        throw runtime_error("Error opening file");
+        ifstream in;
+        in.open("../Databases/CustomerList.txt");
+        if (!in.is_open())
+        {
+            throw runtime_error("Error opening file");
+        }
+        string line;
+        Customer customer;
+        while (getline(in, line))
+        {
+            if (!line.empty() && line[0] == '#')
+            {
+                customer.ID = stoi(line.substr(1));
+            }
+            else if (line.find("Tên đăng nhập: ") == 0)
+            {
+                customer.username = c_trim(line.substr(20));
+            }
+            else if (line.find("Mật khẩu: ") == 0)
+            {
+                customer.password = c_trim(line.substr(14));
+            }
+            else if (line.find("Họ và tên: ") == 0)
+            {
+                customer.fullName = c_trim(line.substr(15));
+            }
+            else if (line.find("Số điện thoại: ") == 0)
+            {
+                customer.phoneNumber = c_trim(line.substr(21));
+            }
+            else if (line.find("Ngày sinh: ") == 0)
+            {
+                customer.dateOfBirth = c_trim(line.substr(12));
+            }
+            else if (line.find("Giới tính:") == 0)
+            {
+                customer.gender = c_trim(line.substr(13));
+                listCustomer.push_back(customer);
+            }
+        }
+        in.close();
     }
-    string line;
-    Customer customer;
-    while (getline(in, line))
+    catch (...)
     {
-        if (!line.empty() && line[0] == '#')
-        {
-            customer.ID = stoi(line.substr(1));
-        }
-        else if (line.find("Tên đăng nhập: ") == 0)
-        {
-            customer.username = c_trim(line.substr(20));
-        }
-        else if (line.find("Mật khẩu: ") == 0)
-        {
-            customer.password = c_trim(line.substr(14));
-        }
-        else if (line.find("Họ và tên: ") == 0)
-        {
-            customer.fullName = c_trim(line.substr(15));
-        }
-        else if (line.find("Số điện thoại: ") == 0)
-        {
-            customer.phoneNumber = c_trim(line.substr(21));
-        }
-        else if (line.find("Ngày sinh: ") == 0)
-        {
-            customer.dateOfBirth = c_trim(line.substr(12));
-        }
-        else if (line.find("Giới tính:") == 0)
-        {
-            customer.gender = c_trim(line.substr(13));
-            listCustomer.push_back(customer);
-        }
+        gotoXY(100, 3);
+        cout << "\033[31mKhông thể đọc file customer! Hãy kiểm tra lại!\033[0m" << endl;
     }
-    in.close();
 }
 void Customer::readID(DoubleLinkedList<Customer> &listCustomer)
 {
-    ifstream in;
-    in.open("../Databases/CustomerList.txt");
-    if (!in.is_open())
+    try
     {
-        throw runtime_error("Lỗi không thể mở file");
-    }
-
-    string line;
-    int maxID = count;
-    while (getline(in, line))
-    {
-        // Kiểm tra xem dòng có bắt đầu với "#" (ID phim) không
-        if (line.substr(0, 1) == "#")
+        ifstream in;
+        in.open("../Databases/CustomerList.txt");
+        if (!in.is_open())
         {
-            Customer customer;
-            stringstream ss;
-            ss.str(line);
-            string idtemp;
-            getline(ss, idtemp, ' ');             // Lấy phần ID sau dấu "#"
-            customer.ID = stoi(idtemp.substr(1)); // Chuyển đổi ID (cắt bỏ dấu '#')
+            throw runtime_error("Lỗi không thể mở file");
+        }
 
-            // Cập nhật maxID nếu cần
-            if (customer.ID > maxID)
+        string line;
+        int maxID = count;
+        while (getline(in, line))
+        {
+            // Kiểm tra xem dòng có bắt đầu với "#" (ID phim) không
+            if (line.substr(0, 1) == "#")
             {
-                maxID = customer.ID;
+                Customer customer;
+                stringstream ss;
+                ss.str(line);
+                string idtemp;
+                getline(ss, idtemp, ' ');             // Lấy phần ID sau dấu "#"
+                customer.ID = stoi(idtemp.substr(1)); // Chuyển đổi ID (cắt bỏ dấu '#')
+
+                // Cập nhật maxID nếu cần
+                if (customer.ID > maxID)
+                {
+                    maxID = customer.ID;
+                }
             }
         }
+
+        in.close();
+
+        // Cập nhật countMovie bằng ID lớn nhất tìm được
+        count = ++maxID;
     }
-
-    in.close();
-
-    // Cập nhật countMovie bằng ID lớn nhất tìm được
-    count = ++maxID;
+    catch (...)
+    {
+        gotoXY(100, 4);
+        cout << "\033[31mKhông thể đọc file customer Hãy kiểm tra lại!\033[0m" << endl;
+    }
 }
 void Customer::Display()
 {
@@ -584,25 +600,32 @@ void Customer::Display()
 void Customer::saveAgainFile(DoubleLinkedList<Customer> &listCustomer)
 {
     ofstream out;
-
-    out.open("../Databases/CustomerList.txt"); // Mở file để ghi (ghi đè)
-    if (!out.is_open())
+    try
     {
-        throw runtime_error("Lỗi không thể mở file");
+        out.open("../Databases/CustomerList.txt"); // Mở file để ghi (ghi đè)
+        if (!out.is_open())
+        {
+            throw runtime_error("Lỗi không thể mở file");
+        }
+        for (int i = 0; i < listCustomer.getSize(); i++)
+        {
+            // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
+            out << "#" << listCustomer[i].ID << endl;
+            out << "Tên đăng nhập: " << listCustomer[i].username << endl;
+            out << "Mật khẩu: " << listCustomer[i].password << endl;
+            out << "Họ và tên: " << listCustomer[i].fullName << endl;
+            out << "Số điện thoại: " << listCustomer[i].phoneNumber << endl;
+            out << "Ngày sinh: " << listCustomer[i].dateOfBirth << endl;
+            out << "Giới tính: " << listCustomer[i].gender << endl;
+            out << endl;
+        }
+        out.close();
     }
-    for (int i = 0; i < listCustomer.getSize(); i++)
+    catch (...)
     {
-        // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
-        out << "#" << listCustomer[i].ID << endl;
-        out << "Tên đăng nhập: " << listCustomer[i].username << endl;
-        out << "Mật khẩu: " << listCustomer[i].password << endl;
-        out << "Họ và tên: " << listCustomer[i].fullName << endl;
-        out << "Số điện thoại: " << listCustomer[i].phoneNumber << endl;
-        out << "Ngày sinh: " << listCustomer[i].dateOfBirth << endl;
-        out << "Giới tính: " << listCustomer[i].gender << endl;
-        out << endl;
+        gotoXY(100, 4);
+        cout << "\033[31mKhông thể mở file để lưu customer! Hãy kiểm tra lại!\033[0m" << endl;
     }
-    out.close();
 }
 Customer *Customer::getCustomerByUsername(DoubleLinkedList<Customer> &customerList, string username)
 {

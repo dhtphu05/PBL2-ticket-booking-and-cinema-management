@@ -11,12 +11,12 @@
 #include "../Include/clickMouse.h"
 #include <chrono>
 #include <thread>
+#include <algorithm> // std::all_of
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
 #define _HAS_STD_BYTE 0 //
 
 int Movie::countMovie = 2000;
-void forChar(int n, int x, int y, char ch);
 
 void menuEditFilm(Movie &movie)
 {
@@ -73,11 +73,13 @@ void menuMovie()
     showString("Nội dung: ", 42, 25);
     lineWidth(100, 40, 26, false, false);
     showString("Đánh giá: ", 42, 27);
-    lineWidth(99, 40, 28, true, false);
-    lineHeight(9, 40, 11, false, false, false);
-    lineHeight(9, 140, 11, false, false, false);
-    lineHeight(8, 40, 12, true, false, false);
-    lineHeight(8, 140, 12, false, true, false);
+    lineWidth(100, 40, 28, false, false);
+    showString("File ảnh: ", 42, 29);
+    lineWidth(99, 40, 30, true, false);
+    lineHeight(10, 40, 11, false, false, false);
+    lineHeight(10, 140, 11, false, false, false);
+    lineHeight(9, 40, 12, true, false, false);
+    lineHeight(9, 140, 12, false, true, false);
 }
 void view_detail_movie(Movie &movie)
 {
@@ -147,17 +149,22 @@ int getclick_addMovie()
     {
         return 9; // danh gia
     }
-    if (x_click >= 90 && x_click <= 105 && y_click >= 30 && y_click <= 32)
+
+    if (x_click >= 90 && x_click <= 105 && y_click >= 32 && y_click <= 34)
     {
         return 10; // luu
     }
-    if (x_click >= 120 && x_click <= 135 && y_click >= 30 && y_click <= 32)
+    if (x_click >= 120 && x_click <= 135 && y_click >= 32 && y_click <= 34)
     {
         return 11; // huy
     }
     if (x_click >= 130 && x_click <= 131 && y_click > 4 && y_click < 6)
     {
         return 12; // X
+    }
+    if (x_click >= 40 && x_click <= 140 && y_click >= 28 && y_click <= 30)
+    {
+        return 13; // file anh
     }
 
     return 0;
@@ -169,77 +176,126 @@ void Movie::addMovie()
     gotoXY(50, 7);
     cout << "Thêm phim";
     menuMovie();
-    lineWidth(15, 90, 30, true, true);
-    gotoXY(90, 31);
+    lineWidth(15, 90, 32, true, true);
+    gotoXY(90, 33);
     cout << "│      LƯU      │";
-    lineWidth(15, 90, 32, true, false);
-    lineWidth(15, 120, 30, true, true);
-    gotoXY(120, 31);
+    lineWidth(15, 90, 34, true, false);
+    lineWidth(15, 120, 32, true, true);
+    gotoXY(120, 33);
     cout << "│      HỦY      │";
-    lineWidth(15, 120, 32, true, false);
+    lineWidth(15, 120, 34, true, false);
     int choice;
     bool run = true;
+    bool title = false, genre = false, duration = false, releaseDate = false, director = false, actor = false, country = false, description = false, rating = false, filename = false;
+
     while (run)
     {
         int choicee = getclick_addMovie();
+        gotoXY(50, 35);
+        cout << "                                             ";
         switch (choicee)
         {
         case 1:
             gotoXY(52, 11);
             cout << left << setw(50) << " ";
             getString(newMovie.title, 52, 11);
+            title = true;
             break;
         case 2:
             gotoXY(52, 13);
             cout << left << setw(50) << " ";
             getString(newMovie.genre, 52, 13);
+            genre = true;
             break;
         case 3:
             gotoXY(54, 15);
             cout << left << setw(50) << " ";
             getString(newMovie.duration, 54, 15);
+            duration = true;
             break;
         case 4:
 
             gotoXY(58, 17);
             cout << left << setw(50) << " ";
             getString(newMovie.releaseDate, 58, 17);
+            if (!_regexRLD(newMovie.releaseDate))
+            {
+                gotoXY(100, 36);
+                cout << "\033[31mNgày không hợp lệ!\033[0m";
+                this_thread::sleep_for(chrono::seconds(2));
+                gotoXY(100, 36);
+                cout << "               ";
+                gotoXY(58, 17);
+                cout << "                                   "; // Clear the success message
+            }
+            else
+                releaseDate = true;
             break;
         case 5:
 
             gotoXY(54, 19);
             cout << left << setw(50) << " ";
             getString(newMovie.director, 54, 19);
+            director = true;
             break;
         case 6:
             gotoXY(56, 21);
             cout << left << setw(50) << " ";
             getString(newMovie.actor, 56, 21);
+            actor = true;
             break;
         case 7:
             gotoXY(52, 23);
             cout << left << setw(50) << " ";
             getString(newMovie.country, 52, 23);
+            country = true;
             break;
         case 8:
             gotoXY(54, 25);
             cout << left << setw(50) << " ";
             getString(newMovie.description, 54, 25);
+            description = true;
             break;
         case 9:
             gotoXY(52, 27);
             cout << left << setw(50) << " ";
             getString(newMovie.rating, 52, 27);
+            rating = true;
+            break;
+        case 13:
+            gotoXY(54, 29);
+            cout << left << setw(50) << " ";
+            getString(newMovie.fileImage, 54, 29);
+            if (!isNameFile(newMovie.fileImage))
+            {
+                gotoXY(50, 35);
+                cout << "\033[31mVui lòng nhập tên file theo định dạng (*.txt)\033[0m";
+                gotoXY(54, 29);
+                cout << "                                 ";
+            }
+            else
+                filename = true;
             break;
         case 10:
-            newMovie.saveToFile(0);
-            gotoXY(130, 30);
-            cout << "Thêm thành công";
-            this_thread::sleep_for(chrono::seconds(2));
-            gotoXY(130, 30);
-            cout << "               "; // Clear the success message
-            run = false;
-            break;
+            if (title && genre && duration && releaseDate && director && actor && country && description && rating)
+            {
+                newMovie.saveToFile(0);
+                this_thread::sleep_for(chrono::seconds(2));
+                gotoXY(100, 35);
+                cout << "               ";
+                run = false;
+                break;
+            }
+            else
+            {
+                gotoXY(100, 36);
+                cout << "\033[31mVui lòng điền đầy đủ thông tin!\033[0m";
+                this_thread::sleep_for(chrono::seconds(2));
+                gotoXY(100, 36);
+                cout << "                                ";
+                break;
+            }
+
         case 11:
             run = false;
             break;
@@ -257,12 +313,21 @@ void Movie::addMovie()
 void Movie::subSaveAgainFile(DoubleLinkedList<Movie> &movieList)
 {
     ofstream out;
-    out.open("../Databases/MovieList.txt"); // Mở file để ghi đè lên toàn bộ dữ liệu trong file
-    if (!out.is_open())
+    bool check = true;
+    try
     {
-        throw runtime_error("Error opening file");
+        out.open("../Database/MovieList.txt"); // Mở file để ghi đè lên toàn bộ dữ liệu trong file
+        if (!out.is_open())
+        {
+            throw runtime_error("Error opening file");
+        }
     }
-
+    catch (...)
+    {
+        check = false;
+        gotoXY(100, 4);
+        cout << "\033[31mKhông thể mở file để lưu lại dữ liệu! Vui lòng kiểm tra lại!\033[0m";
+    }
     for (int i = 0; i < movieList.getSize(); i++)
     {
         // Ghi thông tin của mỗi bộ phim vào file theo định dạng mới
@@ -280,7 +345,12 @@ void Movie::subSaveAgainFile(DoubleLinkedList<Movie> &movieList)
         out << endl;
     }
 
-    out.close(); // Đóng file sau khi ghi
+    out.close();
+    if (check)
+    {
+        gotoXY(130, 30);
+        cout << "Chỉnh sửa thành công";
+    } // Đóng file sau khi ghi
 }
 int getClick_editMovie()
 {
@@ -357,13 +427,46 @@ void Movie::editMovie()
     lineWidth(10, 40, 9, true, false);
     string str;
     int ID;
-    int choice = getClick_editMovie();
-    while (choice != 13)
+    int choice;
+    // getString(str, 42, 8);
+    // ID = stoi(str);
+    bool validInput = false;
+    while (!validInput)
     {
-        choice = getClick_editMovie();
+        try
+        {
+            choice = getClick_editMovie();
+            while (choice != 13)
+            {
+                choice = getClick_editMovie();
+            }
+            gotoXY(40, 10);
+            cout << "                          ";
+            gotoXY(42, 8);
+            cout << "         ";
+            getString(str, 42, 8); // Lấy chuỗi từ người dùng
+            if (std::all_of(str.begin(), str.end(), ::isdigit))
+            {
+                ID = stoi(str);
+            }
+            else
+            {
+                throw std::invalid_argument("Lỗi: Vui lòng chỉ nhập số!");
+            } // Chuyển đổi chuỗi sang số
+            validInput = true; // Nếu thành công, thoát vòng lặp
+        }
+        catch (const std::invalid_argument &e)
+        {
+            gotoXY(40, 10); // Hiển thị thông báo lỗi tại vị trí thích hợp
+            cout << "\033[31mVui lòng nhập số hợp lệ!\033[0m";
+            // Xóa thông báo lỗi
+        }
+        catch (const std::out_of_range &e)
+        {
+            gotoXY(40, 10);
+            cout << "\033[31mSố nhập quá lớn!\033[0m";
+        }
     }
-    getString(str, 42, 8);
-    ID = stoi(str);
     int find = false;
     int k;
     Movie tempMovie;
@@ -435,8 +538,6 @@ void Movie::editMovie()
                     break;
                 case 10:
                     movieList[i].subSaveAgainFile(movieList);
-                    gotoXY(130, 30);
-                    cout << "Chỉnh sửa thành công";
                     this_thread::sleep_for(chrono::seconds(2));
                     gotoXY(130, 30);
                     cout << "               "; // Clear the success message
@@ -455,7 +556,7 @@ void Movie::editMovie()
     if (find == false)
     {
         gotoXY(40, 10);
-        cout << "Không tìm thấy phim!" << endl;
+        cout << "\033[31mKhông tìm thấy phim!\033[0m" << endl;
     }
     gotoXY(130, 5);
     cout << "❌";
@@ -472,20 +573,30 @@ void Movie::saveToFile(int i)
     DoubleLinkedList<Movie> movies;
     readID(movies);              // Đọc ID của các bộ phim hiện tại để cập nhật ID mới
     this->ID_Movie = countMovie; // Gán ID mới cho bộ phim
-
     ofstream out;
-    if (i)
+    bool check = true;
+    try
     {
-        out.open("../Databases/MovieList.txt"); // Mở file để ghi (ghi đè)
-    }
-    else
-    {
-        out.open("../Databases/MovieList.txt", std::ios::app); // Mở file để ghi thêm (append)
-    }
 
-    if (!out.is_open())
+        if (i)
+        {
+            out.open("../Databases/MovieList.txt"); // Mở file để ghi (ghi đè)
+        }
+        else
+        {
+            out.open("../Databases/MovieList.txt", std::ios::app); // Mở file để ghi thêm (append)
+        }
+
+        if (!out.is_open())
+        {
+            throw runtime_error("Error opening file");
+        }
+    }
+    catch (...)
     {
-        throw runtime_error("Error opening file");
+        check = false;
+        gotoXY(130, 4);
+        cout << " \033[31mKhông thể mở file để lưu phim\033[0m";
     }
 
     // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
@@ -501,32 +612,13 @@ void Movie::saveToFile(int i)
     out << "Đánh giá: " << this->rating << endl;
     out << "File ảnh: " << this->fileImage << endl;
     out.close();
-}
-void forChar(int n, int x, int y, char ch)
-{
-    gotoXY(x, y);
-    if (ch != ' ')
-        ;
-    cout << "+";
-    for (int i = 0; i < n; i++)
+    if (check)
     {
-        if (ch != ' ')
-        {
-            gotoXY(x + 1, y);
-        }
-        else
-            gotoXY(x, y);
-        cout << ch;
-        x++;
+        gotoXY(100, 35);
+        cout << "Thêm thành công";
     }
-    if (ch != ' ')
-    {
-        gotoXY(x, y);
-        cout << "+";
-    }
-    else
-        cout << "│";
 }
+
 istream &operator>>(istream &in, Movie &m)
 {
     // lineWidth(80,36, 6, true, true);
@@ -577,16 +669,49 @@ void Movie::removeMovie()
     cout << "ID: ";
     lineWidth(10, 40, 7, true, true);
     gotoXY(40, 8);
-    cout << "│         │";
+    cout << "│          │";
     lineWidth(10, 40, 9, true, false);
     string str;
-    int choice = getClick_editMovie();
-    while (choice != 13)
+    int choice;
+    bool validInput = false;
+    while (!validInput)
     {
-        choice = getClick_editMovie();
+        try
+        {
+            choice = getClick_editMovie();
+            while (choice != 13)
+            {
+                choice = getClick_editMovie();
+            }
+            gotoXY(40, 10);
+            cout << "                          ";
+            gotoXY(42, 8);
+            cout << "         ";
+            getString(str, 42, 8); // Lấy chuỗi từ người dùng
+            if (std::all_of(str.begin(), str.end(), ::isdigit))
+            {
+                ID = stoi(str);
+            }
+            else
+            {
+                throw std::invalid_argument("Lỗi: Vui lòng chỉ nhập số!");
+            } // Chuyển đổi chuỗi sang số
+            validInput = true; // Nếu thành công, thoát vòng lặp
+        }
+        catch (const std::invalid_argument &e)
+        {
+            gotoXY(40, 10); // Hiển thị thông báo lỗi tại vị trí thích hợp
+            cout << "\033[31mVui lòng nhập số hợp lệ!\033[0m";
+        }
+        catch (const std::out_of_range &e)
+        {
+            gotoXY(40, 10);
+            cout << "\033[31mSố nhập quá lớn!\033[0m";
+            this_thread::sleep_for(chrono::seconds(2));
+            gotoXY(40, 10);
+            cout << "                          ";
+        }
     }
-    getString(str, 42, 8);
-    ID = stoi(str);
     for (int i = 0; i < movieList.getSize(); i++)
     {
         if (movieList[i].ID_Movie == ID)
@@ -639,7 +764,7 @@ void Movie::removeMovie()
     if (!find)
     {
         gotoXY(50, 10);
-        cout << "Không tìm thấy phim!!";
+        cout << "\033[31mKhông tìm thấy phim!!\033[0m";
     }
     subSaveAgainFile(movieList);
     gotoXY(130, 5);
@@ -678,105 +803,123 @@ std::string trim(const std::string &str)
 
 void Movie::readFile(DoubleLinkedList<Movie> &movieList)
 {
-    ifstream in("../Databases/MovieList.txt");
-    if (!in.is_open())
+    ifstream in;
+    try
     {
-        throw runtime_error("Error opening file");
-    }
-    string line;
-    Movie m;
+        in.open("../Databases/MovieList.txt");
+        if (!in.is_open())
+        {
+            throw runtime_error("Error opening file");
+        }
 
-    while (getline(in, line))
-    {
-        // Xử lý ID (dòng bắt đầu bằng '#')
-        if (!line.empty() && line[0] == '#')
+        string line;
+        Movie m;
+
+        while (getline(in, line))
         {
-            m.ID_Movie = stoi(line.substr(1)); // Loại bỏ ký tự '#' và chuyển thành int
+            // Xử lý ID (dòng bắt đầu bằng '#')
+            if (!line.empty() && line[0] == '#')
+            {
+                m.ID_Movie = stoi(line.substr(1)); // Loại bỏ ký tự '#' và chuyển thành int
+            }
+            else if (line.find("Tên phim: ") == 0)
+            {
+                m.title = trim(line.substr(11)); // Loại bỏ khoảng trắng thừa ở đầu, cuối
+            }
+            else if (line.find("Thể loại: ") == 0)
+            {
+                m.genre = trim(line.substr(13)); // Loại bỏ khoảng trắng thừa ở đầu, cuối
+            }
+            else if (line.find("Thời lượng: ") == 0)
+            {
+                m.duration = trim(line.substr(16));
+            }
+            else if (line.find("Ngày phát hành: ") == 0)
+            {
+                m.releaseDate = trim(line.substr(19));
+            }
+            else if (line.find("Đạo diễn: ") == 0)
+            {
+                m.director = trim(line.substr(14));
+            }
+            else if (line.find("Diễn viên: ") == 0)
+            {
+                m.actor = trim(line.substr(14));
+            }
+            else if (line.find("Quốc gia: ") == 0)
+            {
+                m.country = trim(line.substr(12));
+            }
+            else if (line.find("Nội dung: ") == 0)
+            {
+                m.description = trim(line.substr(12));
+            }
+            else if (line.find("Đánh giá: ") == 0)
+            {
+                m.rating = trim(line.substr(13));
+            }
+            else if (line.find("File ảnh: ") == 0)
+            {
+                m.fileImage = trim(line.substr(12));
+                movieList.push_back(m);
+                m = Movie();
+            }
         }
-        else if (line.find("Tên phim: ") == 0)
-        {
-            m.title = trim(line.substr(11)); // Loại bỏ khoảng trắng thừa ở đầu, cuối
-        }
-        else if (line.find("Thể loại: ") == 0)
-        {
-            m.genre = trim(line.substr(13)); // Loại bỏ khoảng trắng thừa ở đầu, cuối
-        }
-        else if (line.find("Thời lượng: ") == 0)
-        {
-            m.duration = trim(line.substr(16));
-        }
-        else if (line.find("Ngày phát hành: ") == 0)
-        {
-            m.releaseDate = trim(line.substr(19));
-        }
-        else if (line.find("Đạo diễn: ") == 0)
-        {
-            m.director = trim(line.substr(14));
-        }
-        else if (line.find("Diễn viên: ") == 0)
-        {
-            m.actor = trim(line.substr(14));
-        }
-        else if (line.find("Quốc gia: ") == 0)
-        {
-            m.country = trim(line.substr(12));
-        }
-        else if (line.find("Nội dung: ") == 0)
-        {
-            m.description = trim(line.substr(12));
-        }
-        else if (line.find("Đánh giá: ") == 0)
-        {
-            m.rating = trim(line.substr(13));
-        }
-        else if (line.find("File ảnh: ") == 0)
-        {
-            m.fileImage = trim(line.substr(12));
-            movieList.push_back(m);
-            m = Movie();
-        }
+        in.close();
     }
-    in.close();
+    catch (...)
+    {
+        gotoXY(50, 30);
+        cout << "\033[31mKhông thể mở file để đọc dữ liệu\033[0m";
+    }
 }
 
 void Movie::readID(DoubleLinkedList<Movie> &movieList)
 {
-    int is_read = false;
-    ifstream in;
-    in.open("../Databases/MovieList.txt");
-    if (!in.is_open())
+    try
     {
-        throw runtime_error("Error opening file");
-    }
-
-    string line;
-    int maxID = countMovie; // Khởi tạo maxID bằng countMovie hiện tại
-
-    while (getline(in, line))
-    {
-        // Kiểm tra xem dòng có bắt đầu với "#" (ID phim) không
-        if (line.substr(0, 1) == "#")
+        int is_read = false;
+        ifstream in;
+        in.open("../Databases/MovieList.txt");
+        if (!in.is_open())
         {
-            is_read = true;
-            Movie m;
-            stringstream ss;
-            ss.str(line);
-            string idtemp;
-            getline(ss, idtemp, ' ');            // Lấy phần ID sau dấu "#"
-            m.ID_Movie = stoi(idtemp.substr(1)); // Chuyển đổi ID (cắt bỏ dấu '#')
+            throw runtime_error("Error opening file");
+        }
 
-            // Cập nhật maxID nếu cần
-            if (m.ID_Movie > maxID)
+        string line;
+        int maxID = countMovie; // Khởi tạo maxID bằng countMovie hiện tại
+
+        while (getline(in, line))
+        {
+            // Kiểm tra xem dòng có bắt đầu với "#" (ID phim) không
+            if (line.substr(0, 1) == "#")
             {
-                maxID = m.ID_Movie;
+                is_read = true;
+                Movie m;
+                stringstream ss;
+                ss.str(line);
+                string idtemp;
+                getline(ss, idtemp, ' ');            // Lấy phần ID sau dấu "#"
+                m.ID_Movie = stoi(idtemp.substr(1)); // Chuyển đổi ID (cắt bỏ dấu '#')
+
+                // Cập nhật maxID nếu cần
+                if (m.ID_Movie > maxID)
+                {
+                    maxID = m.ID_Movie;
+                }
             }
         }
+
+        in.close();
+
+        // Cập nhật countMovie bằng ID lớn nhất tìm được
+        countMovie = ++maxID;
     }
-
-    in.close();
-
-    // Cập nhật countMovie bằng ID lớn nhất tìm được
-    countMovie = ++maxID; // Tạo ID mới cho bộ phim tiếp theo
+    catch (...)
+    {
+        gotoXY(50, 4);
+        cout << "\033[31mKhông thể mở file để đọc ID\033[0m";
+    } // Tạo ID mới cho bộ phim tiếp theo
 }
 
 void Movie::Display()
@@ -892,26 +1035,55 @@ void Movie::showDetailMovie()
     string line;
     fstream in;
     int x = 35;
-    in.open("../Databases/" + this->fileImage);
-    if (!in)
+    // in.open("../Databases/" + this->fileImage);
+    // if (!in)
+    // {
+    //     cerr << "Không thể mở file ASCII" << endl;
+    // }
+    int k = 10;
+    try
     {
-        cerr << "Không thể mở file ASCII" << endl;
+        in.open("../Databases/" + this->fileImage);
+        if (!in)
+        {
+            throw runtime_error("Error opening file");
+        }
+        int startX = 34, startY = 6;
+        int currentY = startY;
+
+        while (getline(in, line))
+        {
+            x = line.length();
+            gotoXY(startX, currentY);
+            cout << line << endl;
+            currentY++;
+        }
+        x = x + startX + 4;
+        k = currentY;
+        in.close();
     }
-    int startX = 34, startY = 6;
-    int currentY = startY;
-    while (getline(in, line))
+    catch (const std::exception &e)
     {
-        x = line.length();
-        gotoXY(startX, currentY);
-        cout << line << endl;
-        currentY++;
+        gotoXY(34, 6);
+        cout << "\033[31mKhông tìm thấy file ảnh!!\033[0m";
+        k=20;
     }
-    x = x + startX + 4;
-    in.close();
+
     int a;
-    int pos = this->rating.find("/");
-    string temp1 = this->rating.substr(0, pos);
-    a = stod(temp1);
+    int pos;
+    string temp1;
+    try
+    {
+        pos = this->rating.find("/");
+        temp1 = this->rating.substr(0, pos);
+        a = stod(temp1);
+    }
+    catch (...)
+    {
+        a = 0;
+        gotoXY(40, 5);
+        cout << "\033[31mPhim này đang bị thiếu dữ liệu!\033[0m ";
+    }
 
     gotoXY(x, 8);
     cout << "*" << "\033[1;31m" << this->title << "\033[0m" << "*";
@@ -930,15 +1102,20 @@ void Movie::showDetailMovie()
 
     gotoXY(x, 14);
     cout << "Quốc gia: " << this->country;
-    printBox("Thể loại: ", this->genre, x, 16);
-    printBox("Đạo diễn: ", this->director, x, 19);
+    gotoXY(x, 17);
+    cout << "Thể loại: ";
+    printBox("Thể loại: ", this->genre, x + 13, 16);
+    gotoXY(x, 20);
+    cout << "Đạo diễn: ";
+    printBox("Đạo diễn: ", this->director, x + 13, 19);
+    gotoXY(x, 23);
+    cout << "Diễn viên: ";
+    printBox("Diễn viên: ", this->actor, x + 13, 22);
 
-    printBox("Diễn viên: ", this->actor, x, 22);
-
-    gotoXY(35, currentY + 3);
+    gotoXY(35, k + 3);
     cout << "*Nội dung: ";
     // gotoXY(6, startY + 4);
-    printFormattedText(this->description, 50, 35, currentY + 4);
+    printFormattedText(this->description, 50, 35, k + 4);
 }
 void Movie::show(DoubleLinkedList<Movie> &movieList, int currentPage, int moviesPerPage, int k)
 {
@@ -1107,7 +1284,7 @@ void Movie::searchMovie(string &line)
     if (!found)
     {
         gotoXY(50, 10);
-        cout << "Không tìm thấy kết quả!" << endl;
+        cout << "\033[31mKhông tìm thấy kết quả!\033[0m" << endl;
     }
     else
     {
@@ -1209,7 +1386,7 @@ void Movie::selectMovieToBooking(DoubleLinkedList<Movie> &movieList)
             return;
         }
     }
-    cout << "Không tìm thấy phim." << endl;
+    cout << "\033[31mKhông tìm thấy phim.\033[0m" << endl;
 }
 void Movie::sort_rating(DoubleLinkedList<Movie> &movieList)
 {

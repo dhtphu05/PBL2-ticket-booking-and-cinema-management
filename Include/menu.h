@@ -10,12 +10,14 @@
 #include <string.h>
 #include <iomanip>
 #include <conio.h>
+#include "../Include/Booking.h"
+#include "../Libraries/Booking.cpp"
 using namespace std;
 #ifndef MENU_H
 #define MENU_H
 int getClickProfile();
 string BG_GREENN = "\033[32m";
-string RESETT="\033[0m";
+string RESETT = "\033[0m";
 void header_admin(string str1)
 {
     lineWidth(120, 31, 3, false, false);
@@ -220,6 +222,27 @@ int getClick_showMovie()
     {
         return 3; // Quit
     }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 10 && y_click <= 12)
+    {
+        return 11;
+    }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 12 && y_click <= 14)
+    {
+        return 12;
+    }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 14 && y_click <= 16)
+    {
+        return 13;
+    }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 16 && y_click <= 18)
+    {
+        return 14;
+    }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 18 && y_click <= 20)
+    {
+        return 15;
+    }
+
     return 0;
 }
 int getClick_searchMovie()
@@ -230,6 +253,16 @@ int getClick_searchMovie()
     if (x_click >= 40 && x_click <= 80 && y_click >= 5 && y_click <= 7)
     {
         return 1; // ten phim
+    }
+}
+int getClick_showDetailMovie()
+{
+    click = processInputEvents();
+    x_click = click.X;
+    y_click = click.Y;
+    if (x_click >= 120 && x_click <= 138 && y_click >= 30 && y_click <= 32)
+    {
+        return 1; // dat ve
     }
 }
 void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLinkedList<Staff> &staffList, DoubleLinkedList<Customer> &customerList)
@@ -330,7 +363,6 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                 system("cls");
                 menuAdmin_default(*admin);
                 admin->editCustomer();
-
                 goto dashBoard_admin;
                 break;
             }
@@ -424,16 +456,17 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                     gotoXY(80, 23);
                     cout << "│👈 Previous | Next 👉 |   Quit ❌  │";
                     lineWidth(35, 80, 24, true, false);
-                    string str;
-                    gotoXY(40, 30);
-                    cout << "Nhập STT phim để xem chi tiết (nhập 0 nếu k muốn xem ) : ";
-                    getString(str, 40, 31);
-                    int a = stoi(str);
-                    if (a != 0)
+                    // string str;
+                    // gotoXY(40, 30);
+                    // cout << "Nhập STT phim để xem chi tiết (nhập 0 nếu k muốn xem ) : ";
+                    // getString(str, 40, 31);
+                    // int a = stoi(str);
+                    choice = getClick_showMovie();
+                    if (choice == 11 || choice == 12 || choice == 13 || choice == 14 || choice == 15)
                     {
                         system("cls");
                         menuAdmin_default(*admin);
-                        movieList[a - 1].showDetailMovie();
+                        movieList[choice - 11 + (currentPage - 1) * 5].showDetailMovie();
                     }
 
                     choice = getClick_showMovie();
@@ -597,12 +630,12 @@ void menu_header(string message1, string message2)
 }
 void menu_middle_date_showmovie()
 {
-    cout<<BG_GREENN;
+    cout << BG_GREENN;
     lineWidth(10, 60, 11, true, true);
     showString("│ Hôm nay  │", 60, 12);
     showString("│  28/11   │", 60, 13);
     lineWidth(10, 60, 14, true, false);
-    cout<<RESETT;
+    cout << RESETT;
     lineWidth(10, 75, 11, true, true);
     showString("│ Thứ sáu  │", 75, 12);
     showString("│  29/11   │", 75, 13);
@@ -822,15 +855,19 @@ int getClickProfile()
     {
         return 6; // cap nhat thong tin
     }
+
+    //! section xem thong tin ve ca nhan
 }
 void setTextColor(int color)
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
-void profilePage(Customer *customer, DoubleLinkedList<Customer> &customerList)
+void profilePage(Customer *customer, DoubleLinkedList<Customer> &customerList, DoubleLinkedList<Booking> bookingList)
 {
 dashboard_profile:
+    Booking booking;
+    booking.loadBookingFromFile(bookingList, customerList);
     showString("Lịch sử giao dịch", 53, 8);
     showString("Thông tin cá nhân", 75, 8);
     showString("Quà tặng", 97, 8);
@@ -847,8 +884,15 @@ dashBoard_while:
         {
         case 1:
         {
-            gotoXY(50, 20);
-            cout << "Lịch sử dịch vụ";
+            // bắt đầu in ra từ đoạn ni
+            DoubleLinkedList<Booking> bookingListOfCustomer;
+            getListBookingOfCustomer(customer, bookingList, bookingListOfCustomer);
+            cout << bookingListOfCustomer.getSize();
+            displayListBookingLikeTableOfCustomer(customer, bookingList, 5, 20);
+            int chooseBooking = getClickBookingDetail(bookingListOfCustomer, 5, 20);
+            system("cls");
+            cout << chooseBooking;
+            displayBookingDetailFollowIndex(bookingListOfCustomer, chooseBooking, 5, 20);
             choice = getClickProfile();
             system("cls");
             menu_header("🧑" + customer->getUserName(), "Quay lại");

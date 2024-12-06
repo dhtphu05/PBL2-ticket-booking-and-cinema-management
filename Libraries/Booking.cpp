@@ -421,8 +421,6 @@ void Booking::loadBookingFromFile(DoubleLinkedList<Booking>& bookings,DoubleLink
                 ShowSeat seat = booking->getShow()->getSeatByRowColumn(seatRow,seatColumn);
                 booking->getSeats().push_back(seat);
             }
-            cout<<"huhuhu"<<endl;
-            cout<<booking->getSeats().getSize()<<endl;
         }
         else if (line.find("Danh sách các combo: ") != string::npos)
         {
@@ -444,29 +442,24 @@ void Booking::loadBookingFromFile(DoubleLinkedList<Booking>& bookings,DoubleLink
                     
                     break;
                 }
-                cout<<linee<<endl;
                 string quantity;
                 string comboName;
                 quantity = linee.substr(0,1);
-                cout<<quantity<<endl;
                 comboName = linee.substr(3);
-                cout<<comboName<<endl;
-                
+                comboName= " "+comboName;
                 Combo combo;
                 for(int i=0;i<comboList.getSize();i++){
-                    string name = comboList[i].getComboName().substr(1);
+                    
                     if(comboList[i].getComboName()==comboName){
-                        combo = comboList[i];
+                        comboList[i].setQuantityBuy(stoi(quantity));
+                        booking->getCombos().push_back(comboList[i]);
                         break;
                     }
                 }
-                combo.setQuantityBuy(stoi(quantity));
-                booking->getCombos().push_back(combo);
-                cout<<booking->getCombos().getSize()<<endl;
+                
                 
 
             }
-            cout<<"combo size: "<<booking->getCombos().getSize()<<endl;
         }
         /////! fix được tới đây rồi
         else if(line.find("Mã giảm giá: ") != string::npos)
@@ -480,7 +473,6 @@ void Booking::loadBookingFromFile(DoubleLinkedList<Booking>& bookings,DoubleLink
         else if (line.find("Phương thức thanh toán: ") != string::npos)
         {
             string paymentMethod = line.substr(29);
-            cout<<paymentMethod<<endl;
             if (paymentMethod == "Chuyển khoản")
             {   
                 booking->setPayment(new CreditCardPayment());
@@ -489,17 +481,92 @@ void Booking::loadBookingFromFile(DoubleLinkedList<Booking>& bookings,DoubleLink
             {
                 booking->setPayment(new CashPayment());
             }
-            cout<<booking->getPayment()->getPaymentMethod()<<endl;
         }
         else if (line.find("Tổng cộng: ") != string::npos)
         {   
-            cout<<line.substr(15)<<endl;
             booking->setTotalPrice(stod(line.substr(15)));
-            cout<<booking->getTotalPrice()<<endl;
         }
         
     }
     if(booking!=nullptr){
         bookings.push_back(*booking);
+    }
+}
+
+void displayListBookingLikeTableOfCustomer(Customer *customer, DoubleLinkedList<Booking> &bookings, int x, int y){
+    gotoXY(x,y);
+    cout<<"Danh sách vé đã đặt: ";
+    y+=2;
+    borderLineWithTextAndColor(x,y,"Mã vé  ",BG_CYAN);
+    borderLineWithTextAndColor(x+15,y,"Thời gian đặt vé    ",BG_CYAN);
+    borderLineWithTextAndColor(x+50,y,"Tên phim",BG_CYAN);
+    borderLineWithTextAndColor(x+90,y,"Thời gian chiếu",BG_CYAN);
+    borderLineWithTextAndColor(x+120,y,"Tổng cộng",BG_CYAN);
+    y+=4;
+
+    // i want to display booking follow order early to late
+    for(Node<Booking>* node = bookings.begin(); node != nullptr; node = node->next){
+        if(node->data.getCustomer()->getUserName()==customer->getUserName()){
+            borderLineWithTextAndColor(x,y,node->data.getBookingNumber());
+            borderLineWithTextAndColor(x+15,y,convertDateDefalutToSimple(node->data.getBookingTime()));
+            borderLineWithTextAndColor(x+40,y,node->data.getShow()->getMovie()->getTitle());
+            borderLineWithTextAndColor(x+90,y,node->data.getShow()->getStartTime()+" ~ "+node->data.getShow()->getEndTime()+" "+node->data.getShow()->getDate());
+            //convert double to string, and replace .00000
+            borderLineWithTextAndColor(x+120,y,convertMoney(node->data.getTotalPrice()));
+            
+            borderLineWithTextAndColor(x+130,y, "Xem chi tiết");
+            y+=5;
+        }
+    }
+}
+void getListBookingOfCustomer(Customer* customer, DoubleLinkedList<Booking>& bookings, DoubleLinkedList<Booking>& result){
+    for(Node<Booking>* node = bookings.begin(); node != nullptr; node = node->next){
+        if(node->data.getCustomer()->getUserName()==customer->getUserName()){
+            result.push_back(node->data);
+        }
+    }
+}
+void displayBookingDetail(Booking* booking, int x, int y){
+    gotoXY(x,y);
+    cout<<"Chi tiết vé: ";
+    y+=2;
+    borderLineWithTextAndColor(x,y,"Mã vé: "+booking->getBookingNumber(),BG_CYAN);
+    borderLineWithTextAndColor(x,y+2,"Thời gian đặt vé: "+convertDateDefalutToSimple(booking->getBookingTime()),BG_CYAN);
+    borderLineWithTextAndColor(x,y+4,"Tên phim: "+booking->getShow()->getMovie()->getTitle(),BG_CYAN);
+    borderLineWithTextAndColor(x,y+6,"Thời gian chiếu: "+booking->getShow()->getStartTime()+" ~ "+booking->getShow()->getEndTime()+" "+booking->getShow()->getDate(),BG_CYAN);
+    borderLineWithTextAndColor(x,y+8,"Danh sách ghế: ",BG_CYAN);
+    y+=10;
+    for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
+        borderLineWithTextAndColor(x,y,node->data.getSeatRow()+to_string(node->data.getSeatColumn()),BG_CYAN);
+        y+=2;
+    }
+    borderLineWithTextAndColor(x,y,"Danh sách combo: ",BG_CYAN);
+    y+=2;
+    for(Node<Combo>* node = booking->getCombos().begin(); node != nullptr; node = node->next){
+        borderLineWithTextAndColor(x,y,to_string(node->data.getQuantityBuy())+"x "+node->data.getComboName(),BG_CYAN);
+        y+=2;
+    }
+    borderLineWithTextAndColor(x,y,"Mã giảm giá: "+booking->getAppliedCoupon()->getCouponCode(),BG_CYAN);
+    borderLineWithTextAndColor(x,y+2,"Phương thức thanh toán: "+booking->getPayment()->getPaymentMethod(),BG_CYAN);
+    borderLineWithTextAndColor(x,y+4,"Tổng cộng: "+convertMoney(booking->getTotalPrice()),BG_CYAN);
+}
+int getClickBookingDetail(DoubleLinkedList<Booking> bookingList,int x,int y){
+    click=processInputEvents();
+    int i=0;
+    for(Node<Booking>* node = bookingList.begin(); node != nullptr; node = node->next){
+        if(isClickInRange(click.X, click.Y, x+130, y-5+i*5, 10, 5)){
+            return i;
+        }
+        i++;
+    }
+}
+void displayBookingDetailFollowIndex(DoubleLinkedList<Booking> bookingList, int index, int x, int y){
+    int i=0;
+    for(Node<Booking>* node = bookingList.begin(); node != nullptr; node = node->next){
+        if(i==index){
+            layoutFinal(&node->data,node->data.getAppliedCoupon());
+            break;
+        }   
+        i++;
     }
 }

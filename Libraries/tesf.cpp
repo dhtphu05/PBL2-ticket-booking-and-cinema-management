@@ -34,7 +34,7 @@ int main()
     Show show;
     show.loadShowFromFile(shows,screens);
     //!
-    booking.sellTicket(shows,screens,movies);
+    // booking.sellTicket(shows,screens,movies);
     booking.loadBookingFromFile(bookings,customers);
 
     cout<<bookings.getSize()<<endl;
@@ -45,7 +45,7 @@ int main()
 
     cout<<bookings[1].getCustomer()->getFullName();
     cout<<bookings[2].getSeats().getSize();
-
+    cout<<bookings[3].getCombos()[0].getComboName();
     return 0;
     //!
     // gotoXY(0,0);
