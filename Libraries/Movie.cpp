@@ -1262,6 +1262,7 @@ int getClick_search()
     {
         return 2;
     }
+    return -1;
 }
 void Movie::searchMovie(string &line)
 {

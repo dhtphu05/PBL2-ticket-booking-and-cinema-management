@@ -34,6 +34,7 @@ int getMouseDashBoardCustomer()
     }
     if (x_click >= 130 && x_click <= 150 && y_click >= 1 && y_click <= 3)
     {
+
         return 2; // dang xuat
     }
     if (x_click >= 8 && x_click <= 18 && y_click >= 1 && y_click <= 3)
@@ -50,7 +51,7 @@ int getMouseDashBoardCustomer()
     }
     if (x_click >= 60 && x_click <= 70 && y_click >= 1 && y_click <= 3)
     {
-        return 6; // tim kiem
+        return 6; // tim kiem;
     }
     return 0;
 }
@@ -145,15 +146,7 @@ int main()
     dashboard: 
     bool loggedIn = false;
 dashboard_main:
-    // menuLogin("Đăng nhập", "Đăng ký");
-    // click=processInputEvents();
-    // int xclick,yclick;
-    // xclick=click.X;
-    // yclick=click.Y;
-    // if(xclick>10&&xclick<100 &&yclick>25&&yclick<40){
-    //     booking.sellTicket(shows,screens,movieList);
-    // return 0;
-    // }
+    
     int log = logIn(adminList, staffList, customerList, k);
     // int log =1;
 
@@ -163,15 +156,7 @@ dashboard_main:
         dashBoard_admin(admin, movieList,staffList,customerList);//hàm này ở menu.h nhé
         system("cls");
         menuLogin("Đăng nhập", "Đăng ký");
-    // click=processInputEvents();
-    // int xclick,yclick;
-    // xclick=click.X;
-    // yclick=click.Y;
-    // if(xclick>10&&xclick<100 &&yclick>25&&yclick<40){
-    //     booking.sellTicket(shows,screens,movieList);
-    //     return 0;
     
-    // }
         goto dashboard_main;
     }
     else if (log == 2)//nguoi dung là staff
