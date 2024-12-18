@@ -81,27 +81,12 @@ void printQRCode(int x,int y){
 void layoutChooseMethod(){
     int x=10;
     int y=17;
-    gotoXY(x,y+5);
-    cout<<"Chọn phương thức thanh toán";
-    gotoXY(x,y+7);
-    lineWidth(20,true,true);
-    gotoXY(x,y+8);
-    lineHeight(1,x,y+8);
-    lineHeight(1,x+21,y+8);
-    gotoXY(x,y+9);
-    lineWidth(20,true,false);
-    gotoXY(x+3,y+8);
-    cout<<"1. Chuyển khoản";
-    gotoXY(x+3,y+10);
-    lineWidth(20,true,true);
-    gotoXY(x,y+11);
-    lineHeight(1,x,y+11);
-    lineHeight(1,x+21,y+11);
-    gotoXY(x,y+12);
-    lineWidth(20,true,false);
+    borderLineWithTextAndColor(x,y+5,"Chọn phương thức thanh toán",BG_GRAY);
+
+    borderLineWithTextAndColor(x+3,y+8,"1. Chuyển khoản",BG_YELLOW);
+    borderLineWithTextAndColor(x+3,y+11,"2. Tiền mặt",BG_GRAY);
     gotoXY(x+3,y+11);
-    cout<<"2. Tiền mặt";
-    gotoXY(x,y+13);
+    
 
 
 }
@@ -110,8 +95,8 @@ void layoutFinal(Booking *booking, Coupon* coupon){
     int y=5;
     gotoXY(110,3);
     lineWidth(42,true,true);
-    lineHeight(35,110,4);
-    lineHeight(35,153,4);
+    lineHeight(38,110,4);
+    lineHeight(38,153,4);
     gotoXY(110,23);
     lineWidth(42,true,false);
     gotoXY(110,23);
@@ -193,19 +178,19 @@ void layoutFinal(Booking *booking, Coupon* coupon){
     gotoXY(110+43,y+26);
     cout<<"┤";
     gotoXY(x,y+28);
-    cout<<"Tạm tính:           ";
-    gotoXY(114+30,y+28);
-    cout<<BG_GREEN<<coupon->getDiscount()<<RESET;
-    gotoXY(x+16,y+16);
-    gotoXY(115, 33 +2);
-    cout<<"Giảm giá: ";
-    gotoXY(126, 33 +2);
-    cout<<coupon->getCouponCode()<<"%";
-    gotoXY(142, 33 +2 );
-    cout<<"- "<<coupon->getDiscount()-booking->getTotalPrice();
-    gotoXY(110, 33 +4);
-    lineWidth(42, false, true);
-    gotoXY(110, 33 +6);
+    // cout<<"Tạm tính:           ";
+    // gotoXY(114+30,y+28);
+    // cout<<BG_GREEN<<coupon->getDiscount()<<RESET;
+    // gotoXY(x+16,y+16);
+    // gotoXY(115, 33 +2);
+    // cout<<"Giảm giá: ";
+    // gotoXY(126, 33 +2);
+    // cout<<coupon->getCouponCode()<<"%";
+    // gotoXY(142, 33 +2 );
+    // cout<<"- "<<coupon->getDiscount()-booking->getTotalPrice();
+    // gotoXY(110, 33 +4);
+    // lineWidth(44, false, true);
+    gotoXY(x, 33 +6);
     cout<<"Tổng cộng: ";
     gotoXY(144, 33 +6);
     cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
@@ -227,12 +212,12 @@ void CreditCardPayment::processPayment(Booking* booking)
         this->setPaymentMethod("Tiền mặt");
     }
     gotoXY(5,5);
-    printQRCode(5,4);
+    printQRCode(5,3);
     layoutFinal(booking, booking->getAppliedCoupon());
     int xPayment=115;
     int yPayment=10;
-    borderLineWithTextAndColor(100, 44, "VUI LÒNG CHUYỂN KHOẢN VỚI DÒNG TIN NHẮN SAU", BG_GREEN);
-    borderLineWithTextAndColor(100, 47, booking->getBookingNumber() , BG_GREEN);
+    borderLineWithTextAndColor(80, 43, "VUI LÒNG CHUYỂN KHOẢN VỚI DÒNG TIN NHẮN SAU", BG_GREEN);
+    borderLineWithTextAndColor(90, 46, booking->getBookingNumber() , BG_GREEN);
     
     // gotoXY(xPayment,yPayment);
     // lineWidth(20,true,true);

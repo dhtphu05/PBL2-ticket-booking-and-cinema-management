@@ -96,7 +96,7 @@ void menuLogin(string str1, string str2)
 {
     menu_header(str1, str2);
     lineWidth(156, 0, 15, false, false);
-    menu_middle_date_showmovie();
+    // menu_middle_date_showmovie();
     DoubleLinkedList<Movie> movie;
     importMovie(movie);
     ifstream inputFile("../Databases/" + movie[1].getfileImange()); // File chứa ASCII Art đã chuyển đổi

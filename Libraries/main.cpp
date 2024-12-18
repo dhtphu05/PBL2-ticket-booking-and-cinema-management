@@ -10,7 +10,7 @@
 #include "admin.cpp"
 #include "login.cpp"
 // #include "User.cpp"
-#include "conio.h"
+#include "conio.h"  
 #include "movie.cpp"
 #include <cmath>
 #include "../Include/menu.h"
@@ -18,7 +18,7 @@
 #include "Booking.cpp"
 #define byte windows_byte
 #include <windows.h>
-#undef byte
+#undef byte 
 using namespace std;
 
 int getMouseDashBoardCustomer()
@@ -52,7 +52,7 @@ int getMouseDashBoardCustomer()
     }
     return 0;
 }
-void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customerList,DoubleLinkedList<Booking> &bookingList)
+void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customerList,DoubleLinkedList<Booking> &bookingList, DoubleLinkedList<Show> &shows, DoubleLinkedList<Screen> &screens, DoubleLinkedList<Movie> &movies)
 {
     bool loggedIn = true;
     int choice;
@@ -68,11 +68,12 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
         // Lấy lựa chọn từ người dùng
         choice = getMouseDashBoardCustomer();
 
-        // Xử lý lựa chọn
+        // Xử lý lựa chọn                   
+        Booking booking;
         switch (choice)
         {
         case 1:
-            // Hiển thị thông tin cá nhân
+            // Hiển thị thông tin cá nhân 
             system("cls");
             menu_header("🧑" + customer->getUserName(), "Quay lại");
             // choice = getMouseDashBoardCustomer();
@@ -90,10 +91,11 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
             break;
 
         case 3:
-            // mua vé
+            //! mua vé
             system("cls");
+            booking.setCustomer(customer);
             menu_header("🧑" + customer->getUserName(), "Quay lại");
-            buyTicket(customer);
+            buyTicket(customer, booking, shows,screens,movies);
             choice = getMouseDashBoardCustomer();
             // viewTransactionHistory(customer); // Hàm xử lý lịch sử
             break;
@@ -158,7 +160,7 @@ dashboard_main:
     if (log == 1)//nguoi dung là admin
     {
         Admin *admin = &adminList[k];
-        dashBoard_admin(admin, movieList,staffList,customerList);//hàm này ở menu.h nhé
+        dashBoard_admin(admin,bookingList,shows,screens, movieList,staffList,customerList);//hàm này ở menu.h nhé
         system("cls");
         menuLogin("Đăng nhập", "Đăng ký");
     // click=processInputEvents();
@@ -179,8 +181,8 @@ dashboard_main:
     else if (log == 3)
     {
         
-        Customer *customerPtr = &customerList[k];
-        dashBoard_customer(customerPtr, customerList, bookingList);
+        Customer *customerPtr = &customerList[k]; 
+        dashBoard_customer(customerPtr, customerList, bookingList, shows, screens, movieList);
         system("cls");
 
         goto dashboard_main; 
@@ -189,7 +191,7 @@ dashboard_main:
     {
 
         Customer *customer = &customerList[customerList.getSize() - 1];
-        dashBoard_customer(customer, customerList, bookingList);
+        dashBoard_customer(customer, customerList, bookingList, shows, screens, movieList);
         // system("cls");
         click=processInputEvents();
     int xclick,yclick;

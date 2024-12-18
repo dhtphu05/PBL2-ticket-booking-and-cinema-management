@@ -498,3 +498,44 @@ ShowSeat& getSeatByRowColumn(DoubleLinkedList<ShowSeat> seats,string row, int co
     }
     throw runtime_error("Seat not found.");
 }
+
+// void Show::addShow(DoubleLinkedList<Show> &shows, )
+// void addShow(DoubleLinkedList<Show> &shows, DoubleLinkedList<Screen> &screenList, DoubleLinkedList<Movie> &movieList){
+//     string today;
+//     //dd/mm/yyyy
+//     time_t timeinDay= time(0);
+//     tm *ltm = localtime(&timeinDay);
+//     today= convertDateDefalutToSimple(ctime(&timeinDay));
+
+
+//     borderLineWithTextAndColor(120,5,"Nhập ID của suất chiếu:      ",BG_CYAN);
+//     gotoXY(146,5);
+//     string ID_Show;
+//     cin>>ID_Show;
+//     borderLineWithTextAndColor(120,6,"Chọn ngày chiếu:",BG_CYAN);
+//     layoutListDate(120,7, today);
+//     string date=dateOfClick(120,7);
+//     borderLineWithTextAndColor(120,8,"Chọn phim: ",BG_CYAN);
+//     Movie movieInstance;
+//     // movieInstance.show(movieList);
+    
+// }
+
+    //cout<<"done select screen"<<endl;
+    //cout<<screen->getID_screen()<<endl;
+    //cout<<screen->getScreenType()<<endl;
+    //cout<<screen->getNumberOfSeats()<<endl;
+    //cout<<screen->getNumberOfRows()<<endl;
+    //cout<<screen->getNumberOfColumns()<<endl;
+    //cout<<screen->getScreenType()<<endl;
+    //cout<<screen->getNumberOfSeats()<<endl;
+    //cout<<screen->getNumberOfRows()<<endl;
+    //cout<<screen->getNumberOfColumns()<<endl;
+    //cout<<screen->getScreenType()<<endl;
+    //cout<<screen->getNumberOfSeats()<<endl;
+    //cout<<screen->getNumberOfRows()<<endl;
+    //cout<<screen->getNumberOfColumns()<<endl;
+    //cout<<screen->getScreenType()<<endl;
+    //cout<<screen->getNumberOfSeats()<<endl;
+    //cout<<screen->getNumberOfRows()<<endl;
+    //cout<<screen

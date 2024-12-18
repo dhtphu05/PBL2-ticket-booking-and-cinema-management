@@ -10,9 +10,11 @@
 #include "Combo.cpp"
 #include "Payment.cpp"
 #include "Coupon.cpp"
+#include "../Include/menu.h"
 class Show;
 class Screen;
 class ShowSeat;
+string BG_YELLOW_ = "\033[43m";
 Booking::Booking()
 {
     this->bookingNumber = "";
@@ -141,22 +143,55 @@ void Booking::setAppliedCoupon(Coupon *coupon)
 {
     this->appliedCoupon = coupon;
 }
-
+void cloneLayoutProcessBooking(int x, int y, int indexProcess=0, string colorAll = "", string colorChoose = BG_GREEN ) {
+    borderLineWithTextAndColor(x, y, "Chọn phim/ suất chiếu 🎬", colorAll);
+    gotoXY(x+25,y);
+    
+    borderLineWithTextAndColor(x + 30, y, "Chọn ghế 🎥", colorAll);
+    borderLineWithTextAndColor(x + 30+20, y, "Chọn bắp/nước 🎁", colorAll);
+    borderLineWithTextAndColor(x + 50+20, y, "Thanh toán 🍿", colorAll);
+    borderLineWithTextAndColor(x + 70+20, y, "Xác nhận 💳", colorAll);
+switch (indexProcess) {
+    case 1:
+        borderLineWithTextAndColor(x, y, "Chọn phim/ suất chiếu 🎬", colorChoose);
+        break;
+    case 2:
+        borderLineWithTextAndColor(x + 30, y, "Chọn ghế 🎥", colorChoose);
+        break;
+    case 3:
+        borderLineWithTextAndColor(x + 50, y, "Chọn bắp/nước 🎁", colorChoose);
+        break;
+    case 4:
+        borderLineWithTextAndColor(x + 70, y, "Thanh toán 🍿", colorChoose);
+        break;
+    case 5:
+        borderLineWithTextAndColor(x + 90, y, "Xác nhận 💳", colorChoose);
+        break;
+    default:
+        break;
+}
+}
 //!TODO: 1 hóa đơn là tạo 1 file
 void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> &screens,DoubleLinkedList<Movie> &movies)
 {   system("cls");
+    if(this->getCustomer()->getUserName()!="Guest"){
     borderLineWithTextAndColor(120,1,"Khách hàng: "+this->getCustomer()->getFullName(),BG_CYAN);
+    }
+    if(this->getAdmin()!=nullptr){
+        borderLineWithTextAndColor(120,2,"Nhân viên: "+this->getAdmin()->getFullName(),BG_CYAN);
+    }
     Movie movieInstance;
     Movie* movie= &movieInstance;
-    movie->selectMovieToBooking(movies);
+    //movie->selectMovieToBooking(movies);
     
     //cout<<movie->getCountry()<<endl;
     Show showInstance;
     Show* show = new Show;
-    show->selectShow(movie, screens);
+    // show->selectShow(movie, screens);
+    show=this->getShow();
     system("cls");
     layoutBorderSeat(show);
-    this->setShow(show);
+    // this->setShow(show);
     this->setNumberOfSeats(numberOfSeats);
     this->setTotalPrice(totalPrice);
     this->getRandomBookingNumber();
@@ -173,6 +208,7 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
     // showInstance.displayAllShow(shows);
     bool isEndBookSeat=false;
     bool isFirstClick=false;
+    cloneLayoutProcessBooking(20, 0, 2, BG_YELLOW_, BG_GREEN);
     while(isEndBookSeat==false){
         
     // for(int i=0;i<numberOfSeats;i++){
@@ -196,7 +232,6 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
         // ShowSeat& seat = show->getSeatByRowColumn(row, column);
         // seat.displaySeat();
         layoutBooking(this);
-        
         if(show->getSeatByRowColumn(row,column).getIsBooked() && statusSeatBeforeClick[convertRowandColToInt(row,column)]==true){
             gotoXY(122, 41);
             cout<<"Ghế đã được đặt"<<endl;
@@ -262,9 +297,12 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
             // }
     system("cls");
     Combo combo;
+    cloneLayoutProcessBooking(20, 0, 3, BG_YELLOW_, BG_GREEN);
+
     combo.processCombo(this); 
     system("cls");
     Coupon coupon;
+    cloneLayoutProcessBooking(20, 0, 4, BG_YELLOW_, BG_GREEN);
     coupon.processCoupon(this,this->getAppliedCoupon());
     // gotoXY(122,39);
     // cout<<"Chọn phương thức thanh toán";
@@ -276,48 +314,10 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
     // cout<<"Nhập lựa chọn của bạn: ";
     gotoXY(142, 33 +2 );
     cout<<"- "<<coupon.getDiscount();
+        cloneLayoutProcessBooking(20, 0, 2, BG_YELLOW_, BG_GREEN);
         this->setPayment(new CreditCardPayment());
         this->getPayment()->processPayment(this);
-    
-
     this->saveBookingToFile();
-    //calculate total price
-    // cout<<"Total price: "<<totalPrice<<endl;
-    // cout<<"Confirm booking? 1.Yes 2.No"<<endl;
-    
-    // cin>>opt;
-    //layoutBooking(this);
-    // if(opt==1){
-    //     //save booking to file
-    //     //edit in file
-    //     //showInstance.displayAllShow(shows);
-    //     //editSeatStatusInFile(show,shows,show->getID_Show(),row,column,true);
-    //     //* chưa xử lý 2 ghế, cái ni mới dùng đc 1 ghế chơ mấy.
-    //     //* oke mai xu ly cai vu show chui vo chung 1 lan 
-    //     //update seat status
-    //     //update booking list
-
-
-    //     // cout<<"Booking confirmed."<<endl;
-    //     // this->setShow(show);
-    //     // this->setNumberOfSeats(numberOfSeats);
-    //     // this->setTotalPrice(totalPrice);
-    //     // cout<<"Booking number: "<<this->getBookingNumber()<<endl;
-    //     // this->getShow()->displayShow();
-    //     // cout<<"Number of seats: "<<this->getNumberOfSeats()<<endl;
-    //     // cout<<"Seat: "<<endl;
-    //     // cout<<"Row Column Type Price Status"<<endl;
-    //     // cout<<"--------------------------------"<<endl;
-    //     // for(Node<ShowSeat>* node = this->seats.begin(); node != nullptr; node = node->next){
-    //     //     node->data.displaySeat();
-    //     // }
-    //     // cout<<"Total Price: "<<this->getTotalPrice();
-        
-    //     layoutBooking(this);
-
-    //     //displayAllSeatToBook(show);
-    // }
-    
 }
 void Booking::getRandomBookingNumber()
 {
@@ -434,9 +434,7 @@ void Booking::loadBookingFromFile(DoubleLinkedList<Booking>& bookings,DoubleLink
             streampos pos;
             while(!linee.empty()){
                 pos = file.tellg();
-
                 getline(file,linee);
-
                 if(linee.find("/") != string::npos ){
                     // file.seekg(pos);
                     
@@ -554,7 +552,7 @@ int getClickBookingDetail(DoubleLinkedList<Booking> bookingList,int x,int y){
     click=processInputEvents();
     int i=0;
     for(Node<Booking>* node = bookingList.begin(); node != nullptr; node = node->next){
-        if(isClickInRange(click.X, click.Y, x+130, y-5+i*5, 10, 5)){
+        if(isClickInRange(click.X, click.Y, x+130, y+6+i*5, 7,1)){
             return i;
         }
         i++;
@@ -565,8 +563,310 @@ void displayBookingDetailFollowIndex(DoubleLinkedList<Booking> bookingList, int 
     for(Node<Booking>* node = bookingList.begin(); node != nullptr; node = node->next){
         if(i==index){
             layoutFinal(&node->data,node->data.getAppliedCoupon());
+            // displayBookingDetail(&node->data,x,y);
             break;
         }   
         i++;
     }
+}
+
+//! section select movie
+void displayShowFollowMovie(Booking &booking,DoubleLinkedList<Show>&showList, Movie* movie, int x, int y);
+
+void displayMovieFollowStartDateShow(Booking& booking,DoubleLinkedList<Show> &showList, DoubleLinkedList<Movie>&movieList, int x, int y,string Date){
+    // list of movies having shows today
+    time_t timeinDay= time(0);
+    tm *ltm = localtime(&timeinDay);
+    string date= convertDateDefalutToSimple(ctime(&timeinDay));
+    //get only day month year
+    date=date.substr(9);
+    if(Date!=date){
+        date=Date;
+    }
+    // cout<<date;
+    
+    DoubleLinkedList<Movie> movieListToday;
+    for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
+        if(node->data.getDate()==date){
+            // cout<<"------"<<node->data.getMovie()->getTitle()<<"//"<<endl;
+            movieListToday.push_back(*node->data.getMovie());
+        }
+    }
+    //delete duplicate movies
+    for(Node<Movie>* node = movieListToday.begin(); node != nullptr; node = node->next){
+        for(Node<Movie>* node2 = node->next; node2 != nullptr; node2 = node2->next){
+            if(node->data.getTitle()==node2->data.getTitle() ){
+                // cout<<"delete"<<node2->data.getTitle()<<endl;   
+                movieListToday.remove(node2->data);
+            }
+        }
+    }
+    //display list of movies
+    int i=0,j=0;
+    //i want to display 3 movies in a row
+    i=0;j=0;
+    for(Node<Movie>* node = movieListToday.begin(); node != nullptr; node = node->next){
+        if(i==3){
+            i=0;
+            j+=20;
+        }
+        borderLineWithTextAndColor(x+i*60,y+j,node->data.getTitle(),BG_CYAN);
+        displayImageFile(node->data, x+i*60, y+j+2);
+        
+
+        i++;
+    }
+    //select movie
+    while(booking.getShow()==nullptr){
+    if(isClickInRange(click.X, click.Y, 135, 2, 7,2)){
+        return;
+    }
+    i=0;j=0;
+    for(Node<Movie>* node = movieListToday.begin(); node != nullptr; node = node->next){
+        if(i==3){
+            i=0;
+            j+=20;
+        }
+        borderLineWithTextAndColor(x+i*60,y+j,node->data.getTitle(),BG_CYAN);
+        displayImageFile(node->data, x+i*60, y+j+2);
+        
+
+        i++;
+    }
+    click=processInputEvents();
+    system("cls");
+    
+    i=0;
+    j=0;
+    for(Node<Movie>* node = movieListToday.begin(); node != nullptr; node = node->next){
+        if(i==3){
+            i=0;
+            j+=20;
+        }
+        if(isClickInRange(click.X, click.Y, x+i*60, y+j+2, 20,20)){
+            displayShowFollowMovie(booking,showList,&node->data,x+15,y+15);
+            
+            // displayShowFollowMovie(booking,showList,&node->data, x, y);
+            break;
+        }
+        i++;
+    }
+    }
+}
+void displayShowFollowMovie(Booking &booking,DoubleLinkedList<Show>&showList, Movie* movie, int x, int y){
+    // system("cls");
+    cloneLayoutProcessBooking(20, 0, 1, BG_RED, BG_GREEN);
+
+    int i=0,j=0;
+    for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
+        if(node->data.getMovie()->getTitle()==movie->getTitle()){
+            borderLineWithTextAndColor(x+i*20,y+j,node->data.getStartTime()+" ~ "+node->data.getEndTime(),BG_CYAN);
+            i++;
+        }
+    }
+    borderLineWithTextAndColor(135,2,"Quay lại",BG_CYAN);
+
+    if(movie != nullptr) {
+        movie->showDetailMovie(); 
+    }
+    //select show
+    bool isClear=false;
+    while(booking.getShow()==nullptr){
+    click=processInputEvents();
+    if(isClickInRange(click.X, click.Y, 135, 2, 7,2)){
+        return;
+    }
+    isClear=true;
+    i=0;
+    for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
+        if(node->data.getMovie()->getTitle()==movie->getTitle()){
+            if(isClickInRange(click.X, click.Y, x+i*10, y, 20,1)){
+                booking.setShow(&node->data);
+                break;
+            }   
+        }
+        i++;
+    }
+    }
+}
+void layoutListDate(int x = 0, int y = 0, const string& today = "07/12/2023")
+{   
+    cloneLayoutProcessBooking(20, 0, 1, BG_RED, BG_GREEN);
+
+    // Parse the input date
+    
+    int day = stoi(today.substr(0, 2));
+    int month = stoi(today.substr(3, 2));
+    int year = stoi(today.substr(6, 4));
+
+    // Array of day names
+    string daysOfWeek[] = {"Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"};
+
+    // Calculate the day of the week for the given date
+    tm time_in = { 0, 0, 0, day, month - 1, year - 1900 };
+    time_t time_temp = mktime(&time_in);
+    const tm * time_out = localtime(&time_temp);
+    int todayIndex = time_out->tm_wday;
+
+    cout << BG_GREEN;
+    bool isToday = true;
+    for (int i = 0; i < 7; ++i)
+    {
+        int currentDay = day + i;
+        int currentMonth = month;
+        int currentYear = year;
+
+        // Adjust the day and month if necessary
+        if (currentDay > 30) // Simplified month length, you can add more precise calculation
+        {
+            currentDay -= 30;
+            currentMonth++;
+            if (currentMonth > 12)
+            {
+                currentMonth = 1;
+                currentYear++;
+            }
+        }
+        
+        lineWidth(10, x + (i * 15), y, true, true);
+        if(isToday){
+                    showString("│ " + daysOfWeek[(todayIndex + i) % 7] + "  │", x + (i * 15), y + 1);
+                    isToday=false;
+        }
+        else{
+        showString("│ " + daysOfWeek[(todayIndex + i) % 7] + "  │", x + (i * 15), y + 1);
+        }
+        std::ostringstream oss;
+        oss << "│  " << (currentDay < 10 ? "0" : "") << currentDay << "/" << (currentMonth < 10 ? "0" : "") << currentMonth << "   │";
+        showString(oss.str(), x + (i * 15), y + 2);
+        lineWidth(10, x + (i * 15), y + 3, true, false);
+    }
+    cout << RESET;
+}
+string dateOfClick(int x,int y){
+    int i=0;
+    //i want to return date in format dd/mm/yyyy
+    time_t timeinDay= time(0);
+    tm *ltm = localtime(&timeinDay);
+    string date= convertDateDefalutToSimple(ctime(&timeinDay));
+    //get only day month year
+    date=date.substr(9);
+    click=processInputEvents();
+    for(int i=0;i<7;i++){
+        if(isClickInRange(click.X, click.Y, x+i*15, y, 20,3)){
+            int day = stoi(date.substr(0, 2));
+            int month = stoi(date.substr(3, 2));
+            int year = stoi(date.substr(6, 4));
+            // Adjust the day and month if necessary
+            if (day+i > 30) // Simplified month length, you can add more precise calculation
+            {
+                day += i-30;
+                month++;
+                if (month > 12)
+                {
+                    month = 1;
+                    year++;
+                }
+            }
+            string dayStr = to_string(day+i);
+            string monthStr = to_string(month);
+            if(day+i<10){
+                dayStr="0"+dayStr;
+            }
+            if(month<10){
+                monthStr="0"+monthStr;
+            }
+            //i want to color the date that i click
+            std::ostringstream oss;
+            lineWidth(10, x + (i * 15), y, true, true);
+            oss << "│  "<<BG_RED << dayStr << "/" << monthStr <<RESET<< "   │";
+
+            return dayStr+"/"+monthStr+"/"+to_string(year);
+        }
+    }
+}
+void layoutWhenClickToDate(Booking& booking, DoubleLinkedList<Show> &showList, DoubleLinkedList<Movie> &movieList, int x, int y){
+    string today;
+    //dd/mm/yyyy
+    time_t timeinDay= time(0);
+    tm *ltm = localtime(&timeinDay);
+    today= convertDateDefalutToSimple(ctime(&timeinDay));
+    //get only day month year
+    today=today.substr(9);
+    while(booking.getShow()==nullptr){
+        cloneLayoutProcessBooking(20, 0, 1, BG_YELLOW_, BG_GREEN);
+        layoutListDate(x,y,today);
+        string date = dateOfClick(x,y);
+        
+        displayMovieFollowStartDateShow(booking,showList,movieList,x,y+10,date);
+        system("cls");
+    }
+}
+void displayBarTimeInDay(Screen *screen,string date,DoubleLinkedList<Show>& showList, int x,int y){
+    //i want to display 3 movies in a row
+    gotoXY(x,y);
+    for(int i=1;i<=96;i++){
+        cout<<"█";
+    }
+    //1 block is 15 minutes
+    //1 hour is 4 blocks
+    //time show get from show start time and end time then round to 15 minutes --> convert to block
+    for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
+        if (node->data.getScreen()->ID_Screen == screen->ID_Screen && node->data.getDate() == date)
+        {
+            int startHour=stoi(node->data.getStartTime().substr(0,2));
+            int startMinute=stoi(node->data.getStartTime().substr(3,2));
+            int endHour=stoi(node->data.getEndTime().substr(0,2));
+            int endMinute=stoi(node->data.getEndTime().substr(3,2));
+            int startBlock=(startHour-8)*4+startMinute/15;
+            int endBlock=(endHour-8)*4+endMinute/15;
+            for(int i=startBlock;i<endBlock;i++){
+                gotoXY(x+i,y);
+                cout<<BG_CYAN<<"█"<<RESET;
+            }
+        }
+    }
+}
+void addShow(DoubleLinkedList<Show>& showList, DoubleLinkedList<Movie>& movieList, DoubleLinkedList<Screen>& screenList){
+    int x=0;
+    int y=0;
+    string date=dateOfClick(x,y);
+    Movie *movie;
+    //* display list of movies
+    int i=0,j=0;
+    i=0;j=0;
+    for(Node<Movie>* node = movieList.begin(); node != nullptr; node = node->next){
+        if(i==3){
+            i=0;
+            j+=20;
+        }
+        borderLineWithTextAndColor(x+i*60,y+j,node->data.getTitle(),BG_CYAN);
+        displayImageFile(node->data, x+i*60, y+j+2);
+        i++;
+    }
+    //* get click to select movie
+    click=processInputEvents();
+    system("cls");
+    
+    i=0;
+    j=0;
+    for(Node<Movie>* node = movieList.begin(); node != nullptr; node = node->next){
+        if(i==3){
+            i=0;
+            j+=20;
+        }
+        if(isClickInRange(click.X, click.Y, x+i*60, y+j+2, 20,20)){
+            movie=&node->data;
+            // displayShowFollowMovie(booking,showList,&node->data, x, y);
+            break;
+        }
+        i++;
+    }
+    //*select screen
+    Screen *screen;
+    //* lost function validate duplicate show
+    for(Node<Screen>* node = screenList.begin(); node != nullptr; node = node->next){
+        
+    }
+
 }

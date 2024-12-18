@@ -1,3 +1,5 @@
+#pragma once
+#include "../Include/menu.h"
 #include "Booking.cpp" 
 #include "../Include/Payment.h"
 #include "Payment.cpp"
@@ -11,7 +13,6 @@ int getMouseClick(int &x_click, int &y_click);
 int main()
 {
     SetConsoleOutputCP(65001);
-
     int x_click, y_click;
     Booking booking;
     DoubleLinkedList<Booking> bookings;
@@ -33,19 +34,23 @@ int main()
     DoubleLinkedList<Show> shows;  
     Show show;
     show.loadShowFromFile(shows,screens);
+    Screen *screenPtr = &screens[1];
+    displayBarTimeInDay(screenPtr,"19/12/2024",shows,10,10);
     //!
-    // booking.sellTicket(shows,screens,movies);
+    layoutWhenClickToDate(booking,shows,movies,10,10);
+    // int check;cin>>check;
+    booking.sellTicket(shows,screens,movies);
     booking.loadBookingFromFile(bookings,customers);
 
-    cout<<bookings.getSize()<<endl;
-    cout<<bookings[0].getSeats().getSize()<<endl;
+   // cout<<bookings.getSize()<<endl;
+    // cout<<bookings[0].getSeats().getSize()<<endl;
 
-    cout<<bookings[0].getCustomer()->getUserName()<<endl;
-    cout<<bookings[0].getShow()->getMovie()->getID_Movie()<<endl;
+    // cout<<bookings[0].getCustomer()->getUserName()<<endl;
+    // cout<<bookings[0].getShow()->getMovie()->getID_Movie()<<endl;
 
-    cout<<bookings[1].getCustomer()->getFullName();
-    cout<<bookings[2].getSeats().getSize();
-    cout<<bookings[3].getCombos()[0].getComboName();
+    // cout<<bookings[1].getCustomer()->getFullName();
+    // cout<<bookings[2].getSeats().getSize();
+    // cout<<bookings[3].getCombos()[0].getComboName();
     return 0;
     //!
     // gotoXY(0,0);

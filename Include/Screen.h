@@ -13,7 +13,7 @@ class Screen{
     int ID_Screen;
     DoubleLinkedList<Seat> seatLayout;
 
-
+    
     Screen();
     Screen(int ID_Screen, DoubleLinkedList<Seat> seatLayout);
     int getID_screen();

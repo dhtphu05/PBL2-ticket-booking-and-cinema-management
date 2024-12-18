@@ -1237,3 +1237,21 @@ void Movie::sort_rating(DoubleLinkedList<Movie> &movieList)
     }
     // subSaveAgainFile(movieList);
 }
+void displayImageFile(Movie movie,int x,int y){
+    string line;
+    fstream in;
+    int startX = x, startY = y;
+    int currentY = startY;
+    in.open("../Databases/" + movie.getfileImange());
+    if (!in)
+    {
+        cerr << "Không thể mở file ASCII" << endl;
+    }
+    while (getline(in, line))
+    {
+        gotoXY(startX, currentY);
+        cout << line << endl;
+        currentY++;
+    }
+    in.close();
+}

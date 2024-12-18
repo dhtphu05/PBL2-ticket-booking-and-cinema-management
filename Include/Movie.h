@@ -74,5 +74,10 @@ public:
     void selectMovieToBooking(DoubleLinkedList<Movie> &movieList);
     void subSaveAgainFile(DoubleLinkedList<Movie> &movieList);
     friend class User;
+    //overload operator ==
+    bool operator==(const Movie &m)
+    {
+        return this->title == m.title;
+    }
 };
 #endif

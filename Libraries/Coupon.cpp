@@ -199,7 +199,7 @@ void layoutBillTempCoupon(Booking *booking){
     gotoXY(110+43,y+26);
     cout<<"┤";
     gotoXY(x,y+28);
-    cout<<"Tạm tính:           ";
+    cout<<"Tạm tính:          ";
     gotoXY(114+30,y+28);
     cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
     gotoXY(x+16,y+16);
@@ -228,7 +228,7 @@ void Coupon::processCoupon(Booking *booking, Coupon* coupon)
     double tienduocgiam=0;
     for (Node<Coupon> *node = coupons.begin(); node != nullptr; node = node->next)
     {   
-
+        
         //!Conflic o trong nay nhe
         if (node->data.getCouponCode() == couponCode)
         {   
@@ -238,16 +238,22 @@ void Coupon::processCoupon(Booking *booking, Coupon* coupon)
             gotoXY(10, 17);
             cout<< "Nhập mã khuyến mãi: "<<couponCode<<" thành công.";
             gotoXY(10, 18);
-            cout<<"Ưu đãi của bạn la: Giảm giá trên đơn  " << node->data.getDiscount() * 100 << "%" << endl;
+            cout<<"Ưu đãi của bạn là: Giảm giá trên đơn  " << node->data.getDiscount() * 100 << "%" << endl;
             booking->setTotalPrice(booking->getTotalPrice() * (1 - node->data.getDiscount()));
             // cout << "Discount: " << node->data.getDiscount() * 100 << "%" << endl;
             // cout << "Total price after discount: " << booking->getTotalPrice() << endl;
             gotoXY(115, 33 +2);
             cout<<"Giảm giá: ";
+            gotoXY(142,33+2);
+            cout<<"       ";
             gotoXY(126, 33 +2);
             cout<<node->data.getDiscount()*100<<"%";
             gotoXY(142, 33 +2 );
-            cout<<"- "<<tienduocgiam;
+            cout<<"-  ";
+            gotoXY(144, 33 +2);
+            cout<<" ";
+            gotoXY(145, 33 +2);
+            cout<<tienduocgiam;
             break;
         }
     }

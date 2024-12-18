@@ -1,8 +1,8 @@
-
+#pragma once
 #include "layout.h"
-#include "Admin.h"
-#include "Staff.h"
-#include "Customer.h"
+#include "../Include/Admin.h"
+#include "../Include/Staff.h"
+#include "../Include/Customer.h"
 #include "gotoXY.h"
 #include "clickMouse.h"
 #include <iostream>
@@ -18,6 +18,7 @@ using namespace std;
 int getClickProfile();
 string BG_GREENN = "\033[32m";
 string RESETT="\033[0m";
+#define BG_YELLOW  "\033[43m";
 void header_admin(string str1)
 {
     lineWidth(120, 31, 3, false, false);
@@ -39,6 +40,8 @@ void header_admin(string str1)
     gotoXY(130, 1);
     cout << "\033[1;31m" << "👤 " + str1 << "\033[0m" << endl;
 }
+void buyTicketAdmin(Admin *admin, Booking &booking, DoubleLinkedList<Show> &showList, DoubleLinkedList<Screen> &screenList, DoubleLinkedList<Movie> &movieList);
+
 int getClickAdmin_default()
 {
     click = processInputEvents();
@@ -234,8 +237,9 @@ int getClick_searchMovie()
         return 1; // ten phim
     }
 }
-void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLinkedList<Staff> &staffList, DoubleLinkedList<Customer> &customerList)
-{
+void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleLinkedList<Show> &showList, DoubleLinkedList<Screen> &screenList ,DoubleLinkedList<Movie> &movieList, DoubleLinkedList<Staff> &staffList, DoubleLinkedList<Customer> &customerList)
+{   
+    Booking booking;
     bool loggedIn = true;
     int choice;
     {
@@ -379,6 +383,8 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
             case 9:
             {
                 // admin-> addShow();
+                Screen* screen = &screenList[1];
+                displayBarTimeInDay(screen,"19/12/2024", showList, 40, 10);
                 break;
             }
             case 10:
@@ -511,6 +517,10 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
             case 22:
             {
                 // admin->bookTicket();
+                system("cls");
+                booking.setAdmin(admin);
+                buyTicketAdmin(admin, booking,showList,screenList,movieList);
+                goto dashBoard_admin;
                 break;
             }
             case 23:
@@ -597,34 +607,49 @@ void menu_header(string message1, string message2)
     gotoXY(58, 2.5);
     cout << "🔍 Tìm kiếm" << endl;
 }
-void menu_middle_date_showmovie()
+void menu_middle_date_showmovie(int x = 0, int y = 0, const string& today = "01/01/2023")
 {
-    cout<<BG_GREENN;
-    lineWidth(10, 60, 11, true, true);
-    showString("│ Hôm nay  │", 60, 12);
-    showString("│  28/11   │", 60, 13);
-    lineWidth(10, 60, 14, true, false);
-    cout<<RESETT;
-    lineWidth(10, 75, 11, true, true);
-    showString("│ Thứ sáu  │", 75, 12);
-    showString("│  29/11   │", 75, 13);
-    lineWidth(10, 75, 14, true, false);
-    lineWidth(10, 90, 11, true, true);
-    showString("│  Thứ bảy │", 90, 12);
-    showString("│  30/11   │", 90, 13);
-    lineWidth(10, 90, 14, true, false);
-    lineWidth(10, 105, 11, true, true);
-    showString("│ Chủ nhật │", 105, 12);
-    showString("│  01/12   │", 105, 13);
-    lineWidth(10, 105, 14, true, false);
-    lineWidth(10, 120, 11, true, true);
-    showString("│ Thứ hai  │", 120, 12);
-    showString("│  02/12   │", 120, 13);
-    lineWidth(10, 120, 14, true, false);
-    lineWidth(10, 135, 11, true, true);
-    showString("│  Thứ ba  │", 135, 12);
-    showString("│  03/12   │", 135, 13);
-    lineWidth(10, 135, 14, true, false);
+    // Parse the input date
+    int day = stoi(today.substr(0, 2));
+    int month = stoi(today.substr(3, 2));
+    int year = stoi(today.substr(6, 4));
+
+    // Array of day names
+    string daysOfWeek[] = {"Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"};
+
+    // Calculate the day of the week for the given date
+    tm time_in = { 0, 0, 0, day, month - 1, year - 1900 };
+    time_t time_temp = mktime(&time_in);
+    const tm * time_out = localtime(&time_temp);
+    int todayIndex = time_out->tm_wday;
+
+    cout << BG_GREENN;
+    for (int i = 0; i < 7; ++i)
+    {
+        int currentDay = day + i;
+        int currentMonth = month;
+        int currentYear = year;
+
+        // Adjust the day and month if necessary
+        if (currentDay > 30) // Simplified month length, you can add more precise calculation
+        {
+            currentDay -= 30;
+            currentMonth++;
+            if (currentMonth > 12)
+            {
+                currentMonth = 1;
+                currentYear++;
+            }
+        }
+
+        lineWidth(10, x + (i * 15), y, true, true);
+        showString("│ " + daysOfWeek[(todayIndex + i) % 7] + " │", x + (i * 15), y + 1);
+        std::ostringstream oss;
+        oss << "│  " << (currentDay < 10 ? "0" : "") << currentDay << "/" << (currentMonth < 10 ? "0" : "") << currentMonth << "   │";
+        showString(oss.str(), x + (i * 15), y + 2);
+        lineWidth(10, x + (i * 15), y + 3, true, false);
+    }
+    cout << RESETT;
 }
 int getClickInfor()
 {
@@ -860,10 +885,9 @@ dashBoard_while:
             DoubleLinkedList<Booking> bookingListOfCustomer;
             getListBookingOfCustomer(customer, bookingList, bookingListOfCustomer);
             cout<<bookingListOfCustomer.getSize();
-            displayListBookingLikeTableOfCustomer(customer, bookingList,5,20);
+            displayListBookingLikeTableOfCustomer(customer, bookingListOfCustomer,5,20);
             int chooseBooking= getClickBookingDetail(bookingListOfCustomer,5,20);
             system("cls");
-            cout<<chooseBooking;
             displayBookingDetailFollowIndex(bookingListOfCustomer,chooseBooking,5,20);
             choice = getClickProfile();
             system("cls");
@@ -884,7 +908,7 @@ dashBoard_while:
         case 3:
         {
             gotoXY(50, 20);
-            cout << "Quà tặng"; // qua tang
+            cout << "Bạn hiện không có quà tặng nào"; // qua tang
             choice = getClickProfile();
             system("cls");
             menu_header("🧑" + customer->getUserName(), "Quay lại");
@@ -954,88 +978,58 @@ int getClickTicktet()
     }
     return 0;
 }
-void buyTicket(Customer *customer)
+void layoutProcessBooking(int x, int y, int indexProcess=0, string colorAll = "", string colorChoose = BG_GREENN ) {
+    borderLineWithTextAndColor(x, y, "Chọn phim/ suất chiếu 🎬", colorAll);
+    borderLineWithTextAndColor(x + 30, y, "Chọn ghế 🎥", colorAll);
+    borderLineWithTextAndColor(x + 30+20, y, "Chọn bắp/nước 🎁", colorAll);
+    borderLineWithTextAndColor(x + 50+20, y, "Thanh toán 🍿", colorAll);
+    borderLineWithTextAndColor(x + 70+20, y, "Xác nhận 💳", colorAll);
+switch (indexProcess) {
+    case 1:
+        borderLineWithTextAndColor(x, y, "Chọn phim/ suất chiếu 🎬", colorChoose);
+        break;
+    case 2:
+        borderLineWithTextAndColor(x + 22, y, "Chọn ghế 🎥", colorChoose);
+        break;
+    case 3:
+        borderLineWithTextAndColor(x + 34, y, "Chọn bắp/nước 🎁", colorChoose);
+        break;
+    case 4:
+        borderLineWithTextAndColor(x + 47, y, "Thanh toán 🍿", colorChoose);
+        break;
+    case 5:
+        borderLineWithTextAndColor(x + 65, y, "Xác nhận 💳", colorChoose);
+        break;
+    default:
+        break;
+}
+}
+void buyTicket(Customer *customer, Booking &booking, DoubleLinkedList<Show> &showList,DoubleLinkedList<Screen> &screenList, DoubleLinkedList<Movie> &movieList)
 {
 
-    showString("Chọn phim/ suất chiếu 🎬", 40, 8);
-    showString("Chọn ghế 🎥", 62, 8);
-    showString("Quà tặng 🎁", 74, 8);
-    showString("Chọn thức ăn 🍿", 87, 8);
-    showString("Thanh toán 💳", 105, 8);
-    showString("Xác nhận ✅", 120, 8);
-    lineWidth(90, 38, 10, false, false);
-
+    // showString("Chọn phim/ suất chiếu 🎬", 40, 8);
+    // showString("Chọn ghế 🎥", 62, 8);
+    // showString("Quà tặng 🎁", 74, 8);
+    // showString("Chọn thức ăn 🍿", 87, 8);
+    // showString("Thanh toán 💳", 105, 8);
+    // showString("Xác nhận ✅", 120, 8);
+    // lineWidth(90, 38, 10, false, false);
+    system("cls");
+    layoutProcessBooking(20, 0, 1, BG_RED, BG_GREENN);
+    layoutWhenClickToDate(booking, showList,movieList,10,10);
+    booking.sellTicket(showList,screenList, movieList);
     int choice = getClickTicktet();
     bool runing = true;
-    while (runing)
-    {
-        switch (choice)
-        {
-        case 1:
-        {
-            gotoXY(50, 20);
-            cout << "Chọn phim/ suất chiếu"; // lich su giao dich
-            choice = getClickTicktet();
-            break;
-        }
-        case 2:
-        {
-            // thong tin ca nhan
-            gotoXY(50, 20);
-            cout << "Chọn ghế";
-            choice = getClickTicktet();
-            break;
-        }
-        case 3:
-        {
-            gotoXY(50, 20);
-            cout << "Quà tặng"; // qua tang
-            choice = getClickTicktet();
-            break;
-        }
-        case 4:
-        {
-            // thong bao
-            gotoXY(50, 20);
-            cout << "Chọn thức ăn";
-            choice = getClickTicktet();
-            break;
-        }
-        case 5:
-        {
-            // thong bao
-            gotoXY(50, 20);
-            cout << "Thanh toán";
-            choice = getClickTicktet();
-            break;
-        }
-        case 6:
-        {
-            // thong bao
-            gotoXY(50, 20);
-            cout << "Xác nhận";
-            choice = getClickTicktet();
-            break;
-        }
-        case 7:
-        {
-            runing = false;
-            break;
-        }
-        default:
-            choice = getClickTicktet();
-            break;
-        }
-        system("cls");
-        menu_header("🧑" + customer->getUserName(), "Quay lại");
-        showString("Chọn phim/ suất chiếu 🎬", 40, 8);
-        showString("Chọn ghế 🎥", 62, 8);
-        showString("Quà tặng 🎁", 74, 8);
-        showString("Chọn thức ăn 🍿", 87, 8);
-        showString("Thanh toán 💳", 105, 8);
-        showString("Xác nhận ✅", 120, 8);
-        lineWidth(90, 38, 10, false, false);
-    }
+    
+}
+void buyTicketAdmin(Admin *admin, Booking &booking, DoubleLinkedList<Show> &showList, DoubleLinkedList<Screen> &screenList, DoubleLinkedList<Movie> &movieList){
+    system("cls");
+    layoutProcessBooking(20, 0, 1, BG_RED, BG_GREENN);
+    layoutWhenClickToDate(booking, showList,movieList,10,10);
+    booking.sellTicket(showList,screenList, movieList);
+    int choice = getClickTicktet();
+    bool runing = true;
+
 }
 // staff'
 int getClick_menuHeader()

@@ -250,4 +250,34 @@ void Screen::displayAllScreenSimpleLayout(DoubleLinkedList<Screen> &screens){
 void printScreen(Screen* screen){
     cout<<screen->getID_screen()<<endl;
 }
+void addScreen(DoubleLinkedList<Screen> &screens){
+    int x =120;
+    int y = 10;
+    Screen screen;
+    gotoXY(x+26,y);
+    cin>>screen.ID_Screen;
+    cout<<"Enter the layout of the screen: "<<endl;
+    cout<<"Enter V for VIP seat, R for Regular seat, D for Disable seat"<<endl;
+    for(int i=0;i<10;i++){
+        for(int j=0;j<10;j++){
+            cout<<"Enter the type of seat at row "<<to_string(i+'A')<<" and column "<<j<<": ";
+            string type;
+            cin>>type;
+            Seat seat;
+            seat.setSeatRow(to_string(i+'A'));
+            seat.setSeatColumn(j);
+            if(type=="V"){
+                seat.setType(SeatType::VIP);
+            } else if(type=="R"){
+                seat.setType(SeatType::Regular);
+            } else if(type=="D"){
+                seat.setType(SeatType::Disable);
+            }
+            screen.seatLayout.push_back(seat);
+        }
+    }
+    if(!screen.saveScreenToFile(screens)){
+        cout<<"Failed to save screen record."<<endl;
+    }
+}
 
