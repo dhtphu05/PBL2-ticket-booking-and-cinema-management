@@ -317,21 +317,21 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                     lineWidth(35, 80, 24, true, false);
 
                     choice = getClick_showMovie();
-                    if (choice == 2) // Kiểm tra _choice34 thay vì comand
+                    if (choice == 2) 
                     {
                         if (currentPage * staffPerPage < staffList.getSize())
                         {
                             currentPage++;
                         }
                     }
-                    else if (choice == 1) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 1) 
                     {
                         if (currentPage > 1)
                         {
                             currentPage--;
                         }
                     }
-                    else if (choice == 3) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 3) 
                     {
                         break;
                     }
@@ -380,21 +380,21 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                     lineWidth(35, 80, 24, true, false);
 
                     choice = getClick_showMovie();
-                    if (choice == 2) // Kiểm tra _choice34 thay vì comand
+                    if (choice == 2) 
                     {
                         if (currentPage * customerPerPage < customerList.getSize())
                         {
                             currentPage++;
                         }
                     }
-                    else if (choice == 1) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 1) 
                     {
                         if (currentPage > 1)
                         {
                             currentPage--;
                         }
                     }
-                    else if (choice == 3) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 3) 
                     {
                         break;
                     }
@@ -456,11 +456,7 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                     gotoXY(80, 23);
                     cout << "│👈 Previous | Next 👉 |   Quit ❌  │";
                     lineWidth(35, 80, 24, true, false);
-                    // string str;
-                    // gotoXY(40, 30);
-                    // cout << "Nhập STT phim để xem chi tiết (nhập 0 nếu k muốn xem ) : ";
-                    // getString(str, 40, 31);
-                    // int a = stoi(str);
+            
                     choice = getClick_showMovie();
                     if (choice == 11 || choice == 12 || choice == 13 || choice == 14 || choice == 15)
                     {
@@ -470,21 +466,21 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                     }
 
                     choice = getClick_showMovie();
-                    if (choice == 2) // Kiểm tra _choice34 thay vì comand
+                    if (choice == 2) 
                     {
                         if (currentPage * moviesPerPage < movieList.getSize())
                         {
                             currentPage++;
                         }
                     }
-                    else if (choice == 1) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 1) 
                     {
                         if (currentPage > 1)
                         {
                             currentPage--;
                         }
                     }
-                    else if (choice == 3) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 3) 
                     {
                         break;
                     }
@@ -748,12 +744,12 @@ void infor(Customer *customer, DoubleLinkedList<Customer> &customerList)
     // lineHeight(4, 120, 11, false, false, false);
     // lineHeight(3, 50, 12, true, false, false);
     // lineHeight(3, 120, 12, false, true, false);
-    lineWidth(15, 100, 27, true, true);
+    lineWidth(11, 100, 27, true, true);
     showString("│ Chỉnh sửa │", 100, 28);
-    lineWidth(15, 100, 29, true, false);
-    lineWidth(15, 130, 27, true, true);
+    lineWidth(11, 100, 29, true, false);
+    lineWidth(11, 130, 27, true, true);
     showString("│   LƯU     │", 130, 28);
-    lineWidth(15, 130, 29, true, false);
+    lineWidth(11, 130, 29, true, false);
 
     bool running = true;
     int choice = getClickProfile(); // click vao ô cập nhật thông tin

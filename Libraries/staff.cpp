@@ -534,7 +534,7 @@ void Staff::editCustomer()
                 choice = getClick_editCustomer();
             }
             gotoXY(40, 10);
-            cout << "                          ";
+            cout << "                              ";
             gotoXY(37, 8);
             cout << "         ";
             getString(str, 37, 8); // Lấy chuỗi từ người dùng
@@ -738,7 +738,7 @@ void Staff::removeCustomer()
                 choice = getclick_removeCustomer();
             }
             gotoXY(40, 10);
-            cout << "                          ";
+            cout << "                                ";
             gotoXY(37, 8);
             cout << "         ";
             getString(str, 37, 8); // Lấy chuỗi từ người dùng

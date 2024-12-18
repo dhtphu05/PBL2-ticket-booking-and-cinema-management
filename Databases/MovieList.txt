@@ -106,14 +106,15 @@ Nội dung: Neo trở lại Ma Trận để đối mặt với những bí ẩn 
 Đánh giá: 4/5
 File ảnh: matrix_resurrections.txt
 
-#2010
-Tên phim: Ma Trậ: Hồi Sinh
-Thể loại: Hành động, Khoa học viễn tưởng
-Thời lượng: 148 phút
-Ngày phát hành: 22-12-2021
-Đạo diễn: Lana Wachowski
-Diễn viên: Keanu Reeves, Carrie-Anne Moss, Yahya Abdul-Mateen II
-Quốc gia: Mỹ
-Nội dung: Neo trở lại Ma Trận để đối mặt với những bí ẩn mới, đồng thời khám phá ra sự thật sâu sắc hơn về thực tại. Bộ phim mang đến cảm giác hoài niệm và những ý tưởng mới táo bạo.
-Đánh giá: 4/5
-File ảnh: matrix_reurrections.txt
+#2143
+Tên phim: Linh Miêu
+Thể loại: Ma
+Thời lượng: 120phut
+Ngày phát hành: 23/01/2024
+Đạo diễn: Lưu Thành Luân
+Diễn viên: Thiên AN, Thùy Tiên
+Quốc gia: Việt Nam
+Nội dung: Phim chiếu rạp kể về cuộc sông ở Huế
+Đánh giá: 5/5
+File ảnh: linhmieu.txt
+

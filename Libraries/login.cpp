@@ -255,12 +255,12 @@ dashBoard_login:
             // wchar_to_utf8(password);
         dashBoard_runningLogin:
             bool running = true, _username = false, _password = false, _run = false;
-            gotoXY(50, 27);
-            cout << "                                            ";
+
             while (running)
             {
                 int choicee = getclick_login();
-
+                gotoXY(54, 29);
+                cout << "                                            ";
                 switch (choicee)
                 {
                 case 1:
@@ -283,7 +283,7 @@ dashBoard_login:
                         _run = true;
                         break;
                     }
-
+                    break;
                 case 5:
                     system("cls");
                     running = false;
@@ -326,8 +326,8 @@ dashBoard_login:
                     }
                     else
                     {
-                        gotoXY(50, 27);
-                        cout << "Tên đăng nhập hoặc mật khẩu không đúng" << endl;
+                        gotoXY(54, 29);
+                        cout << "\033[31mTên đăng nhập hoặc mật khẩu không đúng!\033[0m" << endl;
 
                         goto dashBoard_runningLogin;
                     }

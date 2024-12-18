@@ -231,9 +231,11 @@ bool Customer::resigter(Customer &customer)
     bool check = false;
     while (run)
     {
-        gotoXY(50, 25);
-        cout << "                                                                       ";
+
         choice = getClick_resigter();
+
+        gotoXY(50, 25);
+        cout << "                                                                                                        ";
         switch (choice)
         {
         case 1:
@@ -293,7 +295,7 @@ bool Customer::resigter(Customer &customer)
             if (!isValidPassword(customer.password))
             {
                 gotoXY(50, 25);
-                cout << ("Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt");
+                cout << ("\033[31mMật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt\033[0m");
                 gotoXY(51, 18);
                 cout << "                              ";
                 break;

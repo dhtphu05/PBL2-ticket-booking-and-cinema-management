@@ -20,7 +20,7 @@
 #include <windows.h>
 #undef by
 using namespace std;
-//todo: chỉnh sửa excepyion ở movie và thêm events nữa với làm báo cáo nữa chứ sắp hết time ôn thi rồi huhuh
+//todo: chỉnh sửa exception ở movie và thêm events nữa với làm báo cáo nữa chứ sắp hết time ôn thi rồi huhuh
 //todo: còn cái kiểm tra username tồn tại hay chưa nữa, à và cái regex cho them file chỗ phim nữa
 
 int getMouseDashBoardCustomer()

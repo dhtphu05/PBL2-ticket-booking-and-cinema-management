@@ -121,18 +121,10 @@ Giới tính: Nam
 #1027
 Tên đăng nhập: Thanhthuy
 Mật khẩu: thanhthuy123
-Họ và tên: Nguyễn Thanh Thủy
+Họ và tên: Nguyễn Thanh Tâm
 Số điện thoại: 0489375923
 Ngày sinh: 02/03/1997
 Giới tính: Nữ
-
-#1028
-Tên đăng nhập: Minhduc
-Mật khẩu: minhduc123
-Họ và tên: Trần Minh Đức
-Số điện thoại: 0978456721
-Ngày sinh: 15/06/2000
-Giới tính: Nam
 
 #1029
 Tên đăng nhập: Lananh
@@ -198,7 +190,6 @@ Số điện thoại: 0978345627
 Ngày sinh: 14/09/1994
 Giới tính: Nam
 
-
 #1037
 Tên đăng nhập: Khanhchi
 Mật khẩu: Khanh123@
@@ -206,7 +197,6 @@ Họ và tên: Nguyễn Khánh Chi
 Số điện thoại: 033476982
 Ngày sinh: 20/01/2002
 Giới tính: Nữ
-
 
 #1039
 Tên đăng nhập: user1039
@@ -271,4 +261,20 @@ Họ và tên: Nguyễn Thị Thanh
 Số điện thoại: 0334105228
 Ngày sinh: 22/01/2005
 Giới tính: Nữ
+
+#1047
+Tên đăng nhập: Nhannhan123
+Mật khẩu: Nhan@123hihi
+Họ và tên: Nguyễn Thanh Nhàn
+Số điện thoại: 0334105228
+Ngày sinh: 29/01/2005
+Giới tính: Nữ
+
+#1048
+Tên đăng nhập: user1048
+Mật khẩu: 12345678
+Họ và tên: Nguyễn Trọng Phúc
+Số điện thoại: 0938458234
+Ngày sinh: 18/05/2004
+Giới tính: Nam
 

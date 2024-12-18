@@ -192,7 +192,7 @@ void Movie::addMovie()
     {
         int choicee = getclick_addMovie();
         gotoXY(50, 35);
-        cout << "                                             ";
+        cout << "                                                        ";
         switch (choicee)
         {
         case 1:
@@ -224,9 +224,9 @@ void Movie::addMovie()
                 cout << "\033[31mNgày không hợp lệ!\033[0m";
                 this_thread::sleep_for(chrono::seconds(2));
                 gotoXY(100, 36);
-                cout << "               ";
+                cout << "                                        ";
                 gotoXY(58, 17);
-                cout << "                                   "; // Clear the success message
+                cout << "                                     "; // Clear the success message
             }
             else
                 releaseDate = true;
@@ -316,7 +316,7 @@ void Movie::subSaveAgainFile(DoubleLinkedList<Movie> &movieList)
     bool check = true;
     try
     {
-        out.open("../Database/MovieList.txt"); // Mở file để ghi đè lên toàn bộ dữ liệu trong file
+        out.open("../Databases/MovieList.txt"); // Mở file để ghi đè lên toàn bộ dữ liệu trong file
         if (!out.is_open())
         {
             throw runtime_error("Error opening file");
@@ -1035,11 +1035,7 @@ void Movie::showDetailMovie()
     string line;
     fstream in;
     int x = 35;
-    // in.open("../Databases/" + this->fileImage);
-    // if (!in)
-    // {
-    //     cerr << "Không thể mở file ASCII" << endl;
-    // }
+
     int k = 10;
     try
     {
@@ -1065,8 +1061,24 @@ void Movie::showDetailMovie()
     catch (const std::exception &e)
     {
         gotoXY(34, 6);
-        cout << "\033[31mKhông tìm thấy file ảnh!!\033[0m";
-        k=20;
+        in.open("../Databases/default_film.txt");
+        if (!in)
+        {
+            throw runtime_error("Error opening file");
+        }
+        int startX = 34, startY = 6;
+        int currentY = startY;
+
+        while (getline(in, line))
+        {
+            x = line.length();
+            gotoXY(startX, currentY);
+            cout << line << endl;
+            currentY++;
+        }
+        x = x + startX + 4;
+        k = currentY;
+        in.close();
     }
 
     int a;

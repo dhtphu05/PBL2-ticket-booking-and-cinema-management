@@ -164,7 +164,7 @@ void Admin::addStaff()
                 break;
             }
             else
-                phone = true;
+                password = true;
 
             break;
         case 7:
@@ -356,10 +356,11 @@ void Admin::editStaff()
             bool run = true;
             while (run)
             {
-                gotoXY(50, 23);
-                cout << "                                 ";
+            
                 string str_temp;
                 choicee = getclick_editStaff();
+                 gotoXY(50, 23);
+                cout << "                                 ";
                 switch (choicee)
                 {
                 case 1:
