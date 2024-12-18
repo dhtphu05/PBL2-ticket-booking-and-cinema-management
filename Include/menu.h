@@ -254,6 +254,7 @@ int getClick_searchMovie()
     {
         return 1; // ten phim
     }
+    return 0;
 }
 int getClick_showDetailMovie()
 {
@@ -264,6 +265,7 @@ int getClick_showDetailMovie()
     {
         return 1; // dat ve
     }
+    return 0;
 }
 void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLinkedList<Staff> &staffList, DoubleLinkedList<Customer> &customerList)
 {
@@ -683,6 +685,7 @@ int getClickInfor()
     {
         return 6; // luu thong tin
     }
+    return 0;
 }
 
 std::string customInput(int x, int y)
@@ -851,7 +854,7 @@ int getClickProfile()
     {
         return 6; // cap nhat thong tin
     }
-
+    return 0;
     //! section xem thong tin ve ca nhan
 }
 void setTextColor(int color)
@@ -1095,6 +1098,7 @@ int getClick_menuHeader()
     {
         return 7; // Cai dat
     }
+    return 0;
 }
 void dashBoard_staff(Staff *staff)
 {
