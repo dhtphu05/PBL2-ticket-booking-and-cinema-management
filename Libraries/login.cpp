@@ -29,6 +29,7 @@ int click_login()
 
 void getPassword(string &password)
 {
+    password = "";
     char ch;
     while (true)
     {
@@ -172,6 +173,14 @@ string showName(string &s)
 {
     return s;
 }
+template <class T>
+void Delete_data_in_DLL(DoubleLinkedList<T> listT)
+{
+    for (int i = 0; i < listT.getSize(); i++)
+    {
+        listT.earse(i);
+    }
+}
 int getclick_login()
 {
     click = processInputEvents();
@@ -204,8 +213,6 @@ int getclick_login()
     return 0;
 }
 // todo: ngày 4/12 thêm vào phần đăng nhập "thoat" và click chuột vào "đăng ký"
-// todo : còn phần "quên mật khẩu " chưa tác động
-// todo: chưa check sai mật khâu nè huhuhuhu- do sửa lại nên bị xóa mà k để ý - thoi ăn cơm đã hêhehe
 int logIn(DoubleLinkedList<Admin> &adminList, DoubleLinkedList<Staff> &staffList, DoubleLinkedList<Customer> &customerList, int &k)
 {
 dashBoard_login:
@@ -221,6 +228,9 @@ dashBoard_login:
         {
         case 1:
         {
+            readFileManagement(1, adminList, staffList, customerList);
+            readFileManagement(2, adminList, staffList, customerList);
+            readFileManagement(3, adminList, staffList, customerList);
             system("cls");
             string userName;
             string password;
@@ -247,37 +257,43 @@ dashBoard_login:
             cout << "\033[4mQuên mật khẩu\033[0m" << endl;
             gotoXY(60, 26);
             cout << "Bạn chưa có tài khoản?" << "\033[4mĐăng ký\033[0m" << endl;
-            // gotoXY(69, 17);
-            // cin >> userName;
-            // wchar_to_utf8(userName);
-            // gotoXY(63, 19);
-            // getPassword(password);
-            // wchar_to_utf8(password);
 
-            bool running = true, _username = false, _password = false, _run = false;
+            bool _username = false, _password = false, _run = false;
+        dashBoard_runningLogin:
+            bool running = true;
             while (running)
             {
                 int choicee = getclick_login();
+                gotoXY(54, 29);
+                cout << "                                            ";
                 switch (choicee)
                 {
                 case 1:
                     gotoXY(69, 17);
-                    cout << "                   ";
+                    cout << "                     ";
                     getString(userName, 69, 17);
                     _username = true;
+
                     break;
                 case 2:
                     gotoXY(69, 19);
-                    cout << "                   ";
+                    cout << "                        ";
                     gotoXY(69, 19);
                     getPassword(password);
                     _password = true;
+
                     break;
                 case 3:
                     if (_username && _password)
                     {
                         running = false;
                         _run = true;
+                        break;
+                    }
+                    else
+                    {
+                        gotoXY(54, 29);
+                        cout << "\033[31mVui lòng nhập đầy đủ thông tin!!\033[0m" << endl;
                         break;
                     }
 
@@ -295,9 +311,7 @@ dashBoard_login:
             }
             if (_run)
             {
-                readFileManagement(1, adminList, staffList, customerList);
-                readFileManagement(2, adminList, staffList, customerList);
-                readFileManagement(3, adminList, staffList, customerList);
+
                 bool run = true;
                 while (run)
                 {
@@ -323,22 +337,13 @@ dashBoard_login:
                     }
                     else
                     {
-                        gotoXY(50, 27);
-                        cout << "Tên đăng nhập hoặc mật khẩu không đúng" << endl;
-                        gotoXY(68, 17);
-                        cout << "                   ";
-                        gotoXY(68, 17);
-                        userName = "";
-                        getString(userName, 68, 17);
-                        wchar_to_utf8(userName);
-                        gotoXY(63, 19);
-                        cout << "                   ";
-                        gotoXY(63, 19);
-                        password = "";
-                        getPassword(password);
-                        wchar_to_utf8(password);
+
+                        gotoXY(54, 29);
+                        cout << "\033[31mTên đăng nhập hoặc mật khẩu không đúng!\033[0m" << endl;
+                        goto dashBoard_runningLogin;
                     }
                 }
+
                 break;
             }
             else
@@ -346,6 +351,7 @@ dashBoard_login:
                 goto dashBoard_choice;
                 break;
             }
+            break;
         }
 
         case 2:
@@ -371,6 +377,7 @@ dashBoard_login:
 
             break;
         }
+
         case 3:
         {
             return 5;
