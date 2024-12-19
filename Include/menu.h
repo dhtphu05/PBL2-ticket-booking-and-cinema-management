@@ -10,6 +10,8 @@
 #include <string.h>
 #include <iomanip>
 #include <conio.h>
+#include "../Include/Booking.h"
+#include "../Libraries/Booking.cpp"
 using namespace std;
 #ifndef MENU_H
 #define MENU_H
@@ -822,15 +824,22 @@ int getClickProfile()
     {
         return 6; // cap nhat thong tin
     }
+
+
+    //!section xem thong tin ve ca nhan 
+    
+
 }
 void setTextColor(int color)
 {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, color);
 }
-void profilePage(Customer *customer, DoubleLinkedList<Customer> &customerList)
+void profilePage(Customer *customer, DoubleLinkedList<Customer> &customerList, DoubleLinkedList<Booking> bookingList)
 {
 dashboard_profile:
+    Booking booking;
+    booking.loadBookingFromFile(bookingList,customerList);
     showString("Lịch sử giao dịch", 53, 8);
     showString("Thông tin cá nhân", 75, 8);
     showString("Quà tặng", 97, 8);
@@ -846,9 +855,16 @@ dashBoard_while:
         switch (choice)
         {
         case 1:
-        {
-            gotoXY(50, 20);
-            cout << "Lịch sử dịch vụ";
+        {   
+            //bắt đầu in ra từ đoạn ni
+            DoubleLinkedList<Booking> bookingListOfCustomer;
+            getListBookingOfCustomer(customer, bookingList, bookingListOfCustomer);
+            cout<<bookingListOfCustomer.getSize();
+            displayListBookingLikeTableOfCustomer(customer, bookingList,5,20);
+            int chooseBooking= getClickBookingDetail(bookingListOfCustomer,5,20);
+            system("cls");
+            cout<<chooseBooking;
+            displayBookingDetailFollowIndex(bookingListOfCustomer,chooseBooking,5,20);
             choice = getClickProfile();
             system("cls");
             menu_header("🧑" + customer->getUserName(), "Quay lại");
