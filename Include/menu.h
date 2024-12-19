@@ -5,13 +5,16 @@
 #include "Customer.h"
 #include "gotoXY.h"
 #include "clickMouse.h"
-#include <iostream>
+
 #include <windows.h>
 #include <string.h>
 #include <iomanip>
 #include <conio.h>
 #include "../Include/Booking.h"
 #include "../Libraries/Booking.cpp"
+#include "../Include/Booking.h"
+#include "../Libraries/Booking.cpp"
+#include <iostream>
 using namespace std;
 #ifndef MENU_H
 #define MENU_H
@@ -319,21 +322,21 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                     lineWidth(35, 80, 24, true, false);
 
                     choice = getClick_showMovie();
-                    if (choice == 2) 
+                    if (choice == 2)
                     {
                         if (currentPage * staffPerPage < staffList.getSize())
                         {
                             currentPage++;
                         }
                     }
-                    else if (choice == 1) 
+                    else if (choice == 1)
                     {
                         if (currentPage > 1)
                         {
                             currentPage--;
                         }
                     }
-                    else if (choice == 3) 
+                    else if (choice == 3)
                     {
                         break;
                     }
@@ -382,21 +385,21 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                     lineWidth(35, 80, 24, true, false);
 
                     choice = getClick_showMovie();
-                    if (choice == 2) 
+                    if (choice == 2)
                     {
                         if (currentPage * customerPerPage < customerList.getSize())
                         {
                             currentPage++;
                         }
                     }
-                    else if (choice == 1) 
+                    else if (choice == 1)
                     {
                         if (currentPage > 1)
                         {
                             currentPage--;
                         }
                     }
-                    else if (choice == 3) 
+                    else if (choice == 3)
                     {
                         break;
                     }
@@ -458,7 +461,7 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                     gotoXY(80, 23);
                     cout << "│👈 Previous | Next 👉 |   Quit ❌  │";
                     lineWidth(35, 80, 24, true, false);
-            
+
                     choice = getClick_showMovie();
                     if (choice == 11 || choice == 12 || choice == 13 || choice == 14 || choice == 15)
                     {
@@ -468,21 +471,21 @@ void dashBoard_admin(Admin *admin, DoubleLinkedList<Movie> &movieList, DoubleLin
                     }
 
                     choice = getClick_showMovie();
-                    if (choice == 2) 
+                    if (choice == 2)
                     {
                         if (currentPage * moviesPerPage < movieList.getSize())
                         {
                             currentPage++;
                         }
                     }
-                    else if (choice == 1) 
+                    else if (choice == 1)
                     {
                         if (currentPage > 1)
                         {
                             currentPage--;
                         }
                     }
-                    else if (choice == 3) 
+                    else if (choice == 3)
                     {
                         break;
                     }
