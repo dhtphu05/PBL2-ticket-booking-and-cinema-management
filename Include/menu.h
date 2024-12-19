@@ -5,13 +5,16 @@
 #include "../Include/Customer.h"
 #include "gotoXY.h"
 #include "clickMouse.h"
-#include <iostream>
+
 #include <windows.h>
 #include <string.h>
 #include <iomanip>
 #include <conio.h>
 #include "../Include/Booking.h"
 #include "../Libraries/Booking.cpp"
+#include "../Include/Booking.h"
+#include "../Libraries/Booking.cpp"
+#include <iostream>
 using namespace std;
 #ifndef MENU_H
 #define MENU_H
@@ -225,6 +228,27 @@ int getClick_showMovie()
     {
         return 3; // Quit
     }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 10 && y_click <= 12)
+    {
+        return 11;
+    }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 12 && y_click <= 14)
+    {
+        return 12;
+    }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 14 && y_click <= 16)
+    {
+        return 13;
+    }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 16 && y_click <= 18)
+    {
+        return 14;
+    }
+    if (x_click >= 35 && x_click <= 150 && y_click >= 18 && y_click <= 20)
+    {
+        return 15;
+    }
+
     return 0;
 }
 int getClick_searchMovie()
@@ -236,6 +260,18 @@ int getClick_searchMovie()
     {
         return 1; // ten phim
     }
+    return 0;
+}
+int getClick_showDetailMovie()
+{
+    click = processInputEvents();
+    x_click = click.X;
+    y_click = click.Y;
+    if (x_click >= 120 && x_click <= 138 && y_click >= 30 && y_click <= 32)
+    {
+        return 1; // dat ve
+    }
+    return 0;
 }
 void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleLinkedList<Show> &showList, DoubleLinkedList<Screen> &screenList ,DoubleLinkedList<Movie> &movieList, DoubleLinkedList<Staff> &staffList, DoubleLinkedList<Customer> &customerList)
 {   
@@ -290,21 +326,21 @@ void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleL
                     lineWidth(35, 80, 24, true, false);
 
                     choice = getClick_showMovie();
-                    if (choice == 2) // Kiểm tra _choice34 thay vì comand
+                    if (choice == 2)
                     {
                         if (currentPage * staffPerPage < staffList.getSize())
                         {
                             currentPage++;
                         }
                     }
-                    else if (choice == 1) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 1)
                     {
                         if (currentPage > 1)
                         {
                             currentPage--;
                         }
                     }
-                    else if (choice == 3) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 3)
                     {
                         break;
                     }
@@ -336,7 +372,6 @@ void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleL
                 system("cls");
                 menuAdmin_default(*admin);
                 admin->editCustomer();
-
                 goto dashBoard_admin;
                 break;
             }
@@ -354,21 +389,21 @@ void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleL
                     lineWidth(35, 80, 24, true, false);
 
                     choice = getClick_showMovie();
-                    if (choice == 2) // Kiểm tra _choice34 thay vì comand
+                    if (choice == 2)
                     {
                         if (currentPage * customerPerPage < customerList.getSize())
                         {
                             currentPage++;
                         }
                     }
-                    else if (choice == 1) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 1)
                     {
                         if (currentPage > 1)
                         {
                             currentPage--;
                         }
                     }
-                    else if (choice == 3) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 3)
                     {
                         break;
                     }
@@ -432,34 +467,31 @@ void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleL
                     gotoXY(80, 23);
                     cout << "│👈 Previous | Next 👉 |   Quit ❌  │";
                     lineWidth(35, 80, 24, true, false);
-                    string str;
-                    gotoXY(40, 30);
-                    cout << "Nhập STT phim để xem chi tiết (nhập 0 nếu k muốn xem ) : ";
-                    getString(str, 40, 31);
-                    int a = stoi(str);
-                    if (a != 0)
+
+                    choice = getClick_showMovie();
+                    if (choice == 11 || choice == 12 || choice == 13 || choice == 14 || choice == 15)
                     {
                         system("cls");
                         menuAdmin_default(*admin);
-                        movieList[a - 1].showDetailMovie();
+                        movieList[choice - 11 + (currentPage - 1) * 5].showDetailMovie();
                     }
 
                     choice = getClick_showMovie();
-                    if (choice == 2) // Kiểm tra _choice34 thay vì comand
+                    if (choice == 2)
                     {
                         if (currentPage * moviesPerPage < movieList.getSize())
                         {
                             currentPage++;
                         }
                     }
-                    else if (choice == 1) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 1)
                     {
                         if (currentPage > 1)
                         {
                             currentPage--;
                         }
                     }
-                    else if (choice == 3) // Kiểm tra _choice34 thay vì comand
+                    else if (choice == 3)
                     {
                         break;
                     }
@@ -681,6 +713,7 @@ int getClickInfor()
     {
         return 6; // luu thong tin
     }
+    return 0;
 }
 
 std::string customInput(int x, int y)
@@ -742,12 +775,12 @@ void infor(Customer *customer, DoubleLinkedList<Customer> &customerList)
     // lineHeight(4, 120, 11, false, false, false);
     // lineHeight(3, 50, 12, true, false, false);
     // lineHeight(3, 120, 12, false, true, false);
-    lineWidth(15, 100, 27, true, true);
+    lineWidth(11, 100, 27, true, true);
     showString("│ Chỉnh sửa │", 100, 28);
-    lineWidth(15, 100, 29, true, false);
-    lineWidth(15, 130, 27, true, true);
+    lineWidth(11, 100, 29, true, false);
+    lineWidth(11, 130, 27, true, true);
     showString("│   LƯU     │", 130, 28);
-    lineWidth(15, 130, 29, true, false);
+    lineWidth(11, 130, 29, true, false);
 
     bool running = true;
     int choice = getClickProfile(); // click vao ô cập nhật thông tin
@@ -849,11 +882,8 @@ int getClickProfile()
     {
         return 6; // cap nhat thong tin
     }
-
-
-    //!section xem thong tin ve ca nhan 
-    
-
+    return 0;
+    //! section xem thong tin ve ca nhan
 }
 void setTextColor(int color)
 {
@@ -864,7 +894,7 @@ void profilePage(Customer *customer, DoubleLinkedList<Customer> &customerList, D
 {
 dashboard_profile:
     Booking booking;
-    booking.loadBookingFromFile(bookingList,customerList);
+    booking.loadBookingFromFile(bookingList, customerList);
     showString("Lịch sử giao dịch", 53, 8);
     showString("Thông tin cá nhân", 75, 8);
     showString("Quà tặng", 97, 8);
@@ -880,8 +910,8 @@ dashBoard_while:
         switch (choice)
         {
         case 1:
-        {   
-            //bắt đầu in ra từ đoạn ni
+        {
+            // bắt đầu in ra từ đoạn ni
             DoubleLinkedList<Booking> bookingListOfCustomer;
             getListBookingOfCustomer(customer, bookingList, bookingListOfCustomer);
             cout<<bookingListOfCustomer.getSize();
@@ -1065,6 +1095,7 @@ int getClick_menuHeader()
     {
         return 7; // Cai dat
     }
+    return 0;
 }
 void dashBoard_staff(Staff *staff)
 {

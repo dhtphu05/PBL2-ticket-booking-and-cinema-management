@@ -20,6 +20,8 @@
 #include <windows.h>
 #undef byte 
 using namespace std;
+// todo: chỉnh sửa exception ở movie và thêm events nữa với làm báo cáo nữa chứ sắp hết time ôn thi rồi huhuh
+// todo: còn cái kiểm tra username tồn tại hay chưa nữa, à và cái regex cho them file chỗ phim nữa
 
 int getMouseDashBoardCustomer()
 {
@@ -32,6 +34,7 @@ int getMouseDashBoardCustomer()
     }
     if (x_click >= 130 && x_click <= 150 && y_click >= 1 && y_click <= 3)
     {
+
         return 2; // dang xuat
     }
     if (x_click >= 8 && x_click <= 18 && y_click >= 1 && y_click <= 3)
@@ -48,7 +51,7 @@ int getMouseDashBoardCustomer()
     }
     if (x_click >= 60 && x_click <= 70 && y_click >= 1 && y_click <= 3)
     {
-        return 6; // tim kiem
+        return 6; // tim kiem;
     }
     return 0;
 }
@@ -56,13 +59,13 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
 {
     bool loggedIn = true;
     int choice;
-    
+
     while (loggedIn)
     {
         // Hiển thị menu chính
         system("cls");
         menuLogin("🧑" + customer->getUserName(), "Đăng xuất");
-        
+
         // int a;cin>>a;
         // return;
         // Lấy lựa chọn từ người dùng
@@ -77,8 +80,9 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
             system("cls");
             menu_header("🧑" + customer->getUserName(), "Quay lại");
             // choice = getMouseDashBoardCustomer();
-            profilePage(customer, customerList,bookingList); // hàm này ở menu.h nhé
-            //!chui vo day
+            // hàm này ở menu.h nhé
+            profilePage(customer, customerList, bookingList); // hàm này ở menu.h nhé
+            //! chui vo day
             break;
         case 4:
             // Thêm chức năng khác, ví dụ: Xem dịch vụ
@@ -120,6 +124,7 @@ int main()
     DoubleLinkedList<Customer> customerList;
     DoubleLinkedList<Movie> movieList;
     DoubleLinkedList<Booking> bookingList;
+    
     int k;
     User *user = new User();
     SetConsoleOutputCP(65001);
@@ -128,55 +133,38 @@ int main()
     Booking booking;
     DoubleLinkedList<Screen> screens;
     Screen screen;
-    screen.loadScreenFromFile(screens); 
+    screen.loadScreenFromFile(screens);
     Movie movie;
-    movie.readFile(movieList); 
+    movie.readFile(movieList);
     DoubleLinkedList<Show> shows;
     Show show;
-    show.loadShowFromFile(shows,screens);
+    show.loadShowFromFile(shows, screens);
 
-    // booking.sellTicket(shows,screens,movieList);
+// booking.sellTicket(shows,screens,movieList);
 
-    // show.displayAllShow(shows);
-    // Node<Show> *current = shows.begin();
-    
-    // layoutBorderSeat(&current->data);
-    //booking.sellTicket(shows,screens,movies);
-    dashboard: 
+// show.displayAllShow(shows);
+// Node<Show> *current = shows.begin();
+
+// layoutBorderSeat(&current->data);
+// booking.sellTicket(shows,screens,movies);
+dashboard:
     bool loggedIn = false;
 dashboard_main:
-    // menuLogin("Đăng nhập", "Đăng ký");
-    // click=processInputEvents();
-    // int xclick,yclick;
-    // xclick=click.X;
-    // yclick=click.Y;
-    // if(xclick>10&&xclick<100 &&yclick>25&&yclick<40){
-    //     booking.sellTicket(shows,screens,movieList);
-    // return 0;
-    // }
+
     int log = logIn(adminList, staffList, customerList, k);
     // int log =1;
 
-    if (log == 1)//nguoi dung là admin
+    if (log == 1) // nguoi dung là admin
     {
         Admin *admin = &adminList[k];
         dashBoard_admin(admin,bookingList,shows,screens, movieList,staffList,customerList);//hàm này ở menu.h nhé
         system("cls");
         menuLogin("Đăng nhập", "Đăng ký");
-    // click=processInputEvents();
-    // int xclick,yclick;
-    // xclick=click.X;
-    // yclick=click.Y;
-    // if(xclick>10&&xclick<100 &&yclick>25&&yclick<40){
-    //     booking.sellTicket(shows,screens,movieList);
-    //     return 0;
-    
-    // }
+
         goto dashboard_main;
     }
-    else if (log == 2)//nguoi dung là staff
+    else if (log == 2) // nguoi dung là staff
     {
-        
     }
     else if (log == 3)
     {
@@ -185,7 +173,7 @@ dashboard_main:
         dashBoard_customer(customerPtr, customerList, bookingList, shows, screens, movieList);
         system("cls");
 
-        goto dashboard_main; 
+        goto dashboard_main;
     }
     else if (log == 4)
     {
@@ -193,15 +181,15 @@ dashboard_main:
         Customer *customer = &customerList[customerList.getSize() - 1];
         dashBoard_customer(customer, customerList, bookingList, shows, screens, movieList);
         // system("cls");
-        click=processInputEvents();
-    int xclick,yclick;
-    xclick=click.X;
-    yclick=click.Y;
-    if(xclick>10&&xclick<100 &&yclick>25&&yclick<40){
-        booking.sellTicket(shows,screens,movieList);
-        return 0;
-    
-    }
+        click = processInputEvents();
+        int xclick, yclick;
+        xclick = click.X;
+        yclick = click.Y;
+        if (xclick > 10 && xclick < 100 && yclick > 25 && yclick < 40)
+        {
+            booking.sellTicket(shows, screens, movieList);
+            return 0;
+        }
         goto dashboard_main;
     }
     else

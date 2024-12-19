@@ -104,6 +104,7 @@ int click_registerCustomer()
     {
         return 7;
     }
+    return 0;
 }
 
 void getString(string &str, int x, int y)

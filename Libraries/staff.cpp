@@ -60,7 +60,7 @@ void Staff::addCustomer()
     Customer customer;
     DoubleLinkedList<Customer> listCustomer;
     customer.readfromFile(listCustomer);
-    showString("Thêm nhân viên mới", 40, 6);
+    showString("Thêm khách hàng mới", 40, 6);
     lineWidth(80, 40, 7, true, true);
     showString("Họ và tên: ", 42, 8);
     lineWidth(81, 40, 9, false, false);
@@ -92,7 +92,10 @@ void Staff::addCustomer()
     string str;
     while (running)
     {
+
         choice = getClick_addCustomer();
+        gotoXY(80, 23);
+        cout << "                                 ";
         switch (choice)
         {
         case 1:
@@ -110,18 +113,16 @@ void Staff::addCustomer()
             cout << left << setw(25) << " ";
             getString(str, 57, 10);
             customer.setPhoneNumber(str);
-            while (!isPhone(customer.getPhoneNumber()))
+            if (!isPhone(customer.getPhoneNumber()))
             {
                 gotoXY(80, 23);
-                cout << "Số điện thoại không hợp lệ";
+                cout << "\033[31mSố điện thoại không hợp lệ\033[0m";
                 gotoXY(57, 10);
                 cout << "                              ";
-                gotoXY(57, 10);
-                getString(str, 57, 10);
-                gotoXY(80, 23);
-                cout << "                                 ";
+                break;
             }
-            phone = true;
+            else
+                phone = true;
             break;
         }
         case 3:
@@ -130,18 +131,16 @@ void Staff::addCustomer()
             cout << left << setw(25) << " ";
             getString(str, 53, 12);
             customer.setDOB(str);
-            while (!isDOB(customer.getDOB()))
+            if (!isDOB(customer.getDOB()))
             {
                 gotoXY(80, 23);
-                cout << "Ngày sinh không hợp lệ";
+                cout << "\033[31mNgày sinh không hợp lệ\033[0m";
                 gotoXY(53, 12);
-                cout << "                          ";
-                gotoXY(53, 12);
-                getString(str, 53, 12);
-                gotoXY(80, 23);
                 cout << "                                 ";
+                break;
             }
-            dob = true;
+            else
+                dob = true;
             break;
         }
         case 4:
@@ -162,6 +161,12 @@ void Staff::addCustomer()
                 gotoXY(130, 25);
                 cout << "               "; // Clear the success message
                 running = false;
+                break;
+            }
+            else
+            {
+                gotoXY(50, 25);
+                cout << "\033[31mVui lòng nhập đầy đủ thông tin\033[0m";
                 break;
             }
         }
@@ -275,55 +280,71 @@ void Staff::showCustomer(DoubleLinkedList<Customer> &listCustomer, int currentPa
 void Staff::savetoFile()
 {
     DoubleLinkedList<Staff> staffs;
-    readID(staffs);        // Đọc ID của các bộ phim hiện tại để cập nhật ID mới
-    this->ID = countStaff; //
+    readID(staffs);
+    try
+    {                          // Đọc ID của các bộ phim hiện tại để cập nhật ID mới
+        this->ID = countStaff; //
 
-    ofstream out;
-    if (0)
-    {
-        out.open("../Databases/StaffList.txt"); // Mở file để ghi (ghi đè)
-    }
-    else
-    {
-        out.open("../Databases/StaffList.txt", std::ios::app); // Mở file để ghi thêm (append)
-    }
+        ofstream out;
+        if (0)
+        {
+            out.open("../Databases/StaffList.txt"); // Mở file để ghi (ghi đè)
+        }
+        else
+        {
+            out.open("../Databases/StaffList.txt", std::ios::app); // Mở file để ghi thêm (append)
+        }
 
-    if (!out.is_open())
-    {
-        throw runtime_error("Lỗi không thể mở file!");
-    }
+        if (!out.is_open())
+        {
+            throw runtime_error("\033[31mLỗi không thể mở file!\033[0m");
+        }
 
-    // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
-    out << "#" << this->ID << endl;
-    out << "Tên đăng nhập: " << this->username << endl;
-    out << "Mật khẩu: " << this->password << endl;
-    out << "Họ và tên: " << this->fullName << endl;
-    out << "Số điện thoại: " << this->phoneNumber << endl;
-    out << "Ngày sinh: " << this->dateOfBirth << endl;
-    out << "Giới tính: " << this->gender << endl;
-    out.close();
+        // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
+        out << "#" << this->ID << endl;
+        out << "Tên đăng nhập: " << this->username << endl;
+        out << "Mật khẩu: " << this->password << endl;
+        out << "Họ và tên: " << this->fullName << endl;
+        out << "Số điện thoại: " << this->phoneNumber << endl;
+        out << "Ngày sinh: " << this->dateOfBirth << endl;
+        out << "Giới tính: " << this->gender << endl;
+        out.close();
+    }
+    catch (...)
+    {
+        gotoXY(100, 4);
+        cout << "\033[31mKhông thể mở file để lưu staff! Hãy kiểm tra lại!\033[0m" << endl;
+    }
 }
 void Staff::saveAgainFile(DoubleLinkedList<Staff> &staffs)
 {
     ofstream out;
-    out.open("../Databases/StaffList.txt"); // Mở file để ghi (ghi đè)
-    if (!out.is_open())
+    try
     {
-        throw runtime_error("Lỗi không thể mở file");
+        out.open("../Databases/StaffList.txt"); // Mở file để ghi (ghi đè)
+        if (!out.is_open())
+        {
+            throw runtime_error("\033[31mLỗi không thể mở file\033[0m");
+        }
+        for (int i = 0; i < staffs.getSize(); i++)
+        {
+            // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
+            out << "#" << staffs[i].ID << endl;
+            out << "Tên đăng nhập: " << staffs[i].username << endl;
+            out << "Mật khẩu: " << staffs[i].password << endl;
+            out << "Họ và tên: " << staffs[i].fullName << endl;
+            out << "Số điện thoại: " << staffs[i].phoneNumber << endl;
+            out << "Ngày sinh: " << staffs[i].dateOfBirth << endl;
+            out << "Giới tính: " << staffs[i].gender << endl;
+            out << endl;
+        }
+        out.close();
     }
-    for (int i = 0; i < staffs.getSize(); i++)
+    catch (...)
     {
-        // Ghi thông tin bộ phim vào file với định dạng: "#ID", "Title", "Genre", "Duration", ...
-        out << "#" << staffs[i].ID << endl;
-        out << "Tên đăng nhập: " << staffs[i].username << endl;
-        out << "Mật khẩu: " << staffs[i].password << endl;
-        out << "Họ và tên: " << staffs[i].fullName << endl;
-        out << "Số điện thoại: " << staffs[i].phoneNumber << endl;
-        out << "Ngày sinh: " << staffs[i].dateOfBirth << endl;
-        out << "Giới tính: " << staffs[i].gender << endl;
-        out << endl;
+        gotoXY(100, 4);
+        cout << "\033[31mKhông thể mở file để lưu staff! Hãy kiểm tra lại!\033[0m" << endl;
     }
-    out.close();
 }
 bool is_whitespace_utf8_s(char c)
 {
@@ -351,79 +372,95 @@ std::string mytrim(const std::string &str)
 void Staff::readfromFile(DoubleLinkedList<Staff> &staffs)
 {
     ifstream in;
-    in.open("../Databases/StaffList.txt");
-    if (!in.is_open())
+    try
     {
-        throw runtime_error("Lỗi không thể mở file");
+        in.open("../Databases/StaffList.txt");
+        if (!in.is_open())
+        {
+            throw runtime_error("\033[31mLỗi không thể mở file\033[0m");
+        }
+        string line;
+        Staff staff;
+        while (getline(in, line))
+        {
+            if (!line.empty() && line[0] == '#')
+            {
+                staff.ID = stoi(line.substr(1));
+            }
+            else if (line.find("Tên đăng nhập: ") == 0)
+            {
+                staff.username = mytrim(line.substr(20));
+            }
+            else if (line.find("Mật khẩu: ") == 0)
+            {
+                staff.password = mytrim(line.substr(13));
+            }
+            else if (line.find("Họ và tên: ") == 0)
+            {
+                staff.fullName = mytrim(line.substr(15));
+            }
+            else if (line.find("Số điện thoại: ") == 0)
+            {
+                staff.phoneNumber = mytrim(line.substr(21));
+            }
+            else if (line.find("Ngày sinh: ") == 0)
+            {
+                staff.dateOfBirth = mytrim(line.substr(11));
+            }
+            else if (line.find("Giới tính:") == 0)
+            {
+                staff.gender = mytrim(line.substr(13));
+                staffs.push_back(staff);
+                staff = Staff();
+            }
+        }
+        in.close();
     }
-    string line;
-    Staff staff;
-    while (getline(in, line))
+    catch (...)
     {
-        if (!line.empty() && line[0] == '#')
-        {
-            staff.ID = stoi(line.substr(1));
-        }
-        else if (line.find("Tên đăng nhập: ") == 0)
-        {
-            staff.username = mytrim(line.substr(20));
-        }
-        else if (line.find("Mật khẩu: ") == 0)
-        {
-            staff.password = mytrim(line.substr(13));
-        }
-        else if (line.find("Họ và tên: ") == 0)
-        {
-            staff.fullName = mytrim(line.substr(15));
-        }
-        else if (line.find("Số điện thoại: ") == 0)
-        {
-            staff.phoneNumber = mytrim(line.substr(21));
-        }
-        else if (line.find("Ngày sinh: ") == 0)
-        {
-            staff.dateOfBirth = mytrim(line.substr(11));
-        }
-        else if (line.find("Giới tính:") == 0)
-        {
-            staff.gender = mytrim(line.substr(13));
-            staffs.push_back(staff);
-            staff = Staff();
-        }
+        gotoXY(100, 4);
+        cout << "\033[31mKhông thể mở file để đọc staff! Hãy kiểm tra lại!\033[0m" << endl;
     }
-    in.close();
 }
 void Staff::readID(DoubleLinkedList<Staff> &staffs)
 {
     int is_read = false;
-    ifstream in;
-    in.open("../Databases/StaffList.txt");
-    if (!in.is_open())
+    try
     {
-        throw runtime_error("Lỗi không thể mở file");
-    }
-
-    string line;
-    int maxID = countStaff;
-    while (getline(in, line))
-    {
-        if (line.substr(0, 1) == "#")
+        ifstream in;
+        in.open("../Databases/StaffList.txt");
+        if (!in.is_open())
         {
-            is_read = true;
-            Staff staff;
-            stringstream ss;
-            ss.str(line);
-            string idtemp;
-            getline(ss, idtemp, ' ');
-            staff.ID = stoi(idtemp.substr(1));
-            if (staff.ID > maxID)
+            throw runtime_error("\033[31mLỗi không thể mở file\033[0m");
+        }
+
+        string line;
+        int maxID = countStaff;
+        while (getline(in, line))
+        {
+            if (line.substr(0, 1) == "#")
             {
-                maxID = staff.ID;
+                is_read = true;
+                Staff staff;
+                stringstream ss;
+                ss.str(line);
+                string idtemp;
+                getline(ss, idtemp, ' ');
+                staff.ID = stoi(idtemp.substr(1));
+                if (staff.ID > maxID)
+                {
+                    maxID = staff.ID;
+                }
             }
         }
+        in.close();
+        countStaff = ++maxID;
     }
-    in.close();
-    countStaff = ++maxID;
+    catch (...)
+    {
+        gotoXY(100, 4);
+        cout << "\033[31mKhông thể mở file để đọc staff! Hãy kiểm tra lại!\033[0m" << endl;
+    }
 }
 int getClick_editCustomer()
 {
@@ -483,13 +520,46 @@ void Staff::editCustomer()
     gotoXY(36, 8);
     cout << "│          │" << endl;
     lineWidth(10, 36, 9, true, false);
-    int choice = getClick_editCustomer();
-    while (choice != 8)
+    int choice;
+    // getString(str, 37, 8);
+    // ID = stoi(str);
+    bool validInput = false;
+    while (!validInput)
     {
-        choice = getClick_editCustomer();
+        try
+        {
+            choice = getClick_editCustomer();
+            while (choice != 8)
+            {
+                choice = getClick_editCustomer();
+            }
+            gotoXY(40, 10);
+            cout << "                              ";
+            gotoXY(37, 8);
+            cout << "         ";
+            getString(str, 37, 8); // Lấy chuỗi từ người dùng
+            if (std::all_of(str.begin(), str.end(), ::isdigit))
+            {
+                ID = stoi(str);
+            }
+            else
+            {
+                throw std::invalid_argument("Lỗi: Vui lòng chỉ nhập số!");
+            } //      // Chuyển đổi chuỗi sang số
+            validInput = true; // Nếu thành công, thoát vòng lặp
+        }
+        catch (const std::invalid_argument &e)
+        {
+            gotoXY(40, 10); // Hiển thị thông báo lỗi tại vị trí thích hợp
+            cout << "\033[31mVui lòng nhập số hợp lệ!\033[0m";
+            // Xóa thông báo lỗi
+        }
+        catch (const std::out_of_range &e)
+        {
+            gotoXY(40, 10);
+            cout << "Số nhập quá lớn!";
+        }
     }
-    getString(str, 37, 8);
-    ID = stoi(str);
     Customer customerTemp;
     int k;
     for (int i = 0; i < listCustomer.getSize(); i++)
@@ -509,7 +579,11 @@ void Staff::editCustomer()
             bool run = true;
             while (run)
             {
+
                 int choicee = getClick_editCustomer();
+
+                gotoXY(80, 23);
+                cout << "                                 ";
                 string temp;
 
                 switch (choicee)
@@ -524,14 +598,32 @@ void Staff::editCustomer()
                     gotoXY(65, 13);
                     cout << left << setw(25) << " ";
                     getString(temp, 65, 13);
-                    listCustomer[i].setPhoneNumber(temp);
+                    if (!isPhone(temp))
+                    {
+                        gotoXY(80, 23);
+                        cout << "\033[31mSố điện thoại không hợp lệ\033[0m";
+                        gotoXY(65, 13);
+                        cout << "                              ";
+                        break;
+                    }
+                    else
+                        listCustomer[i].setPhoneNumber(temp);
 
                     break;
                 case 3:
                     gotoXY(62, 15);
                     cout << left << setw(25) << " ";
                     getString(temp, 62, 15);
-                    listCustomer[i].setDOB(temp);
+                    if (!isDOB(temp))
+                    {
+                        gotoXY(80, 23);
+                        cout << "\033[31mNgày sinh không hợp lệ\033[0m";
+                        gotoXY(62, 15);
+                        cout << "                              ";
+                        break;
+                    }
+                    else
+                        listCustomer[i].setDOB(temp);
 
                     break;
                 case 4:
@@ -564,7 +656,7 @@ void Staff::editCustomer()
     if (count == false)
     {
         gotoXY(50, 10);
-        cout << "Không tìm thấy khách hàng có ID:  " << ID << endl;
+        cout << "\033[31mKhông tìm thấy khách hàng có ID:  \033[0m" << ID << endl;
     }
     gotoXY(140, 5);
     cout << "❌";
@@ -629,18 +721,49 @@ void Staff::removeCustomer()
     int ID;
     string str;
     gotoXY(36, 5);
-    cout << "Chỉnh sửa thông tin khách hàng";
+    cout << "Xóa khách hàng";
     lineWidth(10, 36, 7, true, true);
     gotoXY(36, 8);
     cout << "│          │" << endl;
     lineWidth(10, 36, 9, true, false);
-    int choice = getclick_removeCustomer();
-    while (choice != 1)
+    int choice;
+    bool validInput = false;
+    while (!validInput)
     {
-        choice = getclick_removeCustomer();
+        try
+        {
+            choice = getclick_removeCustomer();
+            while (choice != 1)
+            {
+                choice = getclick_removeCustomer();
+            }
+            gotoXY(40, 10);
+            cout << "                                ";
+            gotoXY(37, 8);
+            cout << "         ";
+            getString(str, 37, 8); // Lấy chuỗi từ người dùng
+            if (std::all_of(str.begin(), str.end(), ::isdigit))
+            {
+                ID = stoi(str);
+            }
+            else
+            {
+                throw std::invalid_argument("Lỗi: Vui lòng chỉ nhập số!");
+            } // Chuyển đổi chuỗi sang số
+            validInput = true; // Nếu thành công, thoát vòng lặp
+        }
+        catch (const std::invalid_argument &e)
+        {
+            gotoXY(40, 10); // Hiển thị thông báo lỗi tại vị trí thích hợp
+            cout << "\033[31mVui lòng nhập số hợp lệ!\033[0m";
+            // Xóa thông báo lỗi
+        }
+        catch (const std::out_of_range &e)
+        {
+            gotoXY(40, 10);
+            cout << "\033[31mSố nhập quá lớn!\033[0m";
+        }
     }
-    getString(str, 37, 8);
-    ID = stoi(str);
     bool find = false;
     for (int i = 0; i < listCustomer.getSize(); i++)
     {
@@ -674,7 +797,7 @@ void Staff::removeCustomer()
     if (find == false)
     {
         gotoXY(50, 10);
-        cout << "Không tìm thấy người dùng!" << endl;
+        cout << "\033[31mKhông tìm thấy người dùng!\033[0m" << endl;
     }
     gotoXY(130, 5);
     cout << "❌";
@@ -691,48 +814,7 @@ ostream &operator<<(ostream &out, Staff &staff)
 }
 istream &operator>>(istream &in, Staff &staff)
 {
-    // gotoXY(40, 6);
-    // cout << "Thêm nhân viên mới" << endl;
-    // gotoXY(40, 7);
-    // // drawLine(80, 40, 7, '-');
-    // gotoXY(40, 8);
-    // cout << "| Họ và tên:";
-    // drawLine(68, 52, 8, ' ');
-    // drawLine(80, 40, 9, '-');
-    // gotoXY(40, 10);
-    // cout << "| Số điện thoại: ";
-    // drawLine(63, 57, 10, ' ');
-    // drawLine(80, 40, 11, '-');
-    // gotoXY(40, 12);
-    // cout << "| Ngày sinh: ";
-    // drawLine(62, 58, 12, ' ');
-    // drawLine(80, 40, 13, '-');
-    // gotoXY(40, 14);
-    // cout << "| Giới tính: ";
-    // drawLine(69, 51, 14, ' ');
-    // drawLine(80, 40, 15, '-');
-    // gotoXY(40, 16);
-    // cout << "| Tên đăng nhập: ";
-    // drawLine(69, 51, 16, ' ');
-    // drawLine(80, 40, 17, '-');
-    // gotoXY(40, 18);
-    // cout << "| Mật khẩu: ";
-    // drawLine(68, 52, 18, ' ');
-    // drawLine(80, 40, 19, '-');
-    // in.ignore();
-    // gotoXY(52, 8);
-    // getline(in, staff.fullName);
-    // gotoXY(57, 10);
-    // getline(in, staff.phoneNumber);
-    // gotoXY(58, 12);
-    // getline(in, staff.dateOfBirth);
-    // gotoXY(52, 14);
-    // getline(in, staff.gender);
-    // gotoXY(51, 16);
-    // getline(in, staff.username);
-    // gotoXY(57, 18);
-    // getline(in, staff.password);
-    // return in;
+
     showString("Thêm nhân viên mới", 40, 6);
     lineWidth(80, 40, 7, true, true);
     showString("Họ và tên: ", 42, 8);
