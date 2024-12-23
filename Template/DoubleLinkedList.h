@@ -259,6 +259,16 @@ public:
         }
         return *this;
     }
+    void clear(){
+        while (head != nullptr)
+        {
+            Node<Type>* temp = head;
+            head = head->next;
+            delete temp;
+        }
+        tail = nullptr;
+        size = 0;
+    }
 };
 
 #endif

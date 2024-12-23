@@ -33,14 +33,16 @@ int main()
     movie.readFile(movies); 
     DoubleLinkedList<Show> shows;  
     Show show;
-    show.loadShowFromFile(shows,screens);
-    Screen *screenPtr = &screens[1];
-    displayBarTimeInDay(screenPtr,"19/12/2024",shows,10,10);
+    // show.loadShowFromFile(shows,screens);
+    Screen *screenPtr = &screens[0];
+    screenPtr->displayScreen();
+    return;
+    // displayBarTimeInDay(screenPtr,"19/12/2024",shows,10,10);
     //!
-    layoutWhenClickToDate(booking,shows,movies,10,10);
-    // int check;cin>>check;
-    booking.sellTicket(shows,screens,movies);
-    booking.loadBookingFromFile(bookings,customers);
+    // layoutWhenClickToDate(booking,shows,movies,10,10);
+    // // int check;cin>>check;
+    // booking.sellTicket(shows,screens,movies);
+    // booking.loadBookingFromFile(bookings,customers);
 
    // cout<<bookings.getSize()<<endl;
     // cout<<bookings[0].getSeats().getSize()<<endl;

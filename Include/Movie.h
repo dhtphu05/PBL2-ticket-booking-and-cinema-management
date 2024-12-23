@@ -66,6 +66,13 @@ public:
     {
         return this->fileImage;
     }
+    int getDurationInt(){
+        // it form like 195 phút, 90 phút
+        // i want to get 195, 90
+        return stoi(this->duration.substr(0,this->duration.find(" ")));
+
+
+    }
     void sort_rating(DoubleLinkedList<Movie> &movieList);
     void showCurrentMovie();
     void showDetailMovie();

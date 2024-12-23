@@ -13,9 +13,13 @@ Screen::Screen(){
     this->seatLayout = DoubleLinkedList<Seat>();
 }
 
-
+DoubleLinkedList<Seat> Screen::getSeatLayout(){
+    return this->seatLayout;
+}
 void Screen::loadScreenFromFile(DoubleLinkedList<Screen> &screens) {
     ifstream file("../Databases/Screen.txt");
+    screens.clear();
+
     if (!file.is_open()) {
         cout << "Error opening Screen.txt for reading" << endl;
         return;
@@ -106,7 +110,7 @@ void Screen::loadScreenFromFile(DoubleLinkedList<Screen> &screens) {
         screens.push_back(*currentScreen);
          // Free the previous screen's memory
     }
-    file.close();
+
 }
 
 
@@ -280,4 +284,21 @@ void addScreen(DoubleLinkedList<Screen> &screens){
         cout<<"Failed to save screen record."<<endl;
     }
 }
-
+int Screen::getNumberOfRegularSeat(){
+    int count = 0;
+    for(Node<Seat>* node = this->seatLayout.begin(); node != nullptr; node = node->next){
+        if(node->data.getType()==SeatType::Regular){
+            count++;
+        }
+    }
+    return count;
+}
+int Screen::getNumberOfVIPSeat(){
+    int count = 0;
+    for(Node<Seat>* node = this->seatLayout.begin(); node != nullptr; node = node->next){
+        if(node->data.getType()==SeatType::VIP){
+            count++;
+        }
+    }
+    return count;
+}

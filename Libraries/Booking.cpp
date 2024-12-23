@@ -314,7 +314,7 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
     // cout<<"Nhập lựa chọn của bạn: ";
     gotoXY(142, 33 +2 );
     cout<<"- "<<coupon.getDiscount();
-        cloneLayoutProcessBooking(20, 0, 2, BG_YELLOW_, BG_GREEN);
+        cloneLayoutProcessBooking(20, 0, 5, BG_YELLOW_, BG_GREEN);
         this->setPayment(new CreditCardPayment());
         this->getPayment()->processPayment(this);
     this->saveBookingToFile();
@@ -455,7 +455,6 @@ void Booking::loadBookingFromFile(DoubleLinkedList<Booking>& bookings,DoubleLink
                     }
                 }
                 
-                
 
             }
         }
@@ -571,7 +570,7 @@ void displayBookingDetailFollowIndex(DoubleLinkedList<Booking> bookingList, int 
 }
 
 //! section select movie
-void displayShowFollowMovie(Booking &booking,DoubleLinkedList<Show>&showList, Movie* movie, int x, int y);
+void displayShowFollowMovie(Booking &booking,DoubleLinkedList<Show>&showList, Movie* movie, int x, int y, string Date);
 
 void displayMovieFollowStartDateShow(Booking& booking,DoubleLinkedList<Show> &showList, DoubleLinkedList<Movie>&movieList, int x, int y,string Date){
     // list of movies having shows today
@@ -586,6 +585,7 @@ void displayMovieFollowStartDateShow(Booking& booking,DoubleLinkedList<Show> &sh
     // cout<<date;
     
     DoubleLinkedList<Movie> movieListToday;
+    
     for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
         if(node->data.getDate()==date){
             // cout<<"------"<<node->data.getMovie()->getTitle()<<"//"<<endl;
@@ -612,12 +612,14 @@ void displayMovieFollowStartDateShow(Booking& booking,DoubleLinkedList<Show> &sh
         }
         borderLineWithTextAndColor(x+i*60,y+j,node->data.getTitle(),BG_CYAN);
         displayImageFile(node->data, x+i*60, y+j+2);
-        
-
         i++;
+    }
+    if(movieListToday.getSize()==0){
+        borderLineWithTextAndColor(80,27,"Không có suất chiếu phim nào trong hôm nay",BG_CYAN);
     }
     //select movie
     while(booking.getShow()==nullptr){
+    click=processInputEvents();
     if(isClickInRange(click.X, click.Y, 135, 2, 7,2)){
         return;
     }
@@ -629,13 +631,13 @@ void displayMovieFollowStartDateShow(Booking& booking,DoubleLinkedList<Show> &sh
         }
         borderLineWithTextAndColor(x+i*60,y+j,node->data.getTitle(),BG_CYAN);
         displayImageFile(node->data, x+i*60, y+j+2);
-        
-
         i++;
     }
-    click=processInputEvents();
-    system("cls");
     
+    if(isClickInRange(click.X, click.Y, 135, 2, 7,2)){
+        return;
+    }
+    system("cls");
     i=0;
     j=0;
     for(Node<Movie>* node = movieListToday.begin(); node != nullptr; node = node->next){
@@ -644,7 +646,7 @@ void displayMovieFollowStartDateShow(Booking& booking,DoubleLinkedList<Show> &sh
             j+=20;
         }
         if(isClickInRange(click.X, click.Y, x+i*60, y+j+2, 20,20)){
-            displayShowFollowMovie(booking,showList,&node->data,x+15,y+15);
+            displayShowFollowMovie(booking,showList,&node->data,x+15,y+15, Date);
             
             // displayShowFollowMovie(booking,showList,&node->data, x, y);
             break;
@@ -653,13 +655,13 @@ void displayMovieFollowStartDateShow(Booking& booking,DoubleLinkedList<Show> &sh
     }
     }
 }
-void displayShowFollowMovie(Booking &booking,DoubleLinkedList<Show>&showList, Movie* movie, int x, int y){
+void displayShowFollowMovie(Booking &booking,DoubleLinkedList<Show>&showList, Movie* movie, int x, int y, string Date){
     // system("cls");
     cloneLayoutProcessBooking(20, 0, 1, BG_RED, BG_GREEN);
 
     int i=0,j=0;
     for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
-        if(node->data.getMovie()->getTitle()==movie->getTitle()){
+        if(node->data.getMovie()->getTitle()==movie->getTitle() && node->data.getDate()==Date){
             borderLineWithTextAndColor(x+i*20,y+j,node->data.getStartTime()+" ~ "+node->data.getEndTime(),BG_CYAN);
             i++;
         }
@@ -679,13 +681,14 @@ void displayShowFollowMovie(Booking &booking,DoubleLinkedList<Show>&showList, Mo
     isClear=true;
     i=0;
     for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
-        if(node->data.getMovie()->getTitle()==movie->getTitle()){
-            if(isClickInRange(click.X, click.Y, x+i*10, y, 20,1)){
+        if(node->data.getMovie()->getTitle()==movie->getTitle() && node->data.getDate()==Date){
+            if(isClickInRange(click.X, click.Y, x+i*20, y, 20,1)){
                 booking.setShow(&node->data);
                 break;
-            }   
+            }
+            i++;
         }
-        i++;
+        
     }
     }
 }
@@ -778,7 +781,7 @@ string dateOfClick(int x,int y){
             }
             //i want to color the date that i click
             std::ostringstream oss;
-            lineWidth(10, x + (i * 15), y, true, true);
+            lineWidth(10, x + 10+ (i * 15), y, true, true);
             oss << "│  "<<BG_RED << dayStr << "/" << monthStr <<RESET<< "   │";
 
             return dayStr+"/"+monthStr+"/"+to_string(year);
@@ -788,85 +791,395 @@ string dateOfClick(int x,int y){
 void layoutWhenClickToDate(Booking& booking, DoubleLinkedList<Show> &showList, DoubleLinkedList<Movie> &movieList, int x, int y){
     string today;
     //dd/mm/yyyy
+    Show showInstance;
+    Screen screenInstance;
+    DoubleLinkedList<Screen> screenList;
+    screenInstance.loadScreenFromFile(screenList);
+    showInstance.loadShowFromFile(showList,screenList);
     time_t timeinDay= time(0);
     tm *ltm = localtime(&timeinDay);
     today= convertDateDefalutToSimple(ctime(&timeinDay));
     //get only day month year
     today=today.substr(9);
+    borderLineWithTextAndColor(135,2,"Quay lại",BG_CYAN);
+    label:
     while(booking.getShow()==nullptr){
         cloneLayoutProcessBooking(20, 0, 1, BG_YELLOW_, BG_GREEN);
-        layoutListDate(x,y,today);
+        layoutListDate(x+10,y,today);
+        borderLineWithTextAndColor(135,2,"Quay lại",BG_CYAN);
+
         string date = dateOfClick(x,y);
-        
+        if(isClickInRange(click.X, click.Y, 135, 2, 7,2)){
+            goto label;
+        }
         displayMovieFollowStartDateShow(booking,showList,movieList,x,y+10,date);
         system("cls");
     }
 }
 void displayBarTimeInDay(Screen *screen,string date,DoubleLinkedList<Show>& showList, int x,int y){
     //i want to display 3 movies in a row
+    system("cls");
     gotoXY(x,y);
-    for(int i=1;i<=96;i++){
-        cout<<"█";
+    for(int i=1;i<=96/2;i++){
+        cout<<"│██";
     }
+    gotoXY(x,y+3);
+    int indexPrint=0;
+    for(int i=1;i<=96/2;i++){
+        // gotoXY(x+indexPrint*3,y+3);
+        cout<<"│██";
+    }
+    int check=0;
     //1 block is 15 minutes
-    //1 hour is 4 blocks
+    //1 hour is 8 blocks
     //time show get from show start time and end time then round to 15 minutes --> convert to block
     for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
         if (node->data.getScreen()->ID_Screen == screen->ID_Screen && node->data.getDate() == date)
-        {
+        {   
+
             int startHour=stoi(node->data.getStartTime().substr(0,2));
             int startMinute=stoi(node->data.getStartTime().substr(3,2));
             int endHour=stoi(node->data.getEndTime().substr(0,2));
             int endMinute=stoi(node->data.getEndTime().substr(3,2));
-            int startBlock=(startHour-8)*4+startMinute/15;
-            int endBlock=(endHour-8)*4+endMinute/15;
-            for(int i=startBlock;i<endBlock;i++){
-                gotoXY(x+i,y);
-                cout<<BG_CYAN<<"█"<<RESET;
+            int startBlock=(startHour)*4+(startMinute+14)/15;
+            int endBlock=(endHour)*4+(endMinute+14)/15;
+            
+            if(startHour<12){
+                for(int i=startBlock;i<endBlock;i++){
+                    gotoXY(x+i*3,y);
+                    cout<<BG_CYAN<<"│██"<<RESET;
+                }       
+            }
+            else{
+                for(int i=startBlock;i<endBlock;i++){
+                    gotoXY(x+(i-48)*3,y+3);
+                    cout<<BG_CYAN<<"│██"<<RESET;
+                }
             }
         }
     }
+    // caption for time bar, it only caption like 8:00, 9:00, 10:00, 11:00, 12:00, 13:00, 14:00, 15:00, 16:00
+    for(int i=0;i<=12;i++){
+        gotoXY(x+i*12,y+1);
+        cout<<i<<"h";
+    }
+    for(int i=12;i<=24;i++){
+        gotoXY(x+(i-12)*12,y+4);
+        if(i==24){
+            cout<<"0h";
+            break;
+        }
+        cout<<i<<"h";
+    }
 }
-void addShow(DoubleLinkedList<Show>& showList, DoubleLinkedList<Movie>& movieList, DoubleLinkedList<Screen>& screenList){
+void deleteSpaceAdmin(){
     int x=0;
     int y=0;
-    string date=dateOfClick(x,y);
-    Movie *movie;
-    //* display list of movies
+    gotoXY(80,22);
+    for(int i=1;i<=22;i++){
+        gotoXY(80,22+i);
+        cout<<" ";
+    }
+}
+
+void addShow(DoubleLinkedList<Show>& showList, Movie movieSelected, DoubleLinkedList<Screen>& screenList){
+    Show show;
+    int x=0;
+    int y=0;
+    Show showInstance;
+    Screen screenInstance;
+    screenInstance.loadScreenFromFile(screenList);
+    showInstance.loadShowFromFile(showList,screenList);
+    system("cls");
+    cout<<"Chọn ngày chiếu: ";
+    string today;
+    //dd/mm/yyyy
+    time_t timeinDay= time(0);
+    tm *ltm = localtime(&timeinDay);
+    today= convertDateDefalutToSimple(ctime(&timeinDay));
+    today=today.substr(9);
+    layoutListDate(x+10,y+10,today);
+    string date=dateOfClick(x,y+10);
+    Movie *movie=&movieSelected;
     int i=0,j=0;
-    i=0;j=0;
-    for(Node<Movie>* node = movieList.begin(); node != nullptr; node = node->next){
+    //*select screen
+    Screen *screen;
+    //* lost function validate duplicate show
+    //*display screen to choose
+    int xScreen=0;
+    int yScreen=0;
+    //* id screen, number of seat, number of regular seat, number of vip seat
+    for(Node<Screen>* node = screenList.begin(); node != nullptr; node = node->next){
         if(i==3){
             i=0;
             j+=20;
         }
-        borderLineWithTextAndColor(x+i*60,y+j,node->data.getTitle(),BG_CYAN);
-        displayImageFile(node->data, x+i*60, y+j+2);
+        lineWidth(10, xScreen+i*60, yScreen+j+1, true, true);
+        gotoXY(xScreen+i*60+2,yScreen+j+1);
+        cout<< node->data.ID_Screen;
+        gotoXY(xScreen+i*60+2,yScreen+j+2);
+        cout<<node->data.getNumberOfSeat();
+        gotoXY(xScreen+i*60+2,yScreen+j+3);
+        cout<<node->data.getNumberOfRegularSeat();
+        gotoXY(xScreen+i*60+2,yScreen+j+4);
+        cout<<node->data.getNumberOfVIPSeat();
+        gotoXY(xScreen+i*60,yScreen+j);
+        lineHeight_main(6,xScreen+i*60,yScreen+j);
+        lineHeight_main(6,xScreen+i*60+11,yScreen+j);
+        lineWidth(6,xScreen+i*60,yScreen+5,true,false);
         i++;
     }
-    //* get click to select movie
+    //select screen
+    gotoXY(80,22);
+    cout<<"done display screen";
+    screen=nullptr;
+    while(screen==nullptr){
     click=processInputEvents();
-    system("cls");
-    
     i=0;
     j=0;
-    for(Node<Movie>* node = movieList.begin(); node != nullptr; node = node->next){
+    for(Node<Screen>* node = screenList.begin(); node != nullptr; node = node->next){
         if(i==3){
             i=0;
             j+=20;
         }
-        if(isClickInRange(click.X, click.Y, x+i*60, y+j+2, 20,20)){
-            movie=&node->data;
-            // displayShowFollowMovie(booking,showList,&node->data, x, y);
+        if(isClickInRange(click.X, click.Y, xScreen+i*60, yScreen+j, 20,20)){
+            screen=&node->data;
             break;
         }
         i++;
     }
-    //*select screen
-    Screen *screen;
-    //* lost function validate duplicate show
-    for(Node<Screen>* node = screenList.begin(); node != nullptr; node = node->next){
+    }
+    gotoXY(80,22);
+    cout<<"done select screen";
+    //select start time
+    int xTime=0;
+    int yTime=0;
+    i=0;
+    j=0;
+    displayBarTimeInDay(screen,date,showList,xTime,yTime);
+    string startTime="";
+    string endTime;
+    bool isValidStartTime=false;
+    gotoXY(80,22);
+    cout<<"done display bar time";  
+
+    borderLineWithTextAndColor(xTime+20,yTime+10,"Nhập thời gian bắt đầu suất chiếu (XX:YY):      ", BG_GREEN);
+    while(!isValidStartTime){
+    click=processInputEvents();
+    i=0;
+    j=0;
+    if(isClickInRange(click.X,click.Y, xTime+20, yTime+10,62,3)){
+        isValidStartTime=true;
+        getString(startTime,xTime+20+43,yTime+11);
+        string durationMovie=to_string(movie->getDurationInt());
+            // Add duration (in minutes) to startTime to get endTime
+            int startHour = stoi(startTime.substr(0,2));
+            int startMinute = stoi(startTime.substr(3,2)); 
+            int duration = stoi(durationMovie);
+
+            int totalMinutes = startHour * 60 + startMinute + duration;
+            int endHour = totalMinutes / 60;
+            int endMinute = totalMinutes % 60;
+            // Format hours and minutes with leading zeros if needed
+            string endHourStr = (endHour < 10) ? "0" + to_string(endHour) : to_string(endHour);
+            string endMinuteStr = (endMinute < 10) ? "0" + to_string(endMinute) : to_string(endMinute);
+            endTime = endHourStr + ":" + endMinuteStr;
+            if(endMinute==0){
+                endTime=endTime+"0";
+            }
+        for(Node<Show>* node= showList.begin();node!=nullptr; node= node->next ){
+            if(node->data.getScreen()->ID_Screen== screen->ID_Screen && node->data.getDate()==date){
+                int startHour=stoi(node->data.getStartTime().substr(0,2));
+                int startMinute=stoi(node->data.getStartTime().substr(3,2));
+                
+                int endHour=stoi(node->data.getEndTime().substr(0,2));
+                int endMinute=stoi(node->data.getEndTime().substr(3,2));
+                int totalMinutesStart=startHour*60+startMinute;
+                int totalMinutesEnd=endHour*60+endMinute;
+                int totalMinutesStartInput=stoi(startTime.substr(0,2))*60+stoi(startTime.substr(3,2));
+                int totalMinutesEndInput=stoi(endTime.substr(0,2))*60+stoi(endTime.substr(3,2));
+                if((totalMinutesStartInput>=totalMinutesStart && totalMinutesStartInput<=totalMinutesEnd) || (totalMinutesEndInput>=totalMinutesStart && totalMinutesEndInput<=totalMinutesEnd)){
+                    isValidStartTime=false;
+                    gotoXY(80,22);
+                    cout<<"Khung giờ đã có suất chiếu";
+                    gotoXY(xTime+20+43,yTime+11);
+                    cout<<"     ";
+                    break;
+                }
+            }
+        }
+    }
+    if(isValidStartTime){
+            int startHour=stoi(startTime.substr(0,2));
+            int startMinute=stoi(startTime.substr(3,2));
+            int endHour=stoi(endTime.substr(0,2));
+            int endMinute=stoi(endTime.substr(3,2));
+            int startBlock=(startHour)*4+(startMinute+14)/15;
+            int endBlock=(endHour)*4+(endMinute+14)/15;
+            for(int i=startBlock;i<endBlock;i++){
+                if(startHour<12){
+                    gotoXY(xTime+i*3,yTime);
+                    cout<<BG_GREEN<<"│██"<<RESET;
+                }
+                else{
+                    gotoXY(xTime+(i-48)*3,yTime+3);
+                    cout<<BG_GREEN<<"│██"<<RESET;
+                }
+            }
+    }
+
+    // if(isClickInRange(click.X, click.Y, xTime, yTime, 48*3,2) || isClickInRange(click.X, click.Y, xTime, yTime+3, 48*3,2)){
+    //     isValidStartTime=true;
+        
+
+    //     if(isValidStartTime){
+    //         if(click.Y==yTime+3){
+    //             startTime=to_string((click.X-xTime)/12+12)+":"+to_string((click.X-xTime)%12/3*15);
+                
+    //         }
+    //         else{
+    //             startTime=to_string((click.X-xTime)/12)+":"+to_string((click.X-xTime)%12/3*15);
+    //         }
+    //         string durationMovie=to_string(movie->getDurationInt());
+        
+    //         // Add duration (in minutes) to startTime to get endTime
+    //         int startHour = stoi(startTime.substr(0,2));
+    //         int startMinute = stoi(startTime.substr(3,2)); 
+    //         int duration = stoi(durationMovie);
+
+    //         int totalMinutes = startHour * 60 + startMinute + duration;
+    //         int endHour = totalMinutes / 60;
+    //         int endMinute = totalMinutes % 60;
+            
+    //         // Format hours and minutes with leading zeros if needed
+    //         string endHourStr = (endHour < 10) ? "0" + to_string(endHour) : to_string(endHour);
+    //         string endMinuteStr = (endMinute < 10) ? "0" + to_string(endMinute) : to_string(endMinute);
+    //         endTime = endHourStr + ":" + endMinuteStr;
+    //         if(((click.X-xTime)%12/3*15)==0){
+    //                 startTime=startTime+ "0";
+    //         }
+    //         if( (((click.X-xTime)/12+12)<10) && click.Y==yTime ){
+    //                 startTime="0"+startTime;
+    //         }
+            
+    //     }
+
+
+
+    //     for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
+    //     if (node->data.getScreen()->ID_Screen == screen->ID_Screen && node->data.getDate() == date)
+    //     {   
+            
+    //         int startHour=stoi(node->data.getStartTime().substr(0,2));
+    //         int startMinute=stoi(node->data.getStartTime().substr(3,2));
+    //         int endHour=stoi(node->data.getEndTime().substr(0,2));
+    //         int endMinute=stoi(node->data.getEndTime().substr(3,2));
+    //         int startBlock=(startHour)*4+(startMinute+14)/15;
+    //         int endBlock=(endHour)*4+(endMinute+14)/15;
+            
+    //             int endHourOfEndTime=stoi(endTime.substr(0,2));
+    //             int endMinuteOfEndTime=stoi(endTime.substr(3,2));
+    //             int startBlockOfEndTime=(endHourOfEndTime)*4+(endMinuteOfEndTime+14)/15;
+
+    //         if(startHour<12){
+    //             for(int i=startBlock;i<endBlock;i++){
+    //                 if(i==startBlockOfEndTime){
+    //                     isValidStartTime=false;
+    //                 }
+    //                 if(isClickInRange(click.X, click.Y, xTime+i*3, yTime,3,1)){
+    //                     isValidStartTime=false;
+    //                 gotoXY(80,22);
+    //                 cout<<"Khung giờ đã có suất chiếu";
+    //                 break;
+    //             }  
+    //         }
+    //         }
+    //         else{
+    //             for(int i=startBlock;i<endBlock;i++){
+    //                 if(i==startBlockOfEndTime){
+    //                     isValidStartTime=false;
+    //                 }
+    //                 if(isClickInRange(click.X, click.Y, xTime+(i-48)*3, yTime+3, 3,1)){
+    //                     isValidStartTime=false;
+    //                 gotoXY(80,24);
+    //                 cout<<"Khung giờ đã có suất chiếu";
+    //                 break;
+    //             }  
+    //             }
+    //         }
+    //     }
+    //     if(isValidStartTime){
+    //         if(click.Y==yTime+3){
+    //             startTime=to_string((click.X-xTime)/12+12)+":"+to_string((click.X-xTime)%12/3*15);
+                
+    //         }
+    //         else{
+    //             startTime=to_string((click.X-xTime)/12)+":"+to_string((click.X-xTime)%12/3*15);
+                
+                
+    //         }
+    //         string durationMovie=to_string(movie->getDurationInt());
+        
+    //         // Add duration (in minutes) to startTime to get endTime
+    //         int startHour = stoi(startTime.substr(0,2));
+    //         int startMinute = stoi(startTime.substr(3,2)); 
+    //         int duration = stoi(durationMovie);
+
+    //         int totalMinutes = startHour * 60 + startMinute + duration;
+    //         int endHour = totalMinutes / 60;
+    //         int endMinute = totalMinutes % 60;
+            
+    //         // Format hours and minutes with leading zeros if needed
+    //         string endHourStr = (endHour < 10) ? "0" + to_string(endHour) : to_string(endHour);
+    //         string endMinuteStr = (endMinute < 10) ? "0" + to_string(endMinute) : to_string(endMinute);
+    //         endTime = endHourStr + ":" + endMinuteStr;
+    //         if(((click.X-xTime)%12/3*15)==0){
+    //                 startTime=startTime+ "0";
+    //         }
+    //         if( (((click.X-xTime)/12+12)<10) && click.Y==yTime ){
+    //                 startTime="0"+startTime;
+    //         }
+            
+    //     }
+    //     gotoXY(100,25);
+    //     cout<<"haha"<<isValidStartTime;
+    // }
+    
+    // }
+    // cout<<"hihi"<<isValidStartTime;
+    
+    }
+    
+    gotoXY(100,30);
+    cout<<"Start time: "<<startTime;
+    gotoXY(100,32);
+    cout<<"End time: "<<endTime;
+    gotoXY(80,30);
+    cout<<"done select time";
+    screen->displayScreen();
+    ofstream file("../Databases/Show.txt", ios::app);
+    file <<endl;
+    file<< "#Show Details"<<endl;
+    file<< "ShowID: " << "S"+to_string(showList.getSize() + 1) << endl;
+    file<< "Date: " << date << endl;
+    file<< "StartTime: " << startTime << endl;
+    file<< "EndTime: " << endTime << endl;
+    file<< "Screen: " << screen->ID_Screen << endl;
+    file<< "Movie: " << movie->getID_Movie() << endl;
+    file<<"# SeatList"<<endl;
+    for(Node<Seat>* node = screen->getSeatLayout().begin(); node != nullptr; node = node->next){
+        if(convertSeatTypeToString(node->data.getType())=="Regular"){
+            file<<"Seat: "<<node->data.getSeatRow()<<" "<<node->data.getSeatColumn()<<" "<<convertSeatTypeToString(node->data.getType())<<" "<<"50000"<<" "<< "Available"<<endl;
+        }
+        else if(convertSeatTypeToString(node->data.getType())=="VIP"){
+            file<<"Seat: "<<node->data.getSeatRow()<<" "<<node->data.getSeatColumn()<<" "<<convertSeatTypeToString(node->data.getType())<<" "<<"90000"<<" "<< "Available"<<endl;
+        }
+        else{
+            file<<"Seat: "<<node->data.getSeatRow()<<" "<<node->data.getSeatColumn()<<" "<<convertSeatTypeToString(node->data.getType())<<" "<<"50000"<<" "<< "Available"<<endl;
+        }
         
     }
+    
+    ///save show to File
 
 }

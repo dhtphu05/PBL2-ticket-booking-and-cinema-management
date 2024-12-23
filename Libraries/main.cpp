@@ -81,7 +81,7 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
             menu_header("🧑" + customer->getUserName(), "Quay lại");
             // choice = getMouseDashBoardCustomer();
             // hàm này ở menu.h nhé
-            profilePage(customer, customerList, bookingList); // hàm này ở menu.h nhé
+            profilePage(customer, customerList, bookingList); // hàm này ở menu.h n hé
             //! chui vo day
             break;
         case 4:
@@ -124,7 +124,6 @@ int main()
     DoubleLinkedList<Customer> customerList;
     DoubleLinkedList<Movie> movieList;
     DoubleLinkedList<Booking> bookingList;
-    
     int k;
     User *user = new User();
     SetConsoleOutputCP(65001);

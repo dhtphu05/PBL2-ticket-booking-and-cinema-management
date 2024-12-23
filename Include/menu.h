@@ -418,8 +418,54 @@ void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleL
             case 9:
             {
                 // admin-> addShow();
-                Screen* screen = &screenList[1];
-                displayBarTimeInDay(screen,"19/12/2024", showList, 40, 10);
+                int currentPage = 1;
+                int moviesPerPage = 5;
+                int choice;
+                while (true)
+                {
+                    admin->showMovie(movieList, currentPage, moviesPerPage, 0);
+                    lineWidth(35, 80, 22, true, true);
+                    gotoXY(80, 23);
+                    cout << "│👈 Previous | Next 👉 |   Quit ❌  │";
+                    lineWidth(35, 80, 24, true, false);
+
+                    choice = getClick_showMovie();
+                    if (choice == 11 || choice == 12 || choice == 13 || choice == 14 || choice == 15)
+                    {
+                        system("cls");
+                        menuAdmin_default(*admin);
+                        movieList[choice - 11 + (currentPage - 1) * 5].showDetailMovie();
+                        addShow(showList, movieList[choice - 11 + (currentPage - 1) * 5], screenList);
+                    }
+
+                    choice = getClick_showMovie();
+                    if (choice == 2)
+                    {
+                        if (currentPage * moviesPerPage < movieList.getSize())
+                        {
+                            currentPage++;
+                        }
+                    }
+                    else if (choice == 1)
+                    {
+                        if (currentPage > 1)
+                        {
+                            currentPage--;
+                        }
+                    }
+                    else if (choice == 3)
+                    {
+                        break;
+                    }
+                    system("cls");
+                    menuAdmin_default(*admin);
+                }
+                // system("cls");
+                // goto dashBoard_admin;
+
+                system("cls");
+                goto dashBoard_admin;   
+                
                 break;
             }
             case 10:
@@ -551,6 +597,7 @@ void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleL
                 // admin->bookTicket();
                 system("cls");
                 booking.setAdmin(admin);
+                
                 buyTicketAdmin(admin, booking,showList,screenList,movieList);
                 goto dashBoard_admin;
                 break;

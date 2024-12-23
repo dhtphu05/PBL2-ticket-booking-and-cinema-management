@@ -175,6 +175,8 @@ void Show::displayAllShow(const DoubleLinkedList<Show> &shows){
 //write a function to load show from file and return a list of show, format of file is as follows: Databases/Show.txt
 void Show::loadShowFromFile(DoubleLinkedList<Show> &shows, DoubleLinkedList<Screen> &screens){
     ifstream file("../Databases/Show.txt");
+    //remove all element in the shows
+    shows.clear();
     string line;
     Show* currentShow = nullptr;
     while (std::getline(file, line)) {
@@ -468,6 +470,15 @@ void convertSeaTypeToSimpleString(SeatType type){
         cout<<"R";
     } else if(type==SeatType::Disable){
         cout<<"D";
+    }
+}
+string convertSeatTypeToString(SeatType type){
+    if(type==SeatType::VIP){
+        return "VIP";
+    } else if(type==SeatType::Regular){
+        return "Regular";
+    } else if(type==SeatType::Disable){
+        return "Disable";
     }
 }
 Show* selectShowByID(string ID){
