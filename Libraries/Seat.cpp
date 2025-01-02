@@ -134,3 +134,15 @@ void ShowSeat::setTimeBooked(string timeBooked){
 bool ShowSeat::operator==( ShowSeat& seat)  {
     return this->getSeatRow() == seat.getSeatRow() && this->getSeatColumn() == seat.getSeatColumn();
 }
+string Seat::convertSeatTypeToString(){
+    switch (this->getType()) {
+        case SeatType::Regular:
+            return "R";
+        case SeatType::VIP:
+            return "V";
+        case SeatType::Disable:
+            return "D";
+        default:
+            return "U";
+    }
+}

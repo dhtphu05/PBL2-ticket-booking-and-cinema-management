@@ -38,6 +38,7 @@ class Seat{
 
     virtual void displaySeat() ;
     void loadSeatFromFile();
+    string convertSeatTypeToString();
 
 };
 

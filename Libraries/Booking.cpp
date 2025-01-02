@@ -14,7 +14,7 @@
 class Show;
 class Screen;
 class ShowSeat;
-string BG_YELLOW_ = "\033[43m";
+string BG_YELLOW_ = "\033[33m";
 Booking::Booking()
 {
     this->bookingNumber = "";
@@ -166,6 +166,28 @@ switch (indexProcess) {
         break;
     case 5:
         borderLineWithTextAndColor(x + 90, y, "Xác nhận 💳", colorChoose);
+        break;
+    default:
+        break;
+}
+}
+void cloneLayoutProcessAddShow(int x, int y, int indexProcess=0, string colorAll = "", string colorChoose = BG_GREEN ) {
+    borderLineWithTextAndColor(x, y, "Chọn phim 🎬", colorAll);
+    borderLineWithTextAndColor(x + 30, y, "Chọn ngày chiếu 🎥", colorAll);
+    borderLineWithTextAndColor(x + 50, y, "Chọn phòng chiếu 🎥", colorAll);
+    borderLineWithTextAndColor(x + 70, y, "Chọn thời gian bắt đầu suất chiếu 🎁", colorAll);
+switch (indexProcess) {
+    case 1:
+        borderLineWithTextAndColor(x, y, "Chọn phim/ suất chiếu 🎬", colorChoose);
+        break;
+    case 2:
+        borderLineWithTextAndColor(x + 30, y, "Chọn ngày chiếu 🎥", colorChoose);
+        break;
+    case 3:
+        borderLineWithTextAndColor(x + 50, y, "Chọn phòng chiếu 🎥", colorChoose);
+        break;
+    case 4:
+        borderLineWithTextAndColor(x + 70, y, "Chọn thời gian bắt đầu suất chiếu 🎁", colorChoose);
         break;
     default:
         break;
@@ -746,6 +768,58 @@ void layoutListDate(int x = 0, int y = 0, const string& today = "07/12/2023")
     }
     cout << RESET;
 }
+void onlyLayoutDate(int x = 0, int y = 0, const string& today = "07/12/2023"){
+    // Parse the input date
+    
+    int day = stoi(today.substr(0, 2));
+    int month = stoi(today.substr(3, 2));
+    int year = stoi(today.substr(6, 4));
+
+    // Array of day names
+    string daysOfWeek[] = {"Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"};
+
+    // Calculate the day of the week for the given date
+    tm time_in = { 0, 0, 0, day, month - 1, year - 1900 };
+    time_t time_temp = mktime(&time_in);
+    const tm * time_out = localtime(&time_temp);
+    int todayIndex = time_out->tm_wday;
+
+    cout << BG_GREEN;
+    bool isToday = true;
+    for (int i = 0; i < 7; ++i)
+    {
+        int currentDay = day + i;
+        int currentMonth = month;
+        int currentYear = year;
+
+        // Adjust the day and month if necessary
+        if (currentDay > 30) // Simplified month length, you can add more precise calculation
+        {
+            currentDay -= 30;
+            currentMonth++;
+            if (currentMonth > 12)
+            {
+                currentMonth = 1;
+                currentYear++;
+            }
+        }
+        
+        lineWidth(10, x + (i * 15), y, true, true);
+        if(isToday){
+                    showString("│ " + daysOfWeek[(todayIndex + i) % 7] + "  │", x + (i * 15), y + 1);
+                    isToday=false;
+        }
+        else{
+        showString("│ " + daysOfWeek[(todayIndex + i) % 7] + "  │", x + (i * 15), y + 1);
+        }
+        std::ostringstream oss;
+        oss << "│  " << (currentDay < 10 ? "0" : "") << currentDay << "/" << (currentMonth < 10 ? "0" : "") << currentMonth << "   │";
+        showString(oss.str(), x + (i * 15), y + 2);
+        lineWidth(10, x + (i * 15), y + 3, true, false);
+    }
+    cout << RESET;
+
+}
 string dateOfClick(int x,int y){
     int i=0;
     //i want to return date in format dd/mm/yyyy
@@ -788,6 +862,7 @@ string dateOfClick(int x,int y){
         }
     }
 }
+
 void layoutWhenClickToDate(Booking& booking, DoubleLinkedList<Show> &showList, DoubleLinkedList<Movie> &movieList, int x, int y){
     string today;
     //dd/mm/yyyy
@@ -891,69 +966,97 @@ void addShow(DoubleLinkedList<Show>& showList, Movie movieSelected, DoubleLinked
     screenInstance.loadScreenFromFile(screenList);
     showInstance.loadShowFromFile(showList,screenList);
     system("cls");
-    cout<<"Chọn ngày chiếu: ";
     string today;
+    cloneLayoutProcessAddShow(20, 0, 2, BG_YELLOW_, BG_GREEN);
     //dd/mm/yyyy
     time_t timeinDay= time(0);
     tm *ltm = localtime(&timeinDay);
     today= convertDateDefalutToSimple(ctime(&timeinDay));
     today=today.substr(9);
-    layoutListDate(x+10,y+10,today);
+    onlyLayoutDate(x+10,y+10,today);
     string date=dateOfClick(x,y+10);
+    system("cls");
     Movie *movie=&movieSelected;
-    int i=0,j=0;
+
     //*select screen
     Screen *screen;
     //* lost function validate duplicate show
     //*display screen to choose
-    int xScreen=0;
-    int yScreen=0;
+    label_choose_screen:
+    int i=0,j=0;
+    cloneLayoutProcessAddShow(20, 0, 3, BG_YELLOW_, BG_GREEN);
+    int xScreen=20;
+    int yScreen=10;
     //* id screen, number of seat, number of regular seat, number of vip seat
+    system("cls");
     for(Node<Screen>* node = screenList.begin(); node != nullptr; node = node->next){
         if(i==3){
             i=0;
             j+=20;
         }
-        lineWidth(10, xScreen+i*60, yScreen+j+1, true, true);
-        gotoXY(xScreen+i*60+2,yScreen+j+1);
-        cout<< node->data.ID_Screen;
-        gotoXY(xScreen+i*60+2,yScreen+j+2);
-        cout<<node->data.getNumberOfSeat();
-        gotoXY(xScreen+i*60+2,yScreen+j+3);
-        cout<<node->data.getNumberOfRegularSeat();
-        gotoXY(xScreen+i*60+2,yScreen+j+4);
-        cout<<node->data.getNumberOfVIPSeat();
-        gotoXY(xScreen+i*60,yScreen+j);
-        lineHeight_main(6,xScreen+i*60,yScreen+j);
-        lineHeight_main(6,xScreen+i*60+11,yScreen+j);
-        lineWidth(6,xScreen+i*60,yScreen+5,true,false);
+        lineWidth(25, xScreen, yScreen+j-1, true, true);
+        gotoXY(xScreen,yScreen+j+1);
+        borderLineWithTextAndColor(xScreen+3,yScreen+j,"Tên phòng chiếu: "+to_string(node->data.ID_Screen),BG_CYAN);
+        gotoXY(xScreen+2,yScreen+j+3);
+        cout<<"Tổng số ghế:        "<<BG_GREEN<<node->data.getNumberOfSeat()<<RESET;
+        gotoXY(xScreen+2,yScreen+j+5);
+        cout<<"Tổng số ghế thường: "<<node->data.getNumberOfRegularSeat();
+        gotoXY(xScreen+2,yScreen+j+7);
+        cout<<"Tổng số ghế VIP:    "<<node->data.getNumberOfVIPSeat();
+        gotoXY(xScreen,yScreen+j);
+        lineHeight_main(9,xScreen,yScreen+j);
+        lineHeight_main(9,xScreen+26,yScreen+j);
+        lineWidth(25,xScreen,yScreen+j+8,true,false);
+        borderLineWithTextAndColor(xScreen+30,yScreen+j+3,"Xem chi tiết",BG_CYAN);
         i++;
+        //xuong dong list ngang
+        j+=13;
     }
+    // layout xem chi tiết phòng chiếu
+    
     //select screen
-    gotoXY(80,22);
-    cout<<"done display screen";
+    // gotoXY(80,22);
+    // cout<<"done display screen";
+    
     screen=nullptr;
+    bool isSeenDetail=false;
     while(screen==nullptr){
-    click=processInputEvents();
-    i=0;
-    j=0;
-    for(Node<Screen>* node = screenList.begin(); node != nullptr; node = node->next){
-        if(i==3){
-            i=0;
-            j+=20;
+        click=processInputEvents();
+        i=0;
+        j=0;
+        
+        for(Node<Screen>* node = screenList.begin(); node != nullptr; node = node->next){
+            if(i==3){
+                i=0;
+                j+=20;
+            }
+            if(isClickInRange(click.X, click.Y, xScreen+2, yScreen+j, 25,10)){
+                screen=&node->data;
+                break;
+            }
+            if(isClickInRange(click.X,click.Y,xScreen+30, yScreen+j+3, 12, 1)){
+                system("cls");
+                screen=&node->data;
+                onlyLayoutSeat(screen);
+                screen=nullptr;
+                isSeenDetail=true;
+                click=processInputEvents();
+            }
+            i++;
+            j+=13;
         }
-        if(isClickInRange(click.X, click.Y, xScreen+i*60, yScreen+j, 20,20)){
-            screen=&node->data;
-            break;
-        }
-        i++;
+        if(isSeenDetail)
+        goto label_choose_screen;
+        
     }
-    }
-    gotoXY(80,22);
-    cout<<"done select screen";
+    
+
+    // gotoXY(80,22);
+    // cout<<"done select screen";
     //select start time
-    int xTime=0;
-    int yTime=0;
+    cloneLayoutProcessAddShow(20, 0, 4, BG_YELLOW_, BG_GREEN);
+    int xTime=5;
+    int yTime=10;
     i=0;
     j=0;
     displayBarTimeInDay(screen,date,showList,xTime,yTime);
@@ -1155,8 +1258,8 @@ void addShow(DoubleLinkedList<Show>& showList, Movie movieSelected, DoubleLinked
     gotoXY(100,32);
     cout<<"End time: "<<endTime;
     gotoXY(80,30);
-    cout<<"done select time";
-    screen->displayScreen();
+    // cout<<"done select time";
+    // screen->displayScreen();
     ofstream file("../Databases/Show.txt", ios::app);
     file <<endl;
     file<< "#Show Details"<<endl;

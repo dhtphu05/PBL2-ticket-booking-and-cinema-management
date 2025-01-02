@@ -66,6 +66,17 @@ void layoutScreen(){
     gotoXY(50,11);
     cout<<"Màn Hình";
 }
+void layoutScreen_ver2(){
+    gotoXY(30,6);
+    lineWidth(50,true,false);
+    gotoXY(30,5);
+    cout<<"│";
+    gotoXY(81,5);
+    cout<<"│";
+    gotoXY(50,5);
+    cout<<"Màn Hình";
+}
+
 
 void layoutOneSeat(int x,int y, string row, int col, string colorBackground=BG_GRAY){
     gotoXY(x,y);
@@ -96,6 +107,22 @@ void descriptionSeat(){
     // layoutOneSeat(70,46,"A",4,BG_GREEN);
 
 }
+void descriptionSeat_ver2(){
+    layoutOneSeat(20-3,46-6,"A",1,BG_RED);
+    gotoXY(25-3,46-6);
+    cout<<": Ghế VIP";
+    layoutOneSeat(40-5,46-6,"A",2,BG_BLUE);
+    gotoXY(45-5,46-6);
+    cout<<": Ghế thường";
+    layoutOneSeat(60-7,46-6,"A",3);
+    gotoXY(65-7,46-6);
+    cout<<": Ghế đã đặt";
+    // gotoXY(75,48);
+    // cout<<": Ghế bạn chọn";
+    // layoutOneSeat(70,46,"A",4,BG_GREEN);
+
+}
+
 void buttonAccept(){
     gotoXY(134,46);
     cout<<BG_GREEN;
@@ -163,7 +190,42 @@ int getTextWidth(const string& text) {
     }
     return width;
 }
+void onlyLayoutSeat(Screen* screen){
+    gotoXY(10,4);
+    lineWidth(90,true,true);
+    lineHeight(35,10,5);
+    lineHeight(35,101,5);
+    gotoXY(10,39);
+    lineWidth(90,true,false);
+    layoutScreen_ver2();
+    // buttonAccept();
+    Node<Seat> *current = screen->getSeatLayout().begin();
+    int colIdx=0;
+    int x=11;
+    int y=9;
+    int i=0,j=0;
+    // current->data.displaySeat();
+    while(current!=nullptr){
+        if (colIdx==10){
+            colIdx=0;
+            i=0;
+            j++;
+        }
+        i++;
+        colIdx++;
 
+        if(current->data.convertSeatTypeToString()=="V" ){
+            layoutOneSeat(x+i*8,y+j*3,current->data.getSeatRow(),current->data.getSeatColumn(),BG_RED);
+        }
+        else if(current->data.convertSeatTypeToString()=="R"){
+            layoutOneSeat(x+i*8,y+j*3,current->data.getSeatRow(),current->data.getSeatColumn(),BG_BLUE);
+        }
+        else if(current->data.convertSeatTypeToString()=="D"){
+        }
+        current = current->next;
+    }
+    descriptionSeat();
+}
 void borderLineWithTextAndColor(int x, int y, string text, string color=RESET){
     SetConsoleCP(65001);
     int textWidth = getTextWidth(text);
