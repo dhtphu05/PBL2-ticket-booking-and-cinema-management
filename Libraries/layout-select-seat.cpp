@@ -246,7 +246,33 @@ void borderLineWithTextAndColor(int x, int y, string text, string color=RESET){
     cout<<"╯";
     cout<<RESET;
 }
-
+string addSpaceToPrintMoney(double money){
+    string str=to_string(money);
+    //delete .00000
+    str=str.substr(0,str.find("."));
+    string result="";
+    int count=0;
+    for(int i=str.length()-1;i>=0;i--){
+        count++;
+        result=str[i]+result;
+        if(count%3==0 && i!=0){
+            result=" "+result;
+        }
+    }
+    return result;
+}
+string getHourAndMinuteOfTimeT(time_t t){
+    struct tm * now = localtime( & t );
+    string hour=to_string(now->tm_hour);
+    string minute=to_string(now->tm_min);
+    if(hour.length()==1){
+        hour="0"+hour;
+    }
+    if(minute.length()==1){
+        minute="0"+minute;
+    }
+    return hour+":"+minute;
+}
 void layoutBooking(Booking* booking){
     gotoXY(115,15);
     lineWidth(35,true,true);
@@ -286,11 +312,12 @@ void layoutBooking(Booking* booking){
                 cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
             }
     gotoXY(120,33);
-    cout<<"Đặt vé lúc: "<<booking->getBookingTime();
+    time_t t = time(0);
+    cout<<"Đặt vé lúc: "<<getHourAndMinuteOfTimeT(t);
     gotoXY(130,35);
     cout<<"            ";
     gotoXY(120,35);
-    cout<<"Tổng tiền: "<<booking->getTotalPrice();
+    cout<<"Tổng tiền: "<<addSpaceToPrintMoney(booking->getTotalPrice());
 }
 
 

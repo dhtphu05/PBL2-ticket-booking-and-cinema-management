@@ -924,7 +924,6 @@ void Movie::readID(DoubleLinkedList<Movie> &movieList)
 
 void Movie::Display()
 {
-
     cout << *this;
     cout << "---------------------------------" << endl;
 }

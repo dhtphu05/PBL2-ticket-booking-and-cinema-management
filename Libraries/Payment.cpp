@@ -83,7 +83,7 @@ void layoutChooseMethod(){
     int y=17;
     borderLineWithTextAndColor(x,y+5,"Chọn phương thức thanh toán",BG_GRAY);
 
-    borderLineWithTextAndColor(x+3,y+8,"1. Chuyển khoản",BG_YELLOW);
+    borderLineWithTextAndColor(x+3,y+8,"1. Chuyển khoản",BG_GRAY);
     borderLineWithTextAndColor(x+3,y+11,"2. Tiền mặt",BG_GRAY);
     gotoXY(x+3,y+11);
     
@@ -95,8 +95,8 @@ void layoutFinal(Booking *booking, Coupon* coupon){
     int y=5;
     gotoXY(110,3);
     lineWidth(42,true,true);
-    lineHeight(38,110,4);
-    lineHeight(38,153,4);
+    lineHeight(32,110,4);
+    lineHeight(32,153,4);
     gotoXY(110,23);
     lineWidth(42,true,false);
     gotoXY(110,23);
@@ -108,16 +108,16 @@ void layoutFinal(Booking *booking, Coupon* coupon){
     gotoXY(x,y+2);
     cout<<"Mã vé: "<<BG_YELLOW<<booking->getBookingNumber()<<RESET;
     gotoXY(x,y+4);
-    cout<<"Tên phim: "<<booking->getShow()->getMovie()->getTitle();
+    cout<<"Tên phim: "<<BG_YELLOW<<booking->getShow()->getMovie()->getTitle()<<RESET;
     gotoXY(x,y+6);
     cout<<"THỜI GIAN               NGÀY CHIẾU";
     gotoXY(x-2,y+8);
-    cout<<booking->getShow()->getStartTime()<<" ~ "<<booking->getShow()->getEndTime()<<"            ";
-    cout<<booking->getShow()->getDate();
+    cout<<BG_YELLOW<<booking->getShow()->getStartTime()<<" ~ "<<booking->getShow()->getEndTime()<<"            ";
+    cout<<booking->getShow()->getDate()<<RESET;
     gotoXY(x,y+10);
-    cout<<"PHÒNG CHIẾU: "<<booking->getShow()->getScreen()->getID_screen();
+    cout<<"PHÒNG CHIẾU: "<<BG_YELLOW<<booking->getShow()->getScreen()->getID_screen()<<RESET;
     gotoXY(x,y+12);
-    cout<<"GHẾ:";
+    cout<<"GHẾ:"<<BG_YELLOW;
     int countVIP=0;
     int countNormal=0;
     int countVIP_temp=0;
@@ -143,29 +143,34 @@ void layoutFinal(Booking *booking, Coupon* coupon){
             cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
         }
     }
-
+    cout<<RESET;
     gotoXY(x-1,y+14);
     if(totalVIP!=0){
+    cout<<BG_YELLOW;
     cout<<"x "<<countVIP_temp<<" VIP: ";
     gotoXY(144,y+14);
-    cout<<totalVIP;
+    cout<<RESET;
+    cout<<addSpaceToPrintMoney(totalVIP);
     }
     double totalNormal=0;
-    
+    cout<<BG_YELLOW;
     for(Node<ShowSeat>* node = booking->getSeats().begin(); node != nullptr; node = node->next){
         
         if(node->data.convertSeatTypeToSimpleString()=="R"){
             gotoXY(x-1+9+countNormal*4,y+16);
             totalNormal+=node->data.getPrice();
-        countNormal--;
+            countNormal--;
             cout<<node->data.getSeatRow()<<node->data.getSeatColumn()<<" ";
         }
     }
+    cout<<RESET;
     if(totalNormal!=0){
         gotoXY(x-1,y+16);
+    cout<<BG_YELLOW;
     cout<<"x "<<countNormal_temp<<" THƯỜNG: ";
+    cout<<RESET;
     gotoXY(144,y+16);
-    cout<<totalNormal;
+    cout<<addSpaceToPrintMoney(totalNormal);
     }
     int idxCombo=0;
     for(Node<Combo>* node = booking->getCombos().begin(); node != nullptr; node = node->next){
@@ -190,11 +195,11 @@ void layoutFinal(Booking *booking, Coupon* coupon){
     // cout<<"- "<<coupon->getDiscount()-booking->getTotalPrice();
     // gotoXY(110, 33 +4);
     // lineWidth(44, false, true);
-    gotoXY(x, 33 +6);
+    gotoXY(x, 33 );
     cout<<"Tổng cộng: ";
-    gotoXY(144, 33 +6);
-    cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
-    gotoXY(110, 33 +8);
+    gotoXY(144, 33 );
+    cout<<BG_GREEN<<addSpaceToPrintMoney(booking->getTotalPrice())<<RESET;
+    gotoXY(110, 33 +2);
     lineWidth(42, true, false);
 
 }
@@ -216,8 +221,24 @@ void CreditCardPayment::processPayment(Booking* booking)
     layoutFinal(booking, booking->getAppliedCoupon());
     int xPayment=115;
     int yPayment=10;
-    borderLineWithTextAndColor(80, 43, "VUI LÒNG CHUYỂN KHOẢN VỚI DÒNG TIN NHẮN SAU", BG_GREEN);
-    borderLineWithTextAndColor(90, 46, booking->getBookingNumber() , BG_GREEN);
+    lineHeight(10,110,35);
+    lineHeight(10,153,35);
+    gotoXY(115,36);
+    cout << "THÔNG TIN THANH TOÁN";
+    gotoXY(115,37);
+    cout << "Phương thức: Chuyển khoản";
+    gotoXY(115,39);
+    cout << "STK: 1041534471";
+    gotoXY(115,40);
+    cout << "Ngân hàng: Vietcombank";
+    gotoXY(115,41);
+    cout << "Chủ TK: DOAN HOANG THIEN PHU";
+    gotoXY(115,43);
+    cout << "Nội dung CK:";
+    gotoXY(115,45);
+    cout << booking->getCustomer()->getPhoneNumber();
+    cout << " " << booking->getBookingNumber();
+    gotoXY(110,50);
     
     // gotoXY(xPayment,yPayment);
     // lineWidth(20,true,true);

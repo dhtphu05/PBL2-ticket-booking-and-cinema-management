@@ -173,18 +173,18 @@ switch (indexProcess) {
 }
 void cloneLayoutProcessAddShow(int x, int y, int indexProcess=0, string colorAll = "", string colorChoose = BG_GREEN ) {
     borderLineWithTextAndColor(x, y, "Chọn phim 🎬", colorAll);
-    borderLineWithTextAndColor(x + 30, y, "Chọn ngày chiếu 🎥", colorAll);
-    borderLineWithTextAndColor(x + 50, y, "Chọn phòng chiếu 🎥", colorAll);
+    borderLineWithTextAndColor(x + 20, y, "Chọn ngày chiếu 🎥", colorAll);
+    borderLineWithTextAndColor(x + 45, y, "Chọn phòng chiếu 🎥", colorAll);
     borderLineWithTextAndColor(x + 70, y, "Chọn thời gian bắt đầu suất chiếu 🎁", colorAll);
 switch (indexProcess) {
     case 1:
         borderLineWithTextAndColor(x, y, "Chọn phim/ suất chiếu 🎬", colorChoose);
         break;
     case 2:
-        borderLineWithTextAndColor(x + 30, y, "Chọn ngày chiếu 🎥", colorChoose);
+        borderLineWithTextAndColor(x + 20, y, "Chọn ngày chiếu 🎥", colorChoose);
         break;
     case 3:
-        borderLineWithTextAndColor(x + 50, y, "Chọn phòng chiếu 🎥", colorChoose);
+        borderLineWithTextAndColor(x + 45, y, "Chọn phòng chiếu 🎥", colorChoose);
         break;
     case 4:
         borderLineWithTextAndColor(x + 70, y, "Chọn thời gian bắt đầu suất chiếu 🎁", colorChoose);
@@ -193,6 +193,19 @@ switch (indexProcess) {
         break;
 }
 }
+string makeSpaceToMoney(string money){
+    string result="";
+    int count=0;
+    for(int i=money.length()-1;i>=0;i--){
+        count++;
+        result=money[i]+result;
+        if(count%3==0 && i!=0){
+            result=" "+result;
+        }
+    }
+    return result;
+}
+
 //!TODO: 1 hóa đơn là tạo 1 file
 void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> &screens,DoubleLinkedList<Movie> &movies)
 {   system("cls");
@@ -273,6 +286,8 @@ void Booking::sellTicket(DoubleLinkedList<Show>& shows,DoubleLinkedList<Screen> 
                 layoutOneSeat(11+(column+1)*8,15+(rowInt-1)*3,show->getSeatByRowColumn(row,column).getSeatRow(),show->getSeatByRowColumn(row,column).getSeatColumn(),BG_GREEN);
                 this->seats.push_back(show->getSeatByRowColumn(row,column));
                 time_t t = time(0);
+                //only get hour and minute of time
+                
                 totalPrice+=show->getSeatByRowColumn(row,column).getPrice();
                 this->setTotalPrice(totalPrice);
                 this->setBookingTime(ctime(&t));
@@ -633,58 +648,64 @@ void displayMovieFollowStartDateShow(Booking& booking,DoubleLinkedList<Show> &sh
             j+=20;
         }
         borderLineWithTextAndColor(x+i*60,y+j,node->data.getTitle(),BG_CYAN);
-        displayImageFile(node->data, x+i*60, y+j+2);
+        displayImageFile(node->data, x-6+i*60, y+j+2);
         i++;
     }
     if(movieListToday.getSize()==0){
-        borderLineWithTextAndColor(80,27,"Không có suất chiếu phim nào trong hôm nay",BG_CYAN);
+        borderLineWithTextAndColor(50,27,"Không có suất chiếu phim nào trong hôm nay",BG_RED);
     }
     //select movie
     while(booking.getShow()==nullptr){
-    click=processInputEvents();
-    if(isClickInRange(click.X, click.Y, 135, 2, 7,2)){
-        return;
-    }
-    i=0;j=0;
-    for(Node<Movie>* node = movieListToday.begin(); node != nullptr; node = node->next){
-        if(i==3){
-            i=0;
-            j+=20;
+        click=processInputEvents();
+        if(isClickInRange(click.X, click.Y, 135, 2, 10,3)){
+            return;
         }
-        borderLineWithTextAndColor(x+i*60,y+j,node->data.getTitle(),BG_CYAN);
-        displayImageFile(node->data, x+i*60, y+j+2);
-        i++;
-    }
-    
-    if(isClickInRange(click.X, click.Y, 135, 2, 7,2)){
-        return;
-    }
-    system("cls");
-    i=0;
-    j=0;
-    for(Node<Movie>* node = movieListToday.begin(); node != nullptr; node = node->next){
-        if(i==3){
-            i=0;
-            j+=20;
+        i=0;j=0;
+        for(Node<Movie>* node = movieListToday.begin(); node != nullptr; node = node->next){
+            if(i==3){
+                i=0;
+                j+=20;
+            }
+            borderLineWithTextAndColor(x+i*60,y+j,node->data.getTitle(),BG_CYAN);
+            displayImageFile(node->data, x-6+i*60, y+j+2);
+            i++;
         }
-        if(isClickInRange(click.X, click.Y, x+i*60, y+j+2, 20,20)){
-            displayShowFollowMovie(booking,showList,&node->data,x+15,y+15, Date);
-            
-            // displayShowFollowMovie(booking,showList,&node->data, x, y);
-            break;
+        
+        if(isClickInRange(click.X, click.Y, 135, 2, 10,3)){
+            return;
         }
-        i++;
-    }
+        system("cls");
+        i=0;
+        j=0;
+        for(Node<Movie>* node = movieListToday.begin(); node != nullptr; node = node->next){
+            if(i==3){
+                i=0;
+                j+=20;
+            }
+            if(isClickInRange(click.X, click.Y, x-6+i*60, y+j+2, 30,20)){
+                displayShowFollowMovie(booking,showList,&node->data,x+15,y+15, Date);
+                
+                // displayShowFollowMovie(booking,showList,&node->data, x, y);
+                break;
+            }
+            i++;
+        }
     }
 }
 void displayShowFollowMovie(Booking &booking,DoubleLinkedList<Show>&showList, Movie* movie, int x, int y, string Date){
     // system("cls");
     cloneLayoutProcessBooking(20, 0, 1, BG_RED, BG_GREEN);
-
+    //get time to hide the layout
+    time_t t = time(0);
+    tm* now = localtime(&t);
+    int hour = now->tm_hour;
+    int minute = now->tm_min;
+    // cout<<hour<<":"<<minute<<endl;
+    //get time to compare start time of show
     int i=0,j=0;
     for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
         if(node->data.getMovie()->getTitle()==movie->getTitle() && node->data.getDate()==Date){
-            borderLineWithTextAndColor(x+i*20,y+j,node->data.getStartTime()+" ~ "+node->data.getEndTime(),BG_CYAN);
+            borderLineWithTextAndColor(x+i*20,y+j+3,node->data.getStartTime()+" ~ "+node->data.getEndTime(),BG_CYAN);
             i++;
         }
     }
@@ -696,22 +717,22 @@ void displayShowFollowMovie(Booking &booking,DoubleLinkedList<Show>&showList, Mo
     //select show
     bool isClear=false;
     while(booking.getShow()==nullptr){
-    click=processInputEvents();
-    if(isClickInRange(click.X, click.Y, 135, 2, 7,2)){
-        return;
-    }
-    isClear=true;
-    i=0;
-    for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
-        if(node->data.getMovie()->getTitle()==movie->getTitle() && node->data.getDate()==Date){
-            if(isClickInRange(click.X, click.Y, x+i*20, y, 20,1)){
-                booking.setShow(&node->data);
-                break;
-            }
-            i++;
+        click=processInputEvents();
+        if(isClickInRange(click.X, click.Y, 135, 2, 8,3)){
+            return;
         }
-        
-    }
+        isClear=true;
+        i=0;
+        for(Node<Show>* node = showList.begin(); node != nullptr; node = node->next){
+            if(node->data.getMovie()->getTitle()==movie->getTitle() && node->data.getDate()==Date){
+                if(isClickInRange(click.X, click.Y, x+i*20, y+3, 20,1)){
+                    booking.setShow(&node->data);
+                    break;
+                }
+                i++;
+            }
+            
+        }
     }
 }
 void layoutListDate(int x = 0, int y = 0, const string& today = "07/12/2023")
@@ -984,11 +1005,12 @@ void addShow(DoubleLinkedList<Show>& showList, Movie movieSelected, DoubleLinked
     //*display screen to choose
     label_choose_screen:
     int i=0,j=0;
-    cloneLayoutProcessAddShow(20, 0, 3, BG_YELLOW_, BG_GREEN);
     int xScreen=20;
     int yScreen=10;
     //* id screen, number of seat, number of regular seat, number of vip seat
     system("cls");
+    cloneLayoutProcessAddShow(20, 0, 3, BG_YELLOW_, BG_GREEN);
+
     for(Node<Screen>* node = screenList.begin(); node != nullptr; node = node->next){
         if(i==3){
             i=0;
@@ -1103,8 +1125,7 @@ void addShow(DoubleLinkedList<Show>& showList, Movie movieSelected, DoubleLinked
                 int totalMinutesEndInput=stoi(endTime.substr(0,2))*60+stoi(endTime.substr(3,2));
                 if((totalMinutesStartInput>=totalMinutesStart && totalMinutesStartInput<=totalMinutesEnd) || (totalMinutesEndInput>=totalMinutesStart && totalMinutesEndInput<=totalMinutesEnd)){
                     isValidStartTime=false;
-                    gotoXY(80,22);
-                    cout<<"Khung giờ đã có suất chiếu";
+                    borderLineWithTextAndColor(80,22,"Khung giờ đã có suất chiếu",BG_RED);
                     gotoXY(xTime+20+43,yTime+11);
                     cout<<"     ";
                     break;
@@ -1252,12 +1273,11 @@ void addShow(DoubleLinkedList<Show>& showList, Movie movieSelected, DoubleLinked
     // cout<<"hihi"<<isValidStartTime;
     
     }
-    
-    gotoXY(100,30);
-    cout<<"Start time: "<<startTime;
-    gotoXY(100,32);
-    cout<<"End time: "<<endTime;
-    gotoXY(80,30);
+    borderLineWithTextAndColor(70,22+2, "Tên phim: "+movie->getTitle(),BG_CYAN);
+    borderLineWithTextAndColor(70,26+2, "Ngày chiếu: "+date,BG_CYAN);
+    borderLineWithTextAndColor(70,30+2, "Thời gian bắt đầu của suất chiếu: "+startTime,BG_CYAN);
+    borderLineWithTextAndColor(70,34+2, "Thời gian kết thúc của suất chiếu: "+endTime,BG_CYAN);
+    borderLineWithTextAndColor(65,38+2, "Thêm suất chiếu thành công",BG_GREEN);
     // cout<<"done select time";
     // screen->displayScreen();
     ofstream file("../Databases/Show.txt", ios::app);

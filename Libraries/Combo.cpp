@@ -133,7 +133,7 @@ void Combo::displayCombo(int x,int y){
     gotoXY(x+2,y+4);
     cout<<this->comboDescription;
     gotoXY(x+2,y+6);
-    cout<<"Giá: "<<this->comboPrice;
+    cout<<"Giá: "<<addSpaceToPrintMoney(this->comboPrice);
     int Dis=60;
     gotoXY(x+Dis,y+2);
     lineWidth(23,true,true);
@@ -197,14 +197,17 @@ void setIDComboWhenClick(Booking* booking,DoubleLinkedList<Combo> &combos, int &
 
 
 void Combo::displaySimpleCombo(int x,int y){
+    cout<<BG_YELLOW;
     gotoXY(x,y);
     cout<<"x";
     gotoXY(x+2,y);
+    
     cout<<this->getQuantityBuy();
     gotoXY(x+5,y);
     cout<<this->getComboName();
     gotoXY(x+30,y);
-    cout<<this->getComboPrice()*this->getQuantityBuy();
+    cout<<RESET;
+    cout<<addSpaceToPrintMoney(this->getComboPrice()*this->getQuantityBuy());
 }
 void layoutBillTemp(Booking* booking){
     int x=115;
@@ -264,7 +267,7 @@ void layoutBillTemp(Booking* booking){
     if(totalVIP!=0){
     cout<<"x "<<countVIP_temp<<" VIP: ";
     gotoXY(144,y+14);
-    cout<<totalVIP;
+    cout<<addSpaceToPrintMoney(totalVIP);
     }
     double totalNormal=0;
     
@@ -281,7 +284,7 @@ void layoutBillTemp(Booking* booking){
         gotoXY(x-1,y+16);
     cout<<"x "<<countNormal_temp<<" THƯỜNG: ";
     gotoXY(144,y+16);
-    cout<<totalNormal;
+    cout<<addSpaceToPrintMoney(totalNormal);
     }
 
 

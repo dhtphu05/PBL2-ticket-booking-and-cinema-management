@@ -201,7 +201,7 @@ void layoutBillTempCoupon(Booking *booking){
     gotoXY(x,y+28);
     cout<<"Tạm tính:          ";
     gotoXY(114+30,y+28);
-    cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
+    cout<<BG_GREEN<<addSpaceToPrintMoney(booking->getTotalPrice())<<RESET;
     gotoXY(x+16,y+16);
 }
 void Coupon::processCoupon(Booking *booking, Coupon* coupon)
@@ -264,7 +264,7 @@ void Coupon::processCoupon(Booking *booking, Coupon* coupon)
     gotoXY(115, 33 +6);
     cout<<"Tổng cộng: ";
     gotoXY(144, 33 +6);
-    cout<<BG_GREEN<<booking->getTotalPrice()<<RESET;
+    cout<<BG_GREEN<<addSpaceToPrintMoney(booking->getTotalPrice())<<RESET;
     gotoXY(110, 33 +8);
     lineWidth(42, true, false);
 }

@@ -153,9 +153,7 @@ void showChartAgeCustomer(DoubleLinkedList<Customer> &customer)
 }
 bool _regexPhoneNumber(string &phone)
 {
-
     std::regex patter(R"(^0(3|5|7|8|9)\d{8}$)");
-
     return std::regex_match(phone, patter) ? true : false;
 }
 bool _regexDOB(string &DOB)

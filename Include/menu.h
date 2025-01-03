@@ -153,6 +153,10 @@ int getClickAdmin_default()
     {
         return 24; // Bieu do
     }
+    if(x_click>=3&&x_click<=20&&y_click>=35&&y_click<=35){
+        return 25; //thong ke phim
+    }
+
 
     return 0;
 }
@@ -205,11 +209,12 @@ void menuAdmin_default(Admin &admin)
     showString("• Xem danh sách phim", 3, 32);
     showString("• Tìm kiếm phim", 3, 33);
     // khung screen
-    lineWidth(14, 6, 35, true, true);
-    showString("Screen 📽️", 11, 36);
-    lineWidth(14, 6, 37, true, false);
-    lineHeight(1, 6, 36, false, false, false);
-    lineHeight(1, 21, 36, false, false, false);
+    showString("• Thống kê vé", 3, 35);
+    // lineWidth(14, 6, 35, true, true);
+    // showString("Screen 📽️", 11, 36);
+    // lineWidth(14, 6, 37, true, false);
+    // lineHeight(1, 6, 36, false, false, false);
+    // lineHeight(1, 21, 36, false, false, false);
 }
 int getClick_showMovie()
 {
@@ -616,7 +621,13 @@ void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleL
                 goto dashBoard_admin;
                 break;
             }
+            case 25:
+            {
 
+
+
+                break;
+            }
             default:
             {
                 choice = getClickAdmin_default();

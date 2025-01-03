@@ -379,46 +379,107 @@ Danh sách các combo:
 Mã giảm giá: 20
 Phương thức thanh toán: Chuyển khoản
 Tổng cộng: 195200
---------------------------------
-Mã vé: 23AImxD1IT
-Thời gian đặt vé: Mon Dec 23 19:57:54 2024
+--------------------------------Mã vé: ohxkIXv5QW
+Thời gian đặt vé: Fri Jan 03 16:59:03 2025
 
-Khách hàng: 
-Mã suất chiếu: S2
-Tên phim:Câu Chuyện Đồ Chơi
-Thời gian chiếu: 20:00 - 21:30 23/12/2024
-Danh sách ghế: G4 G5 
+Khách hàng: user1010
+Mã suất chiếu: S13
+Tên phim:Thám Tử Lừng Danh Conan
+Thời gian chiếu: 19:30 - 21:20 04/01/2025
+Danh sách ghế: E6 E5 
 Danh sách các combo: 
 1x Combo Vui vẻ
 /
-Mã giảm giá: 20
-Phương thức thanh toán: Chuyển khoản
-Tổng cộng: 83216
+Mã giảm giá: 
+Phương thức thanh toán: 
+Tổng cộng: 204000
 --------------------------------
-Mã vé: jHIHNg11NF
-Thời gian đặt vé: Mon Dec 23 19:59:49 2024
+Mã vé: xI061f6NX0
+Thời gian đặt vé: Fri Jan 03 16:59:42 2025
 
-Khách hàng: user1012
-Mã suất chiếu: S3
-Tên phim:Avatar
-Thời gian chiếu: 22:00 - 23:30 23/12/2024
-Danh sách ghế: D6 G4 
+Khách hàng: user1010
+Mã suất chiếu: S12
+Tên phim:Câu Chuyện Đồ Chơi
+Thời gian chiếu: 18:00 - 19:21 04/01/2025
+Danh sách ghế: D6 
+Danh sách các combo: 
+/
+Mã giảm giá: 
+Phương thức thanh toán: 
+Tổng cộng: 90000
+--------------------------------
+Mã vé: QZWOX9onk6
+Thời gian đặt vé: Fri Jan 03 17:18:18 2025
+
+Khách hàng: user1010
+Mã suất chiếu: S13
+Tên phim:Thám Tử Lừng Danh Conan
+Thời gian chiếu: 19:30 - 21:20 04/01/2025
+Danh sách ghế: G6 G5 F5 F6 
 Danh sách các combo: 
 1x Combo Vui vẻ
 1x Combo Hẹn hò
 /
 Mã giảm giá: 20
 Phương thức thanh toán: Chuyển khoản
-Tổng cộng: 257616
+Tổng cộng: 481600
 --------------------------------
-Mã vé: VktJS9ceF1
-Thời gian đặt vé: Tue Dec 24 01:19:40 2024
+Mã vé: 9bSROv9s4P
+Thời gian đặt vé: Fri Jan 03 17:31:26 2025
 
-Khách hàng: 
-Mã suất chiếu: S9
+Khách hàng: user1010
+Mã suất chiếu: S14
 Tên phim:Kẻ Đánh Cắp Giấc Mơ
-Thời gian chiếu: 20:10 - 22:38 30/12/2024
-Danh sách ghế: D5 D6 B6 B5 
+Thời gian chiếu: 15:00 - 17:28 05/01/2025
+Danh sách ghế: D5 D6 
+Danh sách các combo: 
+1x Combo Vui vẻ
+1x Combo Hẹn hò
+/
+Mã giảm giá: 20
+Phương thức thanh toán: Chuyển khoản
+Tổng cộng: 401600
+--------------------------------
+Mã vé: SXq8LpHrj6
+Thời gian đặt vé: Fri Jan 03 17:54:21 2025
+
+Khách hàng: user1010
+Mã suất chiếu: S11
+Tên phim:Kẻ Đánh Cắp Giấc Mơ
+Thời gian chiếu: 16:00 - 18:28 03/01/2025
+Danh sách ghế: D6 D5 E6 E5 
+Danh sách các combo: 
+1x Combo Vui vẻ
+1x Combo Hẹn hò
+/
+Mã giảm giá: 20
+Phương thức thanh toán: Chuyển khoản
+Tổng cộng: 481600
+--------------------------------
+Mã vé: qVG8AOyH84
+Thời gian đặt vé: Fri Jan 03 17:59:12 2025
+
+Khách hàng: user1010
+Mã suất chiếu: S12
+Tên phim:Câu Chuyện Đồ Chơi
+Thời gian chiếu: 18:00 - 19:21 04/01/2025
+Danh sách ghế: D4 D5 E4 E5 
+Danh sách các combo: 
+1x Combo Vui vẻ
+1x Combo Hẹn hò
+/
+Mã giảm giá: 20
+Phương thức thanh toán: Chuyển khoản
+Tổng cộng: 481600
+--------------------------------
+Mã vé: fpHxWbrkxv
+Thời gian đặt vé: Fri Jan 03 18:13:42 2025
+
+Khách hàng: user1010
+Mã suất chiếu: S15
+Tên phim:Câu Chuyện Đồ Chơi
+Thời gian chiếu: 14:00 - 15:21 04/01/2025
+Danh sách ghế: G4 G5 F4 F5 
 Danh sách các combo: 
 1x Combo Vui vẻ
 1x Combo Hẹn hò
@@ -427,34 +488,19 @@ Mã giảm giá:
 Phương thức thanh toán: Chuyển khoản
 Tổng cộng: 602000
 --------------------------------
-Mã vé: kkr8Gxf6Iq
-Thời gian đặt vé: Thu Jan 02 20:53:04 2025
+Mã vé: aRFaUAjOKZ
+Thời gian đặt vé: Fri Jan 03 22:46:34 2025
 
-Khách hàng: 
-Mã suất chiếu: S10
-Tên phim:Thám Tử Lừng Danh Conan
-Thời gian chiếu: 18:00 - 19:50 03/01/2025
-Danh sách ghế: E3 E4 
+Khách hàng: user1015
+Mã suất chiếu: S14
+Tên phim:Kẻ Đánh Cắp Giấc Mơ
+Thời gian chiếu: 15:00 - 17:28 05/01/2025
+Danh sách ghế: C5 C6 B5 B6 
 Danh sách các combo: 
 1x Combo Vui vẻ
 1x Combo Hẹn hò
 /
 Mã giảm giá: 20
 Phương thức thanh toán: Chuyển khoản
-Tổng cộng: 337600
---------------------------------
-Mã vé: Z9n51yTX3l
-Thời gian đặt vé: Thu Jan 02 22:15:19 2025
-
-Khách hàng: 
-Mã suất chiếu: S11
-Tên phim:Kẻ Đánh Cắp Giấc Mơ
-Thời gian chiếu: 16:00 - 18:28 03/01/2025
-Danh sách ghế: C5 C6 B5 B6 
-Danh sách các combo: 
-1x Combo Hẹn hò
-/
-Mã giảm giá: 20
-Phương thức thanh toán: Chuyển khoản
-Tổng cộng: 398400
+Tổng cộng: 481600
 --------------------------------
