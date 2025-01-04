@@ -401,7 +401,8 @@ void Booking::saveBookingToFile()
     file.close();
 }
 void Booking::loadBookingFromFile(DoubleLinkedList<Booking>& bookings,DoubleLinkedList<Customer>& customers)
-{
+{   
+    bookings.clear();
     ifstream file("../Databases/Booking.txt");
     string line;
     Booking* booking = nullptr;
@@ -1086,7 +1087,7 @@ void addShow(DoubleLinkedList<Show>& showList, Movie movieSelected, DoubleLinked
     string endTime;
     bool isValidStartTime=false;
     gotoXY(80,22);
-    cout<<"done display bar time";  
+    // cout<<"done display bar time";  
 
     borderLineWithTextAndColor(xTime+20,yTime+10,"Nhập thời gian bắt đầu suất chiếu (XX:YY):      ", BG_GREEN);
     while(!isValidStartTime){
@@ -1305,4 +1306,174 @@ void addShow(DoubleLinkedList<Show>& showList, Movie movieSelected, DoubleLinked
     
     ///save show to File
 
+}
+
+void topBestSellingTicket(DoubleLinkedList<Booking> &bookingList, DoubleLinkedList<Movie> &movieList, int x, int y){
+    
+    double totalMoneyOfMovie[100]={0};  // Khởi tạo với giá trị 0
+    int totalTicketOfMovie[100]={0};    // Khởi tạo với giá trị 0
+    DoubleLinkedList<Movie> movies;                      // Vector để lưu trữ phim và thông tin tương ứng
+    int movieCount = movieList.getSize();
+    int bookingCount = bookingList.getSize();
+    // Bước 1: Tính tổng doanh thu và số vé cho mỗi phim
+    int index = 0;
+    for(Node<Movie>* movieNode = movieList.begin(); movieNode != nullptr; movieNode = movieNode->next) {
+        double currentRevenue = 0;
+        int currentTickets = 0;
+
+        // Tính tổng cho phim hiện tại
+        for(Node<Booking>* bookingNode = bookingList.begin(); bookingNode != nullptr; bookingNode = bookingNode->next) {
+            if(movieNode->data.getTitle() == bookingNode->data.getShow()->getMovie()->getTitle()) {
+                currentRevenue += bookingNode->data.getTotalPrice();
+                currentTickets += bookingNode->data.getSeats().getSize();
+            }
+        }
+        
+        totalMoneyOfMovie[index] = currentRevenue;
+        totalTicketOfMovie[index] = currentTickets;
+        movies.push_back(movieNode->data);
+        index++;
+    }
+    // Bước 2: Sắp xếp theo doanh thu (sử dụng bubble sort)
+    for(int i = 0; i < movieCount - 1; i++) {
+        for(int j = 0; j < movieCount - i - 1; j++) {
+            if(totalMoneyOfMovie[j] < totalMoneyOfMovie[j + 1]) {
+                // Hoán đổi doanh thu
+                swap(totalMoneyOfMovie[j], totalMoneyOfMovie[j + 1]);
+                // Hoán đổi số vé
+                swap(totalTicketOfMovie[j], totalTicketOfMovie[j + 1]);
+                // Hoán đổi thông tin phim
+                swap(movies[j], movies[j + 1]);
+            }
+        }
+    }
+    for(int i=0; i<index;i++){
+        borderLineWithTextAndColor(x,y+i*3,"Tên phim: "+movies[i].getTitle(),BG_GRAY);
+        borderLineWithTextAndColor(x+50,y+i*3,"Tổng vé đã bán: "+addSpaceToPrintMoney(totalTicketOfMovie[i]),BG_CYAN);
+        borderLineWithTextAndColor(x+80,y+i*3,"Tổng doanh thu: "+addSpaceToPrintMoney(totalMoneyOfMovie[i]),BG_GREEN);
+    }
+}
+string convertBookingTimeToSimple(string bookingTime){
+    string result="";
+    result+=bookingTime.substr(0,2)+"/"+bookingTime.substr(3,2)+"/"+bookingTime.substr(6,4);
+    return result;
+}
+bool compareDate(string date1, string date2){
+    if(stoi(date1.substr(6,4))>stoi(date2.substr(6,4))){
+        return true;
+    }
+    else if(stoi(date1.substr(6,4))==stoi(date2.substr(6,4))){
+        if(stoi(date1.substr(3,2))>stoi(date2.substr(3,2))){
+            return true;
+        }
+        else if(stoi(date1.substr(3,2))==stoi(date2.substr(3,2))){
+            if(stoi(date1.substr(0,2))>stoi(date2.substr(0,2))){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+void totalMoneyOf12MonthsInYear(DoubleLinkedList<Booking> bookingList, int x, int y){
+    string dateStart="01/06/2024";
+    string dateEnd="04/01/2025";
+    int totalMoneyOf12Months[14]={0};
+    int totalTicketOf12Months[14]={0};
+    int i=0;
+    for(Node<Booking>* node = bookingList.begin(); node != nullptr; node = node->next){
+        if(compareDate(node->data.getShow()->getDate(),dateStart)==true && compareDate(node->data.getShow()->getDate(),dateEnd)==false){
+            // cout<<"checkkkk"<<endl;
+            int month=stoi(node->data.getShow()->getDate().substr(3,2));
+            // cout<<"ono"<<month<<endl;
+            if(month==1){
+                totalMoneyOf12Months[12]+=node->data.getTotalPrice();
+                totalTicketOf12Months[12]+=node->data.getSeats().getSize();
+            }
+            totalMoneyOf12Months[month-1]+=node->data.getTotalPrice();
+            totalTicketOf12Months[month-1]+=node->data.getNumberOfSeats();
+        }
+    }
+    for(int i=12;i>=8;i--){
+        if(i==12){
+            borderLineWithTextAndColor(x,y+i*3,"Tháng "+to_string(1)+"/2025",BG_CYAN);
+            borderLineWithTextAndColor(x+50,y+i*3,"Tổng vé đã bán: "+to_string(totalTicketOf12Months[i]),BG_CYAN);
+            borderLineWithTextAndColor(x+80,y+i*3,"Tổng doanh thu: "+addSpaceToPrintMoney(totalMoneyOf12Months[i]),BG_CYAN);
+        }
+        else{
+            borderLineWithTextAndColor(x,y+i*3,"Tháng "+to_string(i+1)+"/2024",BG_CYAN);
+            borderLineWithTextAndColor(x+50,y+i*3,"Tổng vé đã bán: "+to_string(totalTicketOf12Months[i]),BG_CYAN);
+            borderLineWithTextAndColor(x+80,y+i*3,"Tổng doanh thu: "+addSpaceToPrintMoney(totalMoneyOf12Months[i]),BG_CYAN);
+        }
+    }
+}
+void totalMoneyOfWeek(DoubleLinkedList<Booking> bookingList,int month, int x, int y){
+    // get monday and sunday of week in parameter month
+    string pairMondayAndSunday[10];
+    if(month==12){
+        pairMondayAndSunday[0]="02/12/2024";
+        pairMondayAndSunday[1]="08/12/2024";
+        pairMondayAndSunday[2]="09/12/2024";
+        pairMondayAndSunday[3]="15/12/2024";
+        pairMondayAndSunday[4]="16/12/2024";
+        pairMondayAndSunday[5]="22/12/2024";
+        pairMondayAndSunday[6]="23/12/2024";
+        pairMondayAndSunday[7]="29/12/2024";
+    }
+    else if (month==11){
+        pairMondayAndSunday[0]="04/11/2024";
+        pairMondayAndSunday[1]="10/11/2024";
+        pairMondayAndSunday[2]="11/11/2024";
+        pairMondayAndSunday[3]="17/11/2024";
+        pairMondayAndSunday[4]="18/11/2024";
+        pairMondayAndSunday[5]="24/11/2024";
+        pairMondayAndSunday[6]="25/11/2024";
+        pairMondayAndSunday[7]="01/12/2024";
+    }
+    else if (month==10){
+        pairMondayAndSunday[0]="07/10/2024";
+        pairMondayAndSunday[1]="13/10/2024";
+        pairMondayAndSunday[2]="14/10/2024";
+        pairMondayAndSunday[3]="20/10/2024";
+        pairMondayAndSunday[4]="21/10/2024";
+        pairMondayAndSunday[5]="27/10/2024";
+        pairMondayAndSunday[6]="28/10/2024";
+        pairMondayAndSunday[7]="03/11/2024";
+
+    }
+    else if( month==9){
+        pairMondayAndSunday[0]="02/09/2024";
+        pairMondayAndSunday[1]="08/09/2024";
+        pairMondayAndSunday[2]="09/09/2024";
+        pairMondayAndSunday[3]="15/09/2024";
+        pairMondayAndSunday[4]="16/09/2024";
+        pairMondayAndSunday[5]="22/09/2024";
+        pairMondayAndSunday[6]="23/09/2024";
+        pairMondayAndSunday[7]="29/09/2024";
+    }
+    int totalMoneyOfWeek[10]={0};
+    int totalTicketOfWeek[10]={0};
+    int i=0;
+    for(Node<Booking>* node = bookingList.begin(); node != nullptr; node = node->next){
+        if(compareDate(node->data.getShow()->getDate(), pairMondayAndSunday[0]) && !compareDate(node->data.getShow()->getDate(), pairMondayAndSunday[1])){
+            totalMoneyOfWeek[0]+=node->data.getTotalPrice();
+            totalTicketOfWeek[0]+=node->data.getSeats().getSize();
+        }
+        if(compareDate(node->data.getShow()->getDate(), pairMondayAndSunday[2]) && !compareDate(node->data.getShow()->getDate(), pairMondayAndSunday[3])){
+            totalMoneyOfWeek[1]+=node->data.getTotalPrice();
+            totalTicketOfWeek[1]+=node->data.getSeats().getSize();
+        }
+        if(compareDate(node->data.getShow()->getDate(), pairMondayAndSunday[4]) && !compareDate(node->data.getShow()->getDate(), pairMondayAndSunday[5])){
+            totalMoneyOfWeek[2]+=node->data.getTotalPrice();
+            totalTicketOfWeek[2]+=node->data.getSeats().getSize();
+        }
+        if(compareDate(node->data.getShow()->getDate(), pairMondayAndSunday[6]) && !compareDate(node->data.getShow()->getDate(), pairMondayAndSunday[7])){
+            totalMoneyOfWeek[3]+=node->data.getTotalPrice();
+            totalTicketOfWeek[3]+=node->data.getSeats().getSize();
+        }
+    }
+    for(int i=0;i<4;i++){
+        borderLineWithTextAndColor(x,y+i*3,"Tuần "+to_string(i+1) + " Tháng "+ to_string(month),BG_CYAN);
+        borderLineWithTextAndColor(x+30,y+i*3,"Tổng vé đã bán: "+to_string(totalTicketOfWeek[i]),BG_CYAN);
+        borderLineWithTextAndColor(x+50,y+i*3,"Tổng doanh thu: "+addSpaceToPrintMoney(totalMoneyOfWeek[i]),BG_CYAN);
+    }
 }

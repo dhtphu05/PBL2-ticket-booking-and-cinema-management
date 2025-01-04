@@ -269,6 +269,10 @@ public:
         tail = nullptr;
         size = 0;
     }
+    void swap(Type &a, Type &b){
+        Node<Type> *current = head;
+        
+    }
 };
 
 #endif

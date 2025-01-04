@@ -39,7 +39,7 @@ void header_admin(string str1)
     gotoXY(92, 1);
     cout << "🎫 Đặt vé  " << endl;
     gotoXY(112, 1);
-    cout << "⚙️ Cài đặt  " << endl;
+    // cout << "⚙️ Cài đặt  " << endl;
     gotoXY(130, 1);
     cout << "\033[1;31m" << "👤 " + str1 << "\033[0m" << endl;
 }
@@ -585,6 +585,24 @@ void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleL
             case 19:
             {
                 // admin->revenue();
+                system("cls");
+                menuAdmin_default(*admin);
+                Booking b;
+                b.loadBookingFromFile(bookingList,customerList);
+                borderLineWithTextAndColor(40, 5, "Doanh thu theo:            ");
+                gotoXY(57, 5);
+                string date;
+                getString(date, 57, 6);
+                if(date=="Tháng"){
+                    totalMoneyOf12MonthsInYear(bookingList, 40, 8);
+                }
+                else {
+                    int month=stoi(date.substr(0,2));
+                    totalMoneyOfWeek(bookingList,month,40,8);
+                }
+                click = processInputEvents();
+                system("cls");
+                goto dashBoard_admin;
                 break;
             }
             case 20:
@@ -623,7 +641,14 @@ void dashBoard_admin(Admin *admin,DoubleLinkedList<Booking> &bookingList,DoubleL
             }
             case 25:
             {
-
+                system("cls");
+                menuAdmin_default(*admin);
+                Booking b;
+                b.loadBookingFromFile(bookingList,customerList);
+                topBestSellingTicket(bookingList, movieList, 40,5);
+                click = processInputEvents();
+                system("cls");
+                goto dashBoard_admin;
 
 
                 break;

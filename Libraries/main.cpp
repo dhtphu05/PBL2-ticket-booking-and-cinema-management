@@ -85,7 +85,7 @@ void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customer
             //! chui vo day
             break;
         case 4:
-            // Thêm chức năng khác, ví dụ: Xem dịch vụ
+            // Thêm c/hức năng khác, ví dụ: Xem dịch vụ
             system("cls");
             menu_header("🧑" + customer->getUserName(), "Quay lại");
             gotoXY(50, 20);
