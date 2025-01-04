@@ -13,7 +13,7 @@ class Screen{
     int ID_Screen;
     DoubleLinkedList<Seat> seatLayout;
 
-
+    
     Screen();
     Screen(int ID_Screen, DoubleLinkedList<Seat> seatLayout);
     int getID_screen();
@@ -30,10 +30,14 @@ class Screen{
     Screen selectScreen();
     void displayScreenSimpleLayout();
     void displayAllScreenSimpleLayout(DoubleLinkedList<Screen> &screens);
-    Screen* selectScreen(int ID_screen);
+    Screen* selectScreen(DoubleLinkedList<Screen>& screens,int ID_screen);
     friend void printScreen(Screen* screen);
-    
+    int getNumberOfRegularSeat();
+    int getNumberOfVIPSeat();
+    int getNumberOfSeat(){
+        return seatLayout.getSize();
+    }
 
 };
-#endif
+#endif // SCREEN_H
 

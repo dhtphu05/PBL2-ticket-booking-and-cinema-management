@@ -38,6 +38,7 @@ class Seat{
 
     virtual void displaySeat() ;
     void loadSeatFromFile();
+    string convertSeatTypeToString();
 
 };
 
@@ -72,5 +73,7 @@ class ShowSeat: public Seat{
     void bookSeat(const string time="");
     void cancelSeat();
     void displaySeat()  override;
+    string convertSeatTypeToSimpleString();
+    bool operator==(ShowSeat& seat) ;
 
 };

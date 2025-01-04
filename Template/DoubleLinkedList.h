@@ -202,6 +202,77 @@ public:
     {
         return size;
     }
+    void remove(Type &data){
+        Node<Type> *current = head;
+        while(current!=nullptr){
+            if(current->data==data){
+                if(current==head){
+                    pop_front();
+                    return;
+                }
+                if(current==tail){
+                    pop_back();
+                    return;
+                }
+                current->prev->next = current->next;
+                current->next->prev = current->prev;
+                delete current;
+                this->size--;
+                return;
+            }
+            current = current->next;
+        }
+    }
+    //! mowi them vo de fix loi customer
+    DoubleLinkedList(const DoubleLinkedList& other) : head(nullptr), tail(nullptr), size(0)
+    {
+        Node<Type>* current = other.head;
+        while (current != nullptr)
+        {
+            push_back(current->data);
+            current = current->next;
+        }
+    }
+
+    // Assignment operator
+    DoubleLinkedList& operator=(const DoubleLinkedList& other)
+    {
+        if (this != &other)
+        {
+            // Clear existing list
+            while (head != nullptr)
+            {
+                Node<Type>* temp = head;
+                head = head->next;
+                delete temp;
+            }
+            tail = nullptr;
+            size = 0;
+
+            // Copy from other list
+            Node<Type>* current = other.head;
+            while (current != nullptr)
+            {
+                push_back(current->data);
+                current = current->next;
+            }
+        }
+        return *this;
+    }
+    void clear(){
+        while (head != nullptr)
+        {
+            Node<Type>* temp = head;
+            head = head->next;
+            delete temp;
+        }
+        tail = nullptr;
+        size = 0;
+    }
+    void swap(Type &a, Type &b){
+        Node<Type> *current = head;
+        
+    }
 };
 
 #endif

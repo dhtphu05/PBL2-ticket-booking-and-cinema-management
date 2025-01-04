@@ -29,7 +29,7 @@ public:
         this->ID = id;
     }
     void setGender(string &);
-    void setPassword(string &);
+    void setPassword(string &); 
     void setPhoneNumber(string &);
     void setUserName(string &);
     void resetPassword(string &);
@@ -45,6 +45,36 @@ public:
     virtual void savetoFile();
     virtual void readfromFile();
     virtual void saveAgainFile();
+    void addMovie()
+    {
+        Movie movie;
+        movie.addMovie();
+    }
+    void editMovie()
+    {
+        Movie movie;
+        movie.editMovie();
+    }
+    void removeMovie()
+    {
+        Movie movie;
+        movie.removeMovie();
+    }
+    void showMovie(DoubleLinkedList<Movie> &movieList, int currentPage, int moviePerPage, int k)
+    {
+        Movie movie;
+        movie.show(movieList, currentPage, moviePerPage, k);
+    }
+    void searchMovie(string &line)
+    {
+        Movie movie;
+        movie.searchMovie(line);
+    }
+    void sort_rating(DoubleLinkedList<Movie> &movieList)
+    {
+        Movie movie;
+        movie.sort_rating(movieList);
+    }
 };
 
 // class Management

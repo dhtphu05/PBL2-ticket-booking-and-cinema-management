@@ -13,15 +13,17 @@ Screen::Screen(){
     this->seatLayout = DoubleLinkedList<Seat>();
 }
 
-
+DoubleLinkedList<Seat> Screen::getSeatLayout(){
+    return this->seatLayout;
+}
 void Screen::loadScreenFromFile(DoubleLinkedList<Screen> &screens) {
     ifstream file("../Databases/Screen.txt");
+    screens.clear();
+
     if (!file.is_open()) {
         cout << "Error opening Screen.txt for reading" << endl;
         return;
     }
-
-
     string line, key;
     Screen* currentScreen = nullptr;
 
@@ -103,20 +105,12 @@ void Screen::loadScreenFromFile(DoubleLinkedList<Screen> &screens) {
             }
         }
     }
-
-
     // Thêm màn hình cuối cùng vào danh sách nếu có
     if (currentScreen != nullptr) {
         screens.push_back(*currentScreen);
          // Free the previous screen's memory
     }
 
-    if (currentScreen != nullptr) {
-        screens.push_back(*currentScreen);
-         // Free the previous screen's memory
-    }
-
-    file.close();
 }
 
 
@@ -126,6 +120,7 @@ void Screen::displayScreen(){
     for(Node<Seat>* node = this->seatLayout.begin(); node != nullptr; node = node->next){
         Seat seat = node->data;
         seat.displaySeat();
+        cout<<endl;
     }
 }
 void Screen::displayAllScreen(DoubleLinkedList<Screen> &screens){
@@ -190,7 +185,6 @@ bool Screen::saveScreenToFile(DoubleLinkedList<Screen> screens){
        
         file << endl;
          file<<"# NextScreen"<<endl;
-         file<<"# NextScreen"<<endl;
         current = current->next;
     }
     file.close();
@@ -235,18 +229,10 @@ void Screen::displayScreenSimpleLayout(){
    
     cout<<endl;
 }
-void Screen::displayAllScreenSimpleLayout(DoubleLinkedList<Screen> &screens){
+Screen* Screen::selectScreen(DoubleLinkedList<Screen>&screens,int ID_screen){
     for(Node<Screen>* node = screens.begin(); node != nullptr; node = node->next){
-        node->data.displayScreenSimpleLayout();
-        cout<<"# NextScreen"<<endl;
-    }
-}
-Screen* Screen::selectScreen(int ID_screen){
-    DoubleLinkedList<Screen> screens;
-    Screen screen;
-    screen.loadScreenFromFile(screens);
-    for(Node<Screen>* node = screens.begin(); node != nullptr; node = node->next){
-        if(node->data.ID_Screen==ID_screen){
+        if(node->data.getID_screen()==ID_screen){
+            // cout<<"huhu"<<node->data.getID_screen()<<"huhu"<<endl;
             return &node->data;
         }
     }
@@ -257,46 +243,62 @@ Screen* Screen::selectScreen(int ID_screen){
 int Screen::getID_screen(){
     return ID_Screen;
 }
-void Screen::displayScreenSimpleLayout(){
-    cout<<"Screen ID: "<<this->ID_Screen<<endl;
-    cout<<"Screen Layout: "<<endl;
-    int rowIdx = 0;
-    for(Node<Seat>* node = this->seatLayout.begin(); node != nullptr; node = node->next){
-        Seat seat = node->data;
-        if(seat.getType()==SeatType::VIP){
-                cout << "V ";
-            } else if(seat.getType()==SeatType::Regular){
-                cout << "R ";
-            } else if(seat.getType()==SeatType::Disable){
-                cout << "D ";
-            }
-            cout<<" ";
-            if(seat.getSeatColumn()==9){
-                cout << endl;
-            }
-        
-    }
-    
-    cout<<endl;
-}
+
 void Screen::displayAllScreenSimpleLayout(DoubleLinkedList<Screen> &screens){
     for(Node<Screen>* node = screens.begin(); node != nullptr; node = node->next){
         node->data.displayScreenSimpleLayout();
         cout<<"# NextScreen"<<endl;
     }
 }
-Screen* Screen::selectScreen(int ID_screen){
-    DoubleLinkedList<Screen> screens;
-    Screen screen;
-    screen.loadScreenFromFile(screens);
-    for(int i=0;i<screens.getSize();i++){
-        if(screens[i].ID_Screen==ID_screen){
-            return new Screen(screens[i]);
-        }
-    }
-    return nullptr;
-}
+
 void printScreen(Screen* screen){
     cout<<screen->getID_screen()<<endl;
 }
-
+void addScreen(DoubleLinkedList<Screen> &screens){
+    int x =120;
+    int y = 10;
+    Screen screen;
+    gotoXY(x+26,y);
+    cin>>screen.ID_Screen;
+    cout<<"Enter the layout of the screen: "<<endl;
+    cout<<"Enter V for VIP seat, R for Regular seat, D for Disable seat"<<endl;
+    for(int i=0;i<10;i++){
+        for(int j=0;j<10;j++){
+            cout<<"Enter the type of seat at row "<<to_string(i+'A')<<" and column "<<j<<": ";
+            string type;
+            cin>>type;
+            Seat seat;
+            seat.setSeatRow(to_string(i+'A'));
+            seat.setSeatColumn(j);
+            if(type=="V"){
+                seat.setType(SeatType::VIP);
+            } else if(type=="R"){
+                seat.setType(SeatType::Regular);
+            } else if(type=="D"){
+                seat.setType(SeatType::Disable);
+            }
+            screen.seatLayout.push_back(seat);
+        }
+    }
+    if(!screen.saveScreenToFile(screens)){
+        cout<<"Failed to save screen record."<<endl;
+    }
+}
+int Screen::getNumberOfRegularSeat(){
+    int count = 0;
+    for(Node<Seat>* node = this->seatLayout.begin(); node != nullptr; node = node->next){
+        if(node->data.getType()==SeatType::Regular){
+            count++;
+        }
+    }
+    return count;
+}
+int Screen::getNumberOfVIPSeat(){
+    int count = 0;
+    for(Node<Seat>* node = this->seatLayout.begin(); node != nullptr; node = node->next){
+        if(node->data.getType()==SeatType::VIP){
+            count++;
+        }
+    }
+    return count;
+}

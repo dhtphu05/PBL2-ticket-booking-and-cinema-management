@@ -1,7 +1,8 @@
 {
+  "version": "2.0.0",
   "configurations": [
     {
-      "name": "(Windows) Launch",
+      "name": "(Windows) Launch Active File",
       "type": "cppvsdbg",
       "request": "launch",
       "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
@@ -31,6 +32,5 @@
         }
       ]
     }
-  ],
-  "version": "2.0.0"
+  ]
 }

@@ -1,358 +1,199 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cctype>
 #include <windows.h>
-#include "Movie.cpp"
+// #include "Movie.cpp"
+// #include "customer.cpp"
 #include "staff.cpp"
 #include "admin.cpp"
 #include "login.cpp"
-#include "User.cpp"
+// #include "User.cpp"
+#include "conio.h"  
+#include "movie.cpp"
+#include <cmath>
+#include "../Include/menu.h"
+// #include "../Include/Booking.h"
+#include "Booking.cpp"
+#define byte windows_byte
+#include <windows.h>
+#undef byte 
 using namespace std;
-void gotoXY(int x, int y)
+// todo: chỉnh sửa exception ở movie và thêm events nữa với làm báo cáo nữa chứ sắp hết time ôn thi rồi huhuh
+// todo: còn cái kiểm tra username tồn tại hay chưa nữa, à và cái regex cho them file chỗ phim nữa
+
+int getMouseDashBoardCustomer()
 {
-    // Lấy handle đến console
-    HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
+    click = processInputEvents();
+    x_click = click.X;
+    y_click = click.Y;
+    if (x_click >= 100 && x_click <= 120 && y_click >= 1 && y_click <= 3)
+    {
+        return 1; // trang ca nhan
+    }
+    if (x_click >= 130 && x_click <= 150 && y_click >= 1 && y_click <= 3)
+    {
 
-    // Tạo biến COORD để chứa tọa độ
-    COORD CursorPosition;
-    CursorPosition.X = x;
-    CursorPosition.Y = y;
-
-    // Thiết lập vị trí con trỏ
-    SetConsoleCursorPosition(console, CursorPosition);
+        return 2; // dang xuat
+    }
+    if (x_click >= 8 && x_click <= 18 && y_click >= 1 && y_click <= 3)
+    {
+        return 3; // mua ve
+    }
+    if (x_click >= 30 && x_click <= 40 && y_click >= 1 && y_click <= 3)
+    {
+        return 4; // phim
+    }
+    if (x_click >= 45 && x_click <= 55 && y_click >= 1 && y_click <= 3)
+    {
+        return 5; // su kien
+    }
+    if (x_click >= 60 && x_click <= 70 && y_click >= 1 && y_click <= 3)
+    {
+        return 6; // tim kiem;
+    }
+    return 0;
 }
-
-void menuStaff()
+void dashBoard_customer(Customer *customer, DoubleLinkedList<Customer> &customerList,DoubleLinkedList<Booking> &bookingList, DoubleLinkedList<Show> &shows, DoubleLinkedList<Screen> &screens, DoubleLinkedList<Movie> &movies)
 {
-    cout << "+==========================================+" << endl;
-    cout << "|            SYSTEM MANAGEMENT             |" << endl;
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Manage MOVIES                       |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. Manage CUSTOMERS                    |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. LOG OUT                             |" << endl;
-    cout << "+==========================================+" << endl;
-}
+    bool loggedIn = true;
+    int choice;
 
-void menuAdmin()
-{
-    cout << "+==========================================+" << endl;
-    cout << "|              SYSTEM MANAGEMENT            |" << endl;
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Manage EMPLOYEES                    |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. Manage CUSTOMERS                    |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. Manage MOVIES                       |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  4. LOG OUT                             |" << endl;
-    cout << "+==========================================+" << endl;
-}
+    while (loggedIn)
+    {
+        // Hiển thị menu chính
+        system("cls");
+        menuLogin("🧑" + customer->getUserName(), "Đăng xuất");
 
-void menuAdmin_s()
-{
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Add Staff                            |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. View Staff List                      |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. Edit Staff                           |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  4. Delete Staff                         |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  5. Exit                                |" << endl;
-    cout << "+==========================================+" << endl;
-}
+        // int a;cin>>a;
+        // return;
+        // Lấy lựa chọn từ người dùng
+        choice = getMouseDashBoardCustomer();
 
-void menuAdmin_c()
-{
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Add Customer                         |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. View Customer List                   |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. Edit Customer                        |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  4. Delete Customer                      |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  5. Exit                                |" << endl;
-    cout << "+==========================================+" << endl;
-}
+        // Xử lý lựa chọn                   
+        Booking booking;
+        switch (choice)
+        {
+        case 1:
+            // Hiển thị thông tin cá nhân 
+            system("cls");
+            menu_header("🧑" + customer->getUserName(), "Quay lại");
+            // choice = getMouseDashBoardCustomer();
+            // hàm này ở menu.h nhé
+            profilePage(customer, customerList, bookingList); // hàm này ở menu.h n hé
+            //! chui vo day
+            break;
+        case 4:
+            // Thêm c/hức năng khác, ví dụ: Xem dịch vụ
+            system("cls");
+            menu_header("🧑" + customer->getUserName(), "Quay lại");
+            gotoXY(50, 20);
+            cout << "Phim";
+            choice = getMouseDashBoardCustomer();
+            // viewServices(customer); // Hàm xử lý dịch vụ
+            break;
 
-void menuAdmin_f()
-{
-    cout << "+==========================================+" << endl;
-    cout << "|  1. Add Movie                           |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  2. Edit Movie                          |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  3. Delete Movie                        |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  4. View Movie List                     |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  5. Search Movie                        |" << endl;
-    cout << "+------------------------------------------+" << endl;
-    cout << "|  6. Exit                                |" << endl;
-    cout << "+==========================================+" << endl;
+        case 3:
+            //! mua vé
+            system("cls");
+            booking.setCustomer(customer);
+            menu_header("🧑" + customer->getUserName(), "Quay lại");
+            buyTicket(customer, booking, shows,screens,movies);
+            choice = getMouseDashBoardCustomer();
+            // viewTransactionHistory(customer); // Hàm xử lý lịch sử
+            break;
+
+        case 2:
+            // Đăng xuất
+            loggedIn = false;
+
+            break;
+        default:
+            // Lựa chọn không hợp lệ
+            choice = getMouseDashBoardCustomer();
+            break;
+        }
+    }
 }
 
 int main()
 {
+    DoubleLinkedList<Admin> adminList;
+    DoubleLinkedList<Staff> staffList;
+    DoubleLinkedList<Customer> customerList;
+    DoubleLinkedList<Movie> movieList;
+    DoubleLinkedList<Booking> bookingList;
+    int k;
+    User *user = new User();
+    SetConsoleOutputCP(65001);
+    SetConsoleCP(CP_UTF8);
+    //    cout <<"HIHI XIN CHÀO MỌI NGƯỜI";
+    Booking booking;
+    DoubleLinkedList<Screen> screens;
+    Screen screen;
+    screen.loadScreenFromFile(screens);
+    Movie movie;
+    movie.readFile(movieList);
+    DoubleLinkedList<Show> shows;
+    Show show;
+    show.loadShowFromFile(shows, screens);
 
+// booking.sellTicket(shows,screens,movieList);
+
+// show.displayAllShow(shows);
+// Node<Show> *current = shows.begin();
+
+// layoutBorderSeat(&current->data);
+// booking.sellTicket(shows,screens,movies);
+dashboard:
     bool loggedIn = false;
-    int log = logIn();
+dashboard_main:
+
+    int log = logIn(adminList, staffList, customerList, k);
     // int log =1;
-    if (log==1)
-    {
-        loggedIn = true;
-        Admin admin;
-        bool running = true;
-        while (loggedIn)
-        {
-            // bool running = true;
-            while (running)
-            {
-                menuAdmin();
-                int choice;
-                cout << "Please enter your choice: ";
-                cin >> choice;
-                switch (choice)
-                {
-                case 1:
-                {
-                    system("cls");
-                    menuAdmin_s();
-                    int choice;
-                    cout << "Please enter your choice: ";
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        admin.addStaff();
-                        break;
-                    case 2:
-                        system("cls");
-                        admin.showStaff();
-                        break;
-                    case 3:
-                        system("cls");
-                        admin.editStaff();
-                        break;
-                    case 4:
-                        system("cls");
-                        admin.removeStaff();
-                        break;
-                    case 5:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
-                    break;
-                }
-                case 2:
-                {
-                    system("cls");
-                    int choice;
-                    menuAdmin_c();
-                    cout << "Please enter your choice: ";
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        admin.addCustomer();
-                        break;
-                    case 2:
-                        system("cls");
-                        admin.showCustomer();
-                        break;
-                    case 3:
-                        system("cls");
-                        admin.editCustomer();
-                        break;
-                    case 4:
-                        system("cls");
-                        admin.removeCustomer();
-                        break;
-                    case 5:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
-                    break;
-                }
-                case 3:
-                {
-                    system("cls");
-                    Movie movie;
-                    int choice;
-                    menuAdmin_f();
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        movie.addMovie();
-                        break;
-                    case 2:
-                        system("cls");
-                        movie.editMovie();
-                        break;
-                    case 3:
-                        system("cls");
-                        movie.removeMovie();
-                        break;
-                    case 4:
-                        system("cls");
-                        movie.show();
-                        break;
-                    case 5:
-                        system("cls");
-                        movie.searchMovie();
-                        break;
-                    case 6:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
-                    break;
-                }
-                case 4:
-                {
-                    running = false;
-                    loggedIn = false;
-                    main();
-                    break;
-                }
 
-                break;
-                }
-            }
-        }
+    if (log == 1) // nguoi dung là admin
+    {
+        Admin *admin = &adminList[k];
+        dashBoard_admin(admin,bookingList,shows,screens, movieList,staffList,customerList);//hàm này ở menu.h nhé
+        system("cls");
+        menuLogin("Đăng nhập", "Đăng ký");
+
+        goto dashboard_main;
     }
-    else if (log == 2)
+    else if (log == 2) // nguoi dung là staff
     {
-        loggedIn = true;
-        Staff staff;
-        bool running = true;
-        while (loggedIn)
-        {
-            // bool running = true;
-            while (running)
-            {
-                menuStaff();
-                int choice;
-                cout << "Please enter your choice: ";
-                cin >> choice;
-                switch (choice)
-                {
-                case 1:
-                {
-                    system("cls");
-                    Movie movie;
-                    int choice;
-                    menuAdmin_f();
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        movie.addMovie();
-                        break;
-                    case 2:
-                        system("cls");
-                        movie.editMovie();
-                        break;
-                    case 3:
-                        system("cls");
-                        movie.removeMovie();
-                        break;
-                    case 4:
-                        system("cls");
-                        movie.show();
-                        break;
-                    case 5:
-                        system("cls");
-                        movie.searchMovie();
-                        break;
-                    case 6:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
-                    break;
-                }
-
-                case 2:
-                {
-                    system("cls");
-                    int choice;
-                    menuAdmin_c();
-                    cout << "Please enter your choice: ";
-                    cin >> choice;
-                    switch (choice)
-                    {
-                    case 1:
-                        system("cls");
-                        staff.addCustomer();
-                        break;
-                    case 2:
-                        system("cls");
-                        staff.showCustomer();
-                        cout << "Press Enter to continue..." << endl;
-                        cin.ignore();
-                        cin.get();
-                        break;
-
-                    case 3:
-                        system("cls");
-                        staff.editCustomer();
-                        break;
-                    case 4:
-                        system("cls");
-                        staff.removeCustomer();
-                        break;
-                    case 5:
-                        break;
-                    default:
-                        cout << "Invalid choice!" << endl;
-                        break;
-                    }
-                    break;
-                }
-                case 3:
-                {
-                    running = false;
-                    loggedIn = false;
-                    main();
-                    break;
-                }
-                default:
-                    cout << "Invalid choice!" << endl;
-                    break;
-                }
-            }
-        }
     }
     else if (log == 3)
     {
-        main();
+        
+        Customer *customerPtr = &customerList[k]; 
+        dashBoard_customer(customerPtr, customerList, bookingList, shows, screens, movieList);
+        system("cls");
+
+        goto dashboard_main;
     }
     else if (log == 4)
     {
-        cout << "WELCOME TO OUR PROGRAM" << endl;
-        main();
+
+        Customer *customer = &customerList[customerList.getSize() - 1];
+        dashBoard_customer(customer, customerList, bookingList, shows, screens, movieList);
+        // system("cls");
+        click = processInputEvents();
+        int xclick, yclick;
+        xclick = click.X;
+        yclick = click.Y;
+        if (xclick > 10 && xclick < 100 && yclick > 25 && yclick < 40)
+        {
+            booking.sellTicket(shows, screens, movieList);
+            return 0;
+        }
+        goto dashboard_main;
     }
     else
     {
-        cout << "Invalid choice!" << endl;
+        cout << "Lựa chọn không hợp lệ!" << endl;
     }
     return 0;
 }

@@ -1,17 +1,25 @@
 ID_Screen: 1
 Layout:
+R R D R R R R R R R
+R R D R R R R R R R
+R R D V V V V R R R
+R R D V V V V R R R
+R R D R R R R R R R
+R R D R R R R R R R
+R R D V V V V R R R
+R R D V V V V R R R
+R R D R R R R R R R
+R R D R R R R R R R
 
-# NextScreen
-ID_Screen: 1866282144
+ID_Screen: 2
 Layout:
-R R R R R R 
-R R R R R R R R R R 
-R R R R R R R R R R 
-R R R R R R R R R R 
-R R R R R R R R R R 
-R R R R R R R R R R 
-R R R R R R R R R R 
-R R R R R R R R R R 
-R R R R R R R R R R 
-
-# NextScreen
+V V V V V V V V V V
+V V V V V V V V V V
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R
+R R R R R R R R R R

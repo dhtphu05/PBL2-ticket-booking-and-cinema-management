@@ -1,33 +1,120 @@
 #2001
-Title: hihi
-Genre: Adventure, Fantasy
-Duration: 125 minutes
-Release Date: 3-5-2001
-Director: Hayao Miyazaki
-Actors: Rumi Hiiragi, Miyu Irino
-Country of Origin: Japan
-Description: A girl falls into the spirit world and must overcome challenges to save her parents.
-Rating: 8.6/10
+Tên phim: Titanic
+Thể loại: Tâm lý, Lãng mạn
+Thời lượng: 195 phút
+Ngày phát hành: 19-12-1997
+Đạo diễn: James Cameron
+Diễn viên: Leonardo DiCaprio, Kate Winslet
+Quốc gia: Mỹ
+Nội dung: Một chuyện tình lãng mạn diễn ra trên con tàu định mệnh Titanic.
+Đánh giá: 5/5
+File ảnh: titanic.txt
+
+#2002
+Tên phim: Thám Tử Lừng Danh Conan
+Thể loại: Bí ẩn, Hoạt hình
+Thời lượng: 110 phút
+Ngày phát hành: 21-4-1997
+Đạo diễn: Kenji Kodama
+Diễn viên: Minami Takayama, Wakana Yamazaki
+Quốc gia: Nhật Bản
+Nội dung: Một thám tử trung học bị biến thành đứa trẻ tiếp tục phá án.
+Đánh giá: 4/5
+File ảnh: detectiveConan.txt
 
 #2003
-Title: Toy Story
-Genre: Adventure, Comedy
-Duration: 81 minutes
-Release Date: 1995
-Director: John Lasseter
-Actors: Tom Hanks, Tim Allen
-Country of Origin: USA
-Description: A group of toys comes to life and learns to coexist while facing new challenges.
-Rating: 8.3/10
+Tên phim: Câu Chuyện Đồ Chơi
+Thể loại: Hoạt hình, Phiêu lưu
+Thời lượng: 81 phút
+Ngày phát hành: 22-11-1995
+Đạo diễn: John Lasseter
+Diễn viên: Tom Hanks, Tim Allen
+Quốc gia: Mỹ
+Nội dung: Những món đồ chơi sống động trải qua các cuộc phiêu lưu khi chủ nhân không có ở đó.
+Đánh giá: 4/5
+File ảnh: toystory.txt
 
 #2004
-Title: Than dieu dai hiep
-Genre: Adventure
-Duration: 88 minutes
-Release Date: 1994
-Director: Roger Allers
-Actors: Matthew Broderick, Jeremy Irons
-Country of Origin: USA
-Description: A young lion prince overcomes adversity to reclaim his throne.
-Rating: 8.5/10
+Tên phim: Avatar
+Thể loại: Hành động, Phiêu lưu
+Thời lượng: 162 phút
+Ngày phát hành: 18-12-2009
+Đạo diễn: James Cameron
+Diễn viên: Sam Worthington, Zoe Saldana
+Quốc gia: Mỹ
+Nội dung: Một lính thủy đánh bộ bị liệt khám phá thế giới mới và chiến đấu để bảo vệ nó.
+Đánh giá: 5/5
+File ảnh: avatar.txt
+
+#2005
+Tên phim: Kẻ Đánh Cắp Giấc Mơ
+Thể loại: Hành động, Khoa học viễn tưởng
+Thời lượng: 148 phút
+Ngày phát hành: 16-7-2010
+Đạo diễn: Christopher Nolan
+Diễn viên: Leonardo DiCaprio, Joseph Gordon-Levitt
+Quốc gia: Mỹ
+Nội dung: Một tên trộm xâm nhập vào giấc mơ để cấy một ý tưởng vào tiềm thức của mục tiêu. Đây là bộ phim hài hước mà bạn nên xem trong năm nay, cảm nhận vẻ đẹp của thiên nhiên.
+Đánh giá: 3/5
+File ảnh: inception.txt
+
+#2006
+Tên phim: Avengers: Hồi Kết
+Thể loại: Hành động, Khoa học viễn tưởng
+Thời lượng: 181 phút
+Ngày phát hành: 26-4-2019
+Đạo diễn: Anthony Russo, Joe Russo
+Diễn viên: Robert Downey Jr., Chris Evans, Mark Ruffalo
+Quốc gia: Mỹ
+Nội dung: Các siêu anh hùng hợp lực để đảo ngược hậu quả của cú búng tay hủy diệt của Thanos. Bộ phim là một hành trình đầy cảm xúc, kết thúc vĩ đại cho một thập kỷ của Vũ trụ Điện ảnh Marvel.
+Đánh giá: 4/5
+File ảnh: avengers_endgame.txt
+
+#2007
+Tên phim: Ký Sinh Trùng
+Thể loại: Kịch tính, Hài đen
+Thời lượng: 132 phút
+Ngày phát hành: 30-5-2019
+Đạo diễn: Bong Joon-ho
+Diễn viên: Song Kang-ho, Lee Sun-kyun, Cho Yeo-jeong
+Quốc gia: Hàn Quốc
+Nội dung: Một gia đình nghèo khó lừa dối để trở thành người hầu của một gia đình giàu có, dẫn đến những sự kiện không ngờ. Bộ phim khéo léo phản ánh sự chênh lệch giàu nghèo trong xã hội.
+Đánh giá: 5/5
+File ảnh: parasite.txt
+
+#2008
+Tên phim: Interstellar: Hố Đen Tử Thần
+Thể loại: Khoa học viễn tưởng, Phiêu lưu
+Thời lượng: 169 phút
+Ngày phát hành: 7-11-2014
+Đạo diễn: Christopher Nolan
+Diễn viên: Matthew McConaughey, Anne Hathaway, Jessica Chastain
+Quốc gia: Mỹ
+Nội dung: Một nhóm phi hành gia thực hiện chuyến hành trình qua hố đen để tìm kiếm một nơi ở mới cho nhân loại, đối mặt với những thách thức không gian và thời gian.
+Đánh giá: 5/5
+File ảnh: interstellar.txt
+
+#2009
+Tên phim: Ma Trận: Hồi Sinh
+Thể loại: Hành động, Khoa học viễn tưởng
+Thời lượng: 148 phút
+Ngày phát hành: 22-12-2021
+Đạo diễn: Lana Wachowski
+Diễn viên: Keanu Reeves, Carrie-Anne Moss, Yahya Abdul-Mateen II
+Quốc gia: Mỹ
+Nội dung: Neo trở lại Ma Trận để đối mặt với những bí ẩn mới, đồng thời khám phá ra sự thật sâu sắc hơn về thực tại. Bộ phim mang đến cảm giác hoài niệm và những ý tưởng mới táo bạo.
+Đánh giá: 4/5
+File ảnh: matrix_resurrections.txt
+
+#2143
+Tên phim: Linh Miêu
+Thể loại: Ma
+Thời lượng: 120phut
+Ngày phát hành: 23/01/2024
+Đạo diễn: Lưu Thành Luân
+Diễn viên: Thiên AN, Thùy Tiên
+Quốc gia: Việt Nam
+Nội dung: Phim chiếu rạp kể về cuộc sông ở Huế
+Đánh giá: 5/5
+File ảnh: linhmieu.txt
 

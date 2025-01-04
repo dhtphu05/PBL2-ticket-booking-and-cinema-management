@@ -1,7 +1,7 @@
 #2001
-Username: thuyht
-Password: 291205
-Fullname: Nguyen Thi Thuy
-Phone: 0334105228
-Date of birth: 29/01/2005
-Gender: Nu
+Tên đăng nhập: thuy
+Mật khẩu: 12
+Họ và tên: Nguyễn Thị Thùy
+Số điện thoại: 0334105228
+Ngày sinh: 29/01/2005
+Giới tính: Nữ
